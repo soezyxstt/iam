@@ -27,17 +27,18 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from 'payload'
 
-export const Posts: CollectionConfig<'posts'> = {
+export const Berita: CollectionConfig<'posts'> = {
   slug: 'posts',
+  labels: {
+    singular: 'Berita',
+    plural: 'Berita',
+  },
   access: {
     create: authenticated,
     delete: authenticated,
     read: authenticatedOrPublished,
     update: authenticated,
   },
-  // This config controls what's populated by default when a post is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
   defaultPopulate: {
     title: true,
     slug: true,
@@ -68,6 +69,7 @@ export const Posts: CollectionConfig<'posts'> = {
   fields: [
     {
       name: 'title',
+      label: 'Judul',
       type: 'text',
       required: true,
     },
@@ -78,6 +80,7 @@ export const Posts: CollectionConfig<'posts'> = {
           fields: [
             {
               name: 'heroImage',
+              label: 'Gambar Utama',
               type: 'upload',
               relationTo: 'media',
             },
@@ -100,12 +103,13 @@ export const Posts: CollectionConfig<'posts'> = {
               required: true,
             },
           ],
-          label: 'Content',
+          label: 'Konten',
         },
         {
           fields: [
             {
               name: 'relatedPosts',
+              label: 'Berita Terkait',
               type: 'relationship',
               admin: {
                 position: 'sidebar',
@@ -122,6 +126,7 @@ export const Posts: CollectionConfig<'posts'> = {
             },
             {
               name: 'categories',
+              label: 'Kategori',
               type: 'relationship',
               admin: {
                 position: 'sidebar',
@@ -150,10 +155,7 @@ export const Posts: CollectionConfig<'posts'> = {
 
             MetaDescriptionField({}),
             PreviewField({
-              // if the `generateUrl` function is configured
               hasGenerateFn: true,
-
-              // field paths to match the target field for data
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
@@ -163,6 +165,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     {
       name: 'publishedAt',
+      label: 'Tanggal Diterbitkan',
       type: 'date',
       admin: {
         date: {
@@ -183,6 +186,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     {
       name: 'authors',
+      label: 'Penulis',
       type: 'relationship',
       admin: {
         position: 'sidebar',
@@ -190,11 +194,9 @@ export const Posts: CollectionConfig<'posts'> = {
       hasMany: true,
       relationTo: 'users',
     },
-    // This field is only used to populate the user data via the `populateAuthors` hook
-    // This is because the `user` collection has access control locked to protect user privacy
-    // GraphQL will also not return mutated user data that differs from the underlying schema
     {
       name: 'populatedAuthors',
+      label: 'Penulis (Terpopulasi)',
       type: 'array',
       access: {
         update: () => false,
@@ -224,7 +226,7 @@ export const Posts: CollectionConfig<'posts'> = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100, // We set this interval for optimal live preview
+        interval: 100,
       },
       schedulePublish: true,
     },

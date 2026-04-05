@@ -16,20 +16,20 @@ const baseClass = 'admin-bar'
 
 const collectionLabels = {
   pages: {
-    plural: 'Pages',
-    singular: 'Page',
+    plural: 'Halaman',
+    singular: 'Halaman',
   },
   posts: {
-    plural: 'Posts',
-    singular: 'Post',
+    plural: 'Berita',
+    singular: 'Berita',
   },
   projects: {
-    plural: 'Projects',
-    singular: 'Project',
+    plural: 'Proyek',
+    singular: 'Proyek',
   },
 }
 
-const Title: React.FC = () => <span>Dashboard</span>
+const Title: React.FC = () => <span>Dasbor</span>
 
 export const AdminBar: React.FC<{
   adminBarProps?: PayloadAdminBarProps
@@ -65,8 +65,8 @@ export const AdminBar: React.FC<{
           cmsURL={getClientSideURL()}
           collectionSlug={collection}
           collectionLabels={{
-            plural: collectionLabels[collection]?.plural || 'Pages',
-            singular: collectionLabels[collection]?.singular || 'Page',
+            plural: collectionLabels[collection]?.plural || 'Halaman',
+            singular: collectionLabels[collection]?.singular || 'Halaman',
           }}
           logo={<Title />}
           onAuthChange={onAuthChange}

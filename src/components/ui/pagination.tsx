@@ -48,24 +48,24 @@ const PaginationPrevious = ({
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
-    aria-label="Go to previous page"
+    aria-label="Ke halaman sebelumnya"
     className={cn('gap-1 pl-2.5', className)}
     size="default"
     {...props}
   >
     <ChevronLeft className="h-4 w-4" />
-    <span>Previous</span>
+    <span>Sebelumnya</span>
   </PaginationLink>
 )
 
 const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
-    aria-label="Go to next page"
+    aria-label="Ke halaman selanjutnya"
     className={cn('gap-1 pr-2.5', className)}
     size="default"
     {...props}
   >
-    <span>Next</span>
+    <span>Selanjutnya</span>
     <ChevronRight className="h-4 w-4" />
   </PaginationLink>
 )
@@ -77,7 +77,7 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'
     {...props}
   >
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More pages</span>
+    <span className="sr-only">Halaman lainnya</span>
   </span>
 )
 

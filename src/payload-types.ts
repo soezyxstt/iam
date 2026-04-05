@@ -72,6 +72,14 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    jobVacancies: JobVacancy;
+    alumniBusinesses: AlumniBusiness;
+    activities: Activity;
+    sponsors: Sponsor;
+    iamPresidents: IamPresident;
+    managements: Management;
+    galleries: Gallery;
+    communities: Community;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +102,14 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    jobVacancies: JobVacanciesSelect<false> | JobVacanciesSelect<true>;
+    alumniBusinesses: AlumniBusinessesSelect<false> | AlumniBusinessesSelect<true>;
+    activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
+    sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
+    iamPresidents: IamPresidentsSelect<false> | IamPresidentsSelect<true>;
+    managements: ManagementsSelect<false> | ManagementsSelect<true>;
+    galleries: GalleriesSelect<false> | GalleriesSelect<true>;
+    communities: CommunitiesSelect<false> | CommunitiesSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -112,10 +128,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    organizationProfile: OrganizationProfile;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    organizationProfile: OrganizationProfileSelect<false> | OrganizationProfileSelect<true>;
   };
   locale: null;
   user: User;
@@ -198,7 +216,27 @@ export interface Page {
       | null;
     media?: (number | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+    | {
+        sectionTitle: string;
+        activities: (number | Activity)[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'highlightActivities';
+      }
+    | {
+        sectionTitle: string;
+        sponsors: (number | Sponsor)[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'highlightSponsors';
+      }
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -780,6 +818,173 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities".
+ */
+export interface Activity {
+  id: number;
+  activityName: string;
+  date: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors".
+ */
+export interface Sponsor {
+  id: number;
+  companyName: string;
+  logo: number | Media;
+  shortDescription: string;
+  officialWebsite?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobVacancies".
+ */
+export interface JobVacancy {
+  id: number;
+  position: string;
+  companyName: string;
+  employmentType: 'full_time' | 'part_time' | 'internship';
+  jobDescription: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  officialLink?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alumniBusinesses".
+ */
+export interface AlumniBusiness {
+  id: number;
+  ownerName: string;
+  businessName: string;
+  category: 'manufaktur' | 'jasa' | 'fnb' | 'teknologi' | 'lainnya';
+  description: string;
+  productsOrServices: string;
+  address: string;
+  phoneNumber: string;
+  email?: string | null;
+  website?: string | null;
+  instagram?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "iamPresidents".
+ */
+export interface IamPresident {
+  id: number;
+  name: string;
+  period: string;
+  shortBiography: string;
+  professionalCareer?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  personalStory?: string | null;
+  linkedInLabel?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "managements".
+ */
+export interface Management {
+  id: number;
+  period: string;
+  organizationChart: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galleries".
+ */
+export interface Gallery {
+  id: number;
+  media: number | Media;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "communities".
+ */
+export interface Community {
+  id: number;
+  communityName: string;
+  logo: number | Media;
+  shortDescription: string;
+  contactPerson?: string | null;
+  joinInformation?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -989,6 +1194,38 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'jobVacancies';
+        value: number | JobVacancy;
+      } | null)
+    | ({
+        relationTo: 'alumniBusinesses';
+        value: number | AlumniBusiness;
+      } | null)
+    | ({
+        relationTo: 'activities';
+        value: number | Activity;
+      } | null)
+    | ({
+        relationTo: 'sponsors';
+        value: number | Sponsor;
+      } | null)
+    | ({
+        relationTo: 'iamPresidents';
+        value: number | IamPresident;
+      } | null)
+    | ({
+        relationTo: 'managements';
+        value: number | Management;
+      } | null)
+    | ({
+        relationTo: 'galleries';
+        value: number | Gallery;
+      } | null)
+    | ({
+        relationTo: 'communities';
+        value: number | Community;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1086,6 +1323,22 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        highlightActivities?:
+          | T
+          | {
+              sectionTitle?: T;
+              activities?: T;
+              id?: T;
+              blockName?: T;
+            };
+        highlightSponsors?:
+          | T
+          | {
+              sectionTitle?: T;
+              sponsors?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   meta?:
     | T
@@ -1352,6 +1605,109 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobVacancies_select".
+ */
+export interface JobVacanciesSelect<T extends boolean = true> {
+  position?: T;
+  companyName?: T;
+  employmentType?: T;
+  jobDescription?: T;
+  officialLink?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alumniBusinesses_select".
+ */
+export interface AlumniBusinessesSelect<T extends boolean = true> {
+  ownerName?: T;
+  businessName?: T;
+  category?: T;
+  description?: T;
+  productsOrServices?: T;
+  address?: T;
+  phoneNumber?: T;
+  email?: T;
+  website?: T;
+  instagram?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "activities_select".
+ */
+export interface ActivitiesSelect<T extends boolean = true> {
+  activityName?: T;
+  date?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors_select".
+ */
+export interface SponsorsSelect<T extends boolean = true> {
+  companyName?: T;
+  logo?: T;
+  shortDescription?: T;
+  officialWebsite?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "iamPresidents_select".
+ */
+export interface IamPresidentsSelect<T extends boolean = true> {
+  name?: T;
+  period?: T;
+  shortBiography?: T;
+  professionalCareer?: T;
+  personalStory?: T;
+  linkedInLabel?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "managements_select".
+ */
+export interface ManagementsSelect<T extends boolean = true> {
+  period?: T;
+  organizationChart?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galleries_select".
+ */
+export interface GalleriesSelect<T extends boolean = true> {
+  media?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "communities_select".
+ */
+export interface CommunitiesSelect<T extends boolean = true> {
+  communityName?: T;
+  logo?: T;
+  shortDescription?: T;
+  contactPerson?: T;
+  joinInformation?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1688,6 +2044,137 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "organizationProfile".
+ */
+export interface OrganizationProfile {
+  id: number;
+  chairmanForeword?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  history?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  relationWithHmm?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  valuesAndPhilosophy?: {
+    genggamMesin?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    laguJerusalem?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    yellboys?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    solidarityForever?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    septemberM?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1727,6 +2214,27 @@ export interface FooterSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "organizationProfile_select".
+ */
+export interface OrganizationProfileSelect<T extends boolean = true> {
+  chairmanForeword?: T;
+  history?: T;
+  relationWithHmm?: T;
+  valuesAndPhilosophy?:
+    | T
+    | {
+        genggamMesin?: T;
+        laguJerusalem?: T;
+        yellboys?: T;
+        solidarityForever?: T;
+        septemberM?: T;
       };
   updatedAt?: T;
   createdAt?: T;

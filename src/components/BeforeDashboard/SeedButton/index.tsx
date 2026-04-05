@@ -7,9 +7,9 @@ import './index.scss'
 
 const SuccessMessage: React.FC = () => (
   <div>
-    Database seeded! You can now{' '}
+    Basis data telah diisi! Anda sekarang dapat{' '}
     <a target="_blank" href="/">
-      visit your website
+      mengunjungi situs web Anda
     </a>
   </div>
 )
@@ -24,15 +24,15 @@ export const SeedButton: React.FC = () => {
       e.preventDefault()
 
       if (seeded) {
-        toast.info('Database already seeded.')
+        toast.info('Basis data sudah diisi sebelumnya.')
         return
       }
       if (loading) {
-        toast.info('Seeding already in progress.')
+        toast.info('Pengisian data sedang berlangsung.')
         return
       }
       if (error) {
-        toast.error(`An error occurred, please refresh and try again.`)
+        toast.error(`Terjadi kesalahan, harap muat ulang dan coba lagi.`)
         return
       }
 
@@ -48,7 +48,7 @@ export const SeedButton: React.FC = () => {
                     resolve(true)
                     setSeeded(true)
                   } else {
-                    reject('An error occurred while seeding.')
+                    reject('Terjadi kesalahan saat mengisi data.')
                   }
                 })
                 .catch((error) => {
@@ -59,9 +59,9 @@ export const SeedButton: React.FC = () => {
             }
           }),
           {
-            loading: 'Seeding with data....',
+            loading: 'Sedang mengisi data....',
             success: <SuccessMessage />,
-            error: 'An error occurred while seeding.',
+            error: 'Terjadi kesalahan saat mengisi data.',
           },
         )
       } catch (err) {
@@ -73,14 +73,14 @@ export const SeedButton: React.FC = () => {
   )
 
   let message = ''
-  if (loading) message = ' (seeding...)'
-  if (seeded) message = ' (done!)'
-  if (error) message = ` (error: ${error})`
+  if (loading) message = ' (mengisi data...)'
+  if (seeded) message = ' (selesai!)'
+  if (error) message = ` (kesalahan: ${error})`
 
   return (
     <Fragment>
       <button className="seedButton" onClick={handleClick}>
-        Seed your database
+        Isi basis data Anda
       </button>
       {message}
     </Fragment>

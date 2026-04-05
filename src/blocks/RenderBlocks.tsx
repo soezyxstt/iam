@@ -14,6 +14,8 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  highlightActivities: () => <div className="p-4 border">Highlight Aktivitas Placeholder</div>,
+  highlightSponsors: () => <div className="p-4 border">Highlight Sponsor Placeholder</div>,
 }
 
 export const RenderBlocks: React.FC<{
@@ -35,7 +37,7 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               return (
                 <div className="my-16" key={index}>
-                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
+                  {/* @ts-ignore */}
                   <Block {...block} disableInnerContainer />
                 </div>
               )

@@ -10,58 +10,58 @@ const BeforeDashboard: React.FC = () => {
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Welcome to your dashboard!</h4>
+        <h4>Selamat datang di dasbor Anda!</h4>
       </Banner>
-      Here&apos;s what to do next:
+      Berikut adalah hal yang bisa dilakukan selanjutnya:
       <ul className={`${baseClass}__instructions`}>
         <li>
           <SeedButton />
-          {' with a few pages, posts, and projects to jump-start your new site, then '}
+          {' dengan beberapa halaman, post, dan proyek untuk memulai situs baru Anda, lalu '}
           <a href="/" target="_blank">
-            visit your website
+            kunjungi situs web Anda
           </a>
-          {' to see the results.'}
+          {' untuk melihat hasilnya.'}
         </li>
         <li>
-          {'Modify your '}
+          {'Modifikasi '}
           <a
             href="https://payloadcms.com/docs/configuration/collections"
             rel="noopener noreferrer"
             target="_blank"
           >
-            collections
+            koleksi
           </a>
-          {' and add more '}
+          {' Anda dan tambahkan lebih banyak '}
           <a
             href="https://payloadcms.com/docs/fields/overview"
             rel="noopener noreferrer"
             target="_blank"
           >
-            fields
+            bidang
           </a>
-          {' as needed. If you are new to Payload, we also recommend you check out the '}
+          {' sesuai kebutuhan. Jika Anda baru menggunakan Payload, kami sarankan Anda membaca dokumentasi '}
           <a
             href="https://payloadcms.com/docs/getting-started/what-is-payload"
             rel="noopener noreferrer"
             target="_blank"
           >
-            Getting Started
+            Memulai
           </a>
-          {' docs.'}
+          {'.'}
         </li>
         <li>
-          Commit and push your changes to the repository to trigger a redeployment of your project.
+          Commit dan push perubahan Anda untuk memicu penerapan ulang proyek Anda.
         </li>
       </ul>
-      {'Pro Tip: This block is a '}
+      {'Tips Pro: Blok ini adalah sebuah '}
       <a
         href="https://payloadcms.com/docs/custom-components/overview"
         rel="noopener noreferrer"
         target="_blank"
       >
-        custom component
+        komponen kustom
       </a>
-      , you can remove it at any time by updating your <strong>payload.config</strong>.
+      , Anda bisa menghapusnya kapan saja dengan memperbarui <strong>payload.config</strong> Anda.
     </div>
   )
 }

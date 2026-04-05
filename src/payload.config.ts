@@ -7,13 +7,22 @@ import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
+import { Berita } from './collections/Berita'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { LowonganKerja } from './collections/LowonganKerja'
+import { UsahaAlumni } from './collections/UsahaAlumni'
+import { ProfilOrganisasi } from './collections/ProfilOrganisasi'
+import { Aktivitas } from './collections/Aktivitas'
+import { Sponsor } from './collections/Sponsor'
+import { KetuaIAM } from './collections/KetuaIAM'
+import { Kepengurusan } from './collections/Kepengurusan'
+import { Galeri } from './collections/Galeri'
+import { Komunitas } from './collections/Komunitas'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,6 +36,9 @@ export default buildConfig({
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeDashboard: ['@/components/BeforeDashboard'],
+      graphics: {
+        Logo: '@/components/Admin/Logo',
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -54,6 +66,10 @@ export default buildConfig({
         },
       ],
     },
+    meta: {
+      title: 'IAM ITB',
+      titleSuffix: ' - IAM ITB',
+    },
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
@@ -62,9 +78,23 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [
+    Pages,
+    Berita,
+    Media,
+    Categories,
+    Users,
+    LowonganKerja,
+    UsahaAlumni,
+    Aktivitas,
+    Sponsor,
+    KetuaIAM,
+    Kepengurusan,
+    Galeri,
+    Komunitas,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, ProfilOrganisasi],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
