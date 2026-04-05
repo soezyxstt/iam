@@ -43,8 +43,11 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
-  --font-mono: var(--font-geist-mono);
-  --font-sans: var(--font-geist-sans);
+
+  /* --- NEXT.JS FONT MAPPINGS --- */
+  --font-serif: var(--font-baskerville), ui-serif, Georgia, serif;
+  --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-helvetica), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer utilities {
@@ -87,108 +90,104 @@
 }
 
 :root {
-  /* --- CUSTOM BRAND COLORS (Converted to OKLCH) --- */
-  --brand-primary-blue: oklch(31.4% 0.04 254.7deg); /* #253041 */
-  --brand-accent-red: oklch(24.5% 0.114 22.8deg);   /* #590F11 */
-  --brand-khaki: oklch(93.9% 0.018 84.7deg);        /* #F4EDE1 */
-  --brand-dark-blue: oklch(16.8% 0.052 260.1deg);   /* #06162F */
-  --brand-gold: oklch(85.3% 0.167 96.6deg);         /* #F0D637 */
-  --brand-light-blue: oklch(43.7% 0.063 254.3deg);  /* #445E86 */
-
-  /* --- MAPPED THEME VARIABLES --- */
-  --background: oklch(100% 0 0deg);
-  --foreground: var(--brand-dark-blue);
+  /* --- SEMANTIC COLOR SYSTEM (Light Mode) --- */
+  --background: #FFFFFF;
+  --foreground: #06162F; /* Darkest Blue */
   
-  --card: oklch(100% 0 0deg);
-  --card-foreground: var(--brand-dark-blue);
+  --card: #FFFFFF;
+  --card-foreground: #06162F;
   
-  --popover: oklch(100% 0 0deg);
-  --popover-foreground: var(--brand-dark-blue);
+  --popover: #FFFFFF;
+  --popover-foreground: #06162F;
   
-  --primary: var(--brand-primary-blue);
-  --primary-foreground: oklch(100% 0 0deg);
+  /* MAIN BRANDING: Dark Blue */
+  --primary: #253041;
+  --primary-foreground: #FFFFFF;
   
-  --secondary: var(--brand-khaki);
-  --secondary-foreground: var(--brand-primary-blue);
+  /* RED CALL TO ACTION */
+  --secondary: #590F11;
+  --secondary-foreground: #FFFFFF;
   
-  --muted: var(--brand-khaki);
-  --muted-foreground: var(--brand-light-blue);
+  /* BEIGE SECTIONS / MUTED BACKGROUNDS */
+  --muted: #F4EDE1;
+  --muted-foreground: #445E86; /* Muted Blue */
   
-  --accent: var(--brand-gold);
-  --accent-foreground: var(--brand-dark-blue);
+  /* YELLOW HIGHLIGHTS */
+  --accent: #F0D637;
+  --accent-foreground: #06162F;
   
-  --destructive: var(--brand-accent-red);
-  --destructive-foreground: oklch(100% 0 0deg);
+  --destructive: #590F11;
+  --destructive-foreground: #FFFFFF;
   
-  --border: oklch(90% 0.02 254deg);
-  --input: oklch(90% 0.02 254deg);
-  --ring: var(--brand-gold);
+  --border: #D9D9D9;
+  --input: #D9D9D9;
+  --ring: #F0D637;
   
   /* Retained Charts/Extras */
-  --chart-1: var(--brand-primary-blue);
-  --chart-2: var(--brand-gold);
-  --chart-3: var(--brand-light-blue);
-  --chart-4: var(--brand-accent-red);
-  --chart-5: var(--brand-dark-blue);
+  --chart-1: #253041;
+  --chart-2: #F0D637;
+  --chart-3: #445E86;
+  --chart-4: #590F11;
+  --chart-5: #06162F;
   
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   
-  --sidebar: var(--brand-khaki);
-  --sidebar-foreground: var(--brand-dark-blue);
-  --sidebar-primary: var(--brand-primary-blue);
-  --sidebar-primary-foreground: oklch(100% 0 0deg);
-  --sidebar-accent: var(--brand-gold);
-  --sidebar-accent-foreground: var(--brand-dark-blue);
-  --sidebar-border: oklch(90% 0.02 254deg);
-  --sidebar-ring: var(--brand-gold);
+  /* Sidebar */
+  --sidebar: #F4EDE1;
+  --sidebar-foreground: #06162F;
+  --sidebar-primary: #253041;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F0D637;
+  --sidebar-accent-foreground: #06162F;
+  --sidebar-border: #D9D9D9;
+  --sidebar-ring: #F0D637;
   
   --success: oklch(78% 0.08 200deg);
   --warning: oklch(89% 0.1 75deg);
-  --error: var(--brand-accent-red);
+  --error: #590F11;
 }
 
 [data-theme='dark'] {
-  /* Inverted mapping for Dark Mode */
-  --background: var(--brand-dark-blue);
-  --foreground: var(--brand-khaki);
+  /* --- SEMANTIC COLOR SYSTEM (Dark Mode) --- */
+  --background: #06162F;
+  --foreground: #F4EDE1;
   
-  --card: var(--brand-primary-blue);
-  --card-foreground: oklch(100% 0 0deg);
+  --card: #253041;
+  --card-foreground: #FFFFFF;
   
-  --popover: var(--brand-dark-blue);
-  --popover-foreground: var(--brand-khaki);
+  --popover: #06162F;
+  --popover-foreground: #F4EDE1;
   
-  --primary: var(--brand-gold);
-  --primary-foreground: var(--brand-dark-blue);
+  --primary: #F4EDE1;
+  --primary-foreground: #06162F;
   
-  --secondary: var(--brand-light-blue);
-  --secondary-foreground: oklch(100% 0 0deg);
+  --secondary: #590F11;
+  --secondary-foreground: #FFFFFF;
   
-  --muted: var(--brand-primary-blue);
-  --muted-foreground: var(--brand-khaki);
+  --muted: #253041;
+  --muted-foreground: #D9D9D9;
   
-  --accent: var(--brand-gold);
-  --accent-foreground: var(--brand-dark-blue);
+  --accent: #F0D637;
+  --accent-foreground: #06162F;
   
-  --destructive: var(--brand-accent-red);
-  --destructive-foreground: oklch(100% 0 0deg);
+  --destructive: #590F11;
+  --destructive-foreground: #FFFFFF;
   
-  --border: var(--brand-primary-blue);
-  --input: var(--brand-primary-blue);
-  --ring: var(--brand-gold);
+  --border: #253041;
+  --input: #253041;
+  --ring: #F0D637;
   
-  --sidebar: var(--brand-dark-blue);
-  --sidebar-foreground: var(--brand-khaki);
-  --sidebar-primary: var(--brand-gold);
-  --sidebar-primary-foreground: var(--brand-dark-blue);
-  --sidebar-accent: var(--brand-primary-blue);
-  --sidebar-accent-foreground: var(--brand-khaki);
-  --sidebar-border: var(--brand-primary-blue);
-  --sidebar-ring: var(--brand-gold);
+  --sidebar: #06162F;
+  --sidebar-foreground: #F4EDE1;
+  --sidebar-primary: #F0D637;
+  --sidebar-primary-foreground: #06162F;
+  --sidebar-accent: #253041;
+  --sidebar-accent-foreground: #F4EDE1;
+  --sidebar-border: #253041;
+  --sidebar-ring: #F0D637;
 }
 
 @theme inline {
-  /* Core Mappings */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -209,19 +208,19 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   
-  /* Brand Specific Utilities (e.g., bg-brand-gold, text-brand-red) */
-  --color-brand-primary: var(--brand-primary-blue);
-  --color-brand-red: var(--brand-accent-red);
-  --color-brand-khaki: var(--brand-khaki);
-  --color-brand-dark: var(--brand-dark-blue);
-  --color-brand-gold: var(--brand-gold);
-  --color-brand-light: var(--brand-light-blue);
+  /* Brand Specific Utilities */
+  --color-brand-primary: #253041;
+  --color-brand-red: #590F11;
+  --color-brand-khaki: #F4EDE1;
+  --color-brand-dark: #06162F;
+  --color-brand-gold: #F0D637;
+  --color-brand-light: #445E86;
 
-  /* Radius & Sidebar */
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
   --radius-xl: calc(var(--radius) + 4px);
+  
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -231,7 +230,6 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   
-  /* States */
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
@@ -241,8 +239,19 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
     @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+  }
+
+  /* Enforce Typography hierarchy based on PDF guidelines */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold;
+  }
+  
+  /* Subtitles and Buttons use Montserrat Medium/SemiBold */
+  button, .subtitle {
+    @apply font-display font-medium;
   }
 }
 
@@ -253,4 +262,5 @@ html {
 html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
+  transition: opacity 0.3s ease-in-out;
 }
