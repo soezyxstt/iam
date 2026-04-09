@@ -16,8 +16,27 @@ export const Header: GlobalConfig = {
         link({
           appearances: false,
         }),
+        {
+          name: 'hasDropdown',
+          label: 'Punya Sub-Menu?',
+          type: 'checkbox',
+          defaultValue: false,
+        },
+        {
+          name: 'dropdownItems',
+          label: 'Item Sub-Menu',
+          type: 'array',
+          admin: {
+            condition: (_, siblingData) => Boolean(siblingData?.hasDropdown),
+          },
+          fields: [
+            link({
+              appearances: false,
+            }),
+          ],
+        },
       ],
-      maxRows: 6,
+      maxRows: 8,
       admin: {
         initCollapsed: true,
         components: {

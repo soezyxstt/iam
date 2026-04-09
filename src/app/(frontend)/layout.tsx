@@ -20,33 +20,32 @@ import { getServerSideURL } from '@/utilities/getURL'
 // 1. Google Font: Montserrat (SemiBold/Medium for Subtitles per PDF)
 const montserrat = Montserrat({
   subsets: ['latin'],
-  weight: ['500', '600'], 
+  weight: ['500', '600'],
   variable: '--font-montserrat',
   display: 'swap',
 })
 
 // 2. Local Font: ITC New Baskerville Std (Bold Roman/Italic for Titles per PDF)
-// *Ensure these file names match exactly what is inside your public/font/ folder*
 const baskerville = localFont({
   src: [
     {
-      path: '../../fonts/title-sub-itc/ITCNewBaskervilleStd-Bold.woff2', // or .ttf / .otf
+      path: '../../fonts/title-sub-itc/NewBaskervilleStd-Bold.woff2',
       weight: '700',
       style: 'normal',
     },
     {
-      path: '../../fonts/title-sub-itc/ITCNewBaskervilleStd-BoldIt.woff2',
+      path: '../../fonts/title-sub-itc/NewBaskervilleStd-BoldIt.woff2',
       weight: '700',
       style: 'italic',
-    }
+    },
   ],
   variable: '--font-baskerville',
   display: 'swap',
 })
 
-// 3. Local Font: Helvetica Neue (Regular for Body per PDF)
+// 3. Local Font: Helvetica Neue (Regular/Roman for Body per PDF)
 const helveticaNeue = localFont({
-  src: '../../fonts/body-helvetica/HelveticaNeue-Regular.woff2',
+  src: '../../fonts/body-helvetica/HelveticaNeueRoman.otf',
   weight: '400',
   style: 'normal',
   variable: '--font-helvetica',
@@ -57,13 +56,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled } = await draftMode()
 
   return (
-    <html 
-      className={cn(
-        montserrat.variable, 
-        baskerville.variable, 
-        helveticaNeue.variable
-      )} 
-      lang="id" 
+    <html
+      className={cn(montserrat.variable, baskerville.variable, helveticaNeue.variable)}
+      lang="id"
       suppressHydrationWarning
     >
       <head>
@@ -81,6 +76,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           />
 
           <Header />
+          {/* pt accounts for fixed header height (~56px) */}
           <main className="flex-grow">{children}</main>
           <Footer />
         </Providers>
@@ -88,8 +84,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     </html>
   )
 }
-
-// ... keep existing metadata exports ...
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),

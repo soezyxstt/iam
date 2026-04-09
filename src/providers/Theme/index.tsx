@@ -47,6 +47,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
+    themeToSet = 'dark';
+
     document.documentElement.setAttribute('data-theme', themeToSet)
     setThemeState(themeToSet)
   }, [])

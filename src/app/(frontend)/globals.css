@@ -264,3 +264,102 @@ html[data-theme='light'] {
   opacity: initial;
   transition: opacity 0.3s ease-in-out;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   LANDING PAGE: Glass / Glow / Gradient Effects
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Glass-framed image cards (Program section) */
+.glass-card-frame {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 1rem;
+  padding: 8px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  transition: transform 0.6s ease, box-shadow 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.glass-card-frame:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+.glass-card-inner {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  border-radius: 0.65rem;
+  overflow: hidden;
+}
+
+.glass-card-inner img {
+  transition: transform 0.8s ease;
+}
+
+.glass-card-frame:hover .glass-card-inner img {
+  transform: scale(1.06);
+}
+
+.glass-card-label {
+  padding: 10px 12px 8px;
+  text-align: center;
+}
+
+/* About card subtle outer glow */
+.about-card {
+  box-shadow:
+    0 24px 64px rgba(6, 22, 47, 0.25),
+    0 0 80px rgba(37, 48, 65, 0.15);
+}
+
+/* Berita card outer glow */
+.berita-card {
+  box-shadow:
+    0 24px 64px rgba(6, 22, 47, 0.25),
+    0 0 80px rgba(37, 48, 65, 0.15);
+}
+
+/* Glass berita card items */
+.glass-berita-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+.glass-berita-card:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+}
+
+/* Glass tag items (About section moment tags) */
+.glass-tag {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  box-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}

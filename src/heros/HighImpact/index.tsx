@@ -1,46 +1,43 @@
-'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
-import React, { useEffect } from 'react'
+import React from 'react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/utilities/ui'
+import Link from 'next/link'
 
-import type { Page } from '@/payload-types'
-
-import { CMSLink } from '@/components/Link'
-import { Media } from '@/components/Media'
-import RichText from '@/components/RichText'
-
-export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText }) => {
-  const { setHeaderTheme } = useHeaderTheme()
-
-  useEffect(() => {
-    setHeaderTheme('dark')
-  })
-
+export const HighImpactHero: React.FC<any> = ({ media, richText, links }) => {
   return (
-    <div
-      className="relative -mt-[10.4rem] flex items-center justify-center text-white"
-      data-theme="dark"
+    <section
+      className={cn(
+        'relative w-full min-h-[85vh] flex items-center justify-start overflow-hidden',
+        'bg-primary text-primary-foreground', // Fallback Dark Blue
+      )}
     >
-      <div className="container mb-8 z-10 relative flex items-center justify-center">
-        <div className="max-w-[36.5rem] md:text-center">
-          {richText && <RichText className="mb-6" data={richText} enableGutter={false} />}
-          {Array.isArray(links) && links.length > 0 && (
-            <ul className="flex md:justify-center gap-4">
-              {links.map(({ link }, i) => {
-                return (
-                  <li key={i}>
-                    <CMSLink {...link} />
-                  </li>
-                )
-              })}
-            </ul>
-          )}
+      {/* Background Layer - Easily swap this for a Payload Media component later */}
+      <div className="absolute inset-0 z-0 bg-primary/95" />
+
+      <div className="container relative z-10 mx-auto grid grid-cols-1 lg:grid-cols-12 px-4 md:px-8">
+        <div className="col-span-1 lg:col-span-8 flex flex-col gap-6 items-start text-left">
+          <div className="flex flex-col gap-2">
+            <span className="text-accent font-display font-semibold tracking-widest uppercase text-sm md:text-base animate-in slide-in-from-bottom-4 fade-in duration-500">
+              Solidarity Forever
+            </span>
+            <h2 className="text-primary-foreground/90 font-display font-medium text-lg md:text-xl animate-in slide-in-from-bottom-6 fade-in duration-700">
+              Ikatan Alumni Mesin <br className="hidden md:block" />
+              Institut Teknologi Bandung
+            </h2>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold leading-[1.1] animate-in slide-in-from-bottom-8 fade-in duration-1000">
+            For Union <br />
+            Machine Strong
+          </h1>
+
+          <div className="mt-6 animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-150">
+            <Button asChild size="lg" variant="brandRed" className="text-lg px-8 py-6 rounded-none">
+              <Link href="/about">Explore More</Link>
+            </Button>
+          </div>
         </div>
       </div>
-      <div className="min-h-[80vh] select-none">
-        {media && typeof media === 'object' && (
-          <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
-        )}
-      </div>
-    </div>
+    </section>
   )
 }
