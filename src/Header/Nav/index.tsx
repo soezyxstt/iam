@@ -114,7 +114,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ link, dropdownItems, pathna
         onMouseLeave={() => setOpen(false)}
         className={cn(
           'absolute left-0 top-full mt-3 min-w-[200px] z-50',
-          'bg-background border border-border shadow-md rounded-xl p-2 drop-shadow-xl',
+          'bg-background/90 backdrop-blur-xl border border-border/40 shadow-xl rounded-xl p-2',
           'transition-all duration-200 origin-top',
           open
             ? 'opacity-100 scale-y-100 pointer-events-auto'

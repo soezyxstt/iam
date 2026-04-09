@@ -19,7 +19,7 @@ export const Logo = (props: Props) => {
   const isPriority = priorityFromProps === 'high'
 
   return (
-    <span className={clsx('inline-flex items-center gap-3', className)}>
+    <span className={clsx('flex items-center gap-3', className)}>
       <Image
         alt="Logo IAM ITB"
         width={size}

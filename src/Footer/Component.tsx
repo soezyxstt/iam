@@ -6,10 +6,16 @@ export async function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-transparent px-4 md:px-8 pb-8 pt-4 max-w-7xl mx-auto w-full">
-      <div className="bg-background border border-border shadow-sm rounded-3xl p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 md:h-[180px]">
+    <footer className="bg-transparent px-4 md:px-8 pb-8 pt-4 max-w-7xl mx-auto w-full isolate">
+      <div className="rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 md:h-[180px] p-8 md:p-12">
+        {/* Dark gradient base — mirrors GlassCard */}
+        <div className="absolute inset-0 bg-linear-to-br from-brand-dark via-brand-primary to-brand-dark" />
+
+        {/* Top shimmer highlight */}
+        <div className="absolute top-0 left-1/2 z-10 h-px w-3/5 -translate-x-1/2 bg-linear-to-r from-transparent via-white/20 to-transparent" />
+
         {/* Left: Logo + name */}
-        <Link href="/" className="flex items-center gap-4 group" aria-label="IAM ITB – Beranda">
+        <Link href="/" className="relative z-10 flex items-center gap-4 group" aria-label="IAM ITB – Beranda">
           <Image
             src="/logo.png"
             alt="Logo IAM ITB"
@@ -17,7 +23,7 @@ export async function Footer() {
             height={90}
             className="object-contain"
           />
-          <span className="font-serif font-bold text-4xl md:text-5xl leading-none text-foreground tracking-tight">
+          <span className="font-serif font-bold text-4xl md:text-5xl leading-none text-white tracking-tight">
             IAM
             <br />
             ITB
@@ -25,14 +31,14 @@ export async function Footer() {
         </Link>
 
         {/* Right: Social icons & Copyright */}
-        <div className="flex flex-col items-center md:items-end w-full md:w-auto h-full justify-center">
+        <div className="relative z-10 flex flex-col items-center md:items-end w-full md:w-auto h-full justify-center">
           <div className="flex items-center gap-10 md:gap-14 mb-4">
             {/* Instagram */}
             <a
               href="https://instagram.com/iamitb"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground hover:text-accent transition-colors duration-200"
+              className="text-white/70 hover:text-brand-gold transition-colors duration-200"
               aria-label="Instagram IAM ITB"
             >
               <InstagramIcon />
@@ -43,7 +49,7 @@ export async function Footer() {
               href="https://wa.me/iamitb"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground hover:text-accent transition-colors duration-200"
+              className="text-white/70 hover:text-brand-gold transition-colors duration-200"
               aria-label="WhatsApp IAM ITB"
             >
               <WhatsAppIcon />
@@ -54,7 +60,7 @@ export async function Footer() {
               href="https://facebook.com/iamitb"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground hover:text-accent transition-colors duration-200"
+              className="text-white/70 hover:text-brand-gold transition-colors duration-200"
               aria-label="Facebook IAM ITB"
             >
               <FacebookIcon />
@@ -62,8 +68,8 @@ export async function Footer() {
           </div>
 
           {/* Divider and copyright */}
-          <div className="flex flex-col md:items-end items-center w-full md:w-80 pt-4 border-t border-brand-khaki mt-auto">
-            <p className="text-[10px] md:text-xs text-foreground/50 font-sans tracking-wide">
+          <div className="flex flex-col md:items-end items-center w-full md:w-80 pt-4 border-t border-white/10 mt-auto">
+            <p className="text-[10px] md:text-xs text-white/40 font-sans tracking-wide">
               © {currentYear} IAM ITB. Hak Cipta Dilindungi.
             </p>
           </div>

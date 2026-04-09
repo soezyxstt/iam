@@ -100,12 +100,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       >
         <div className={cn(
           'max-w-6xl mx-auto flex items-center justify-between gap-4 transition-all duration-300',
-          'bg-background border-b border-border md:border md:rounded-full px-4 md:px-6 py-2.5 shadow-sm',
-          scrolled && 'shadow-md md:bg-background/95 md:backdrop-blur-md bg-background'
+          'relative overflow-hidden',
+          'bg-background/85 backdrop-blur-xl',
+          'border-b border-border/40 md:border md:border-white/12 md:rounded-full px-4 md:px-6 py-2.5',
+          'shadow-sm shadow-black/5',
+          scrolled && 'shadow-md shadow-black/10 md:bg-background/95'
         )}>
+          {/* Shimmer highlight line — mirrors GlassCard top-edge treatment */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/30 to-transparent" />
           {/* Logo */}
           <Link href="/" className="shrink-0" aria-label="IAM ITB – Beranda">
-            <Logo size={36} showText={true} className="text-foreground" />
+            <Logo size={36} showText className="text-foreground" />
           </Link>
 
           {/* Desktop Nav – centered */}
@@ -122,7 +127,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 const q = (e.currentTarget.elements.namedItem('q') as HTMLInputElement)?.value
                 if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`
               }}
-              className="hidden md:flex items-center gap-2 bg-muted hover:bg-border/60 rounded-full px-4 py-1.5 transition-colors duration-150"
+              className="hidden md:flex items-center gap-2 bg-white/6 hover:bg-white/12 border border-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 transition-colors duration-150"
             >
               <SearchIcon className="w-4 h-4 text-foreground/60 shrink-0" />
               <input
@@ -171,8 +176,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         {/* Drawer panel */}
         <div
           className={cn(
-            'fixed top-0 right-0 bottom-0 z-50 w-72 bg-background shadow-2xl lg:hidden',
-            'flex flex-col pt-16 pb-8 overflow-y-auto border-l border-border',
+            'fixed top-0 right-0 bottom-0 z-50 w-72 lg:hidden',
+            'flex flex-col pt-16 pb-8 overflow-y-auto',
+            'bg-brand-dark/95 backdrop-blur-2xl border-l border-white/10 shadow-2xl',
             'transition-transform duration-300 ease-in-out',
             mobileOpen ? 'translate-x-0' : 'translate-x-full',
           )}
@@ -180,7 +186,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           {/* Close button */}
           <button
             onClick={() => setMobileOpen(false)}
-            className="absolute top-4 right-4 p-2 rounded-md text-foreground hover:bg-muted transition-colors"
+            className="absolute top-4 right-4 p-2 rounded-md text-white/70 hover:bg-white/10 transition-colors"
             aria-label="Tutup menu"
           >
             <XIcon className="w-5 h-5" />
@@ -188,7 +194,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
           {/* Logo in drawer */}
           <Link href="/" className="px-6 mb-6" onClick={() => setMobileOpen(false)}>
-            <Logo size={32} showText={true} className="text-foreground" />
+            <Logo size={32} showText={true} className="text-white" />
           </Link>
 
           {/* Nav links */}
@@ -210,7 +216,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <CMSLink
                   key={i}
                   {...link}
-                  className="block px-3 py-2.5 text-sm font-display font-medium text-foreground/80 hover:text-accent hover:bg-muted rounded transition-colors"
+                  className="block px-3 py-2.5 text-sm font-display font-medium text-white/80 hover:text-brand-gold hover:bg-white/8 rounded transition-colors"
                   appearance="link"
                 />
               )
@@ -229,13 +235,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               }
             }}
           >
-            <div className="flex items-center gap-2 bg-muted rounded-md px-3 py-2 border border-border">
-              <SearchIcon className="w-4 h-4 text-foreground/60 shrink-0" />
+            <div className="flex items-center gap-2 bg-white/8 rounded-md px-3 py-2 border border-white/10">
+              <SearchIcon className="w-4 h-4 text-white/60 shrink-0" />
               <input
                 name="q"
                 type="text"
                 placeholder="Cari konten..."
-                className="bg-transparent text-sm text-foreground placeholder:text-foreground/50 outline-none flex-1"
+                className="bg-transparent text-sm text-white placeholder:text-white/40 outline-none flex-1"
                 aria-label="Cari konten"
               />
             </div>
@@ -259,7 +265,7 @@ const MobileDropdownItem: React.FC<{
     <div>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-display font-medium text-foreground/80 hover:text-accent hover:bg-muted rounded transition-colors"
+        className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-display font-medium text-white/80 hover:text-brand-gold hover:bg-white/8 rounded transition-colors"
       >
         {link?.label || 'Menu'}
         <ChevronDown
@@ -272,7 +278,7 @@ const MobileDropdownItem: React.FC<{
             <CMSLink
               key={j}
               {...di.link}
-              className="block px-3 py-2 text-sm font-display font-medium text-foreground/60 hover:text-accent hover:bg-muted rounded transition-colors"
+              className="block px-3 py-2 text-sm font-display font-medium text-white/60 hover:text-brand-gold hover:bg-white/8 rounded transition-colors"
               appearance="link"
             />
           ))}

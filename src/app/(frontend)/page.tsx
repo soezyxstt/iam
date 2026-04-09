@@ -1,9 +1,15 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+
 import Ornament from '@/components/Ornaments'
+import { HeroLogo } from '@/components/HeroLogo'
+import { Button } from '@/components/ui/button'
+import { GlassCard } from '@/components/ui/glass-card'
+import { ProgramImageStack } from '@/components/ui/program-image-stack'
+import { Section } from '@/components/ui/section'
+import { Heading, Text } from '@/components/ui/typography'
 
 interface BeritaDoc {
   title?: string | null
@@ -28,6 +34,19 @@ async function getLatestBerita(): Promise<BeritaDoc[]> {
   }
 }
 
+function formatDate(dateStr?: string | null): string {
+  if (!dateStr) return 'IAM ITB'
+  try {
+    return new Date(dateStr).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+  } catch {
+    return 'IAM ITB'
+  }
+}
+
 const IAM_MOMENTS = [
   'Yellboys dan\nSolidarity Forever',
   'Genggam\nMesin',
@@ -35,302 +54,257 @@ const IAM_MOMENTS = [
   'Lagu HMM\nJerusalem',
 ]
 
-// ----------------------------------------------------------------
-// Landing Page
-// ----------------------------------------------------------------
+const PROGRAM_STACK_IMAGES = [
+  {
+    src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
+    alt: 'Kongres IAM ITB',
+    title: 'Kongres IAM ITB',
+    titleClassName: 'text-base',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80',
+    alt: 'Workshop Teknik',
+    title: 'Workshop Teknik',
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=80',
+    alt: 'Gathering Alumni',
+    title: 'Gathering Alumni',
+  },
+]
+
+const BERITA_PLACEHOLDER = [
+  'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80',
+  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
+  'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80',
+]
 
 export default async function HomePage() {
   const beritaList = await getLatestBerita()
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      {/* ═══════════════════ HERO ═══════════════════ */}
-      <section className="hero-section relative w-full min-h-[92vh] flex items-center pt-20 pb-12">
-        {/* Background gradient: white top → subtle blue-gray bottom */}
-        <div className="absolute inset-0 bg-linear-to-br from-brand-primary/75 via-white via-20% to-white z-0" />
+    <main className="page-root relative min-h-screen overflow-hidden">
 
-        <div className="container mx-auto px-6 md:px-12 max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-          {/* Left text */}
-          <div className="lg:col-span-7 flex flex-col gap-5 items-start">
-            <h1 className="font-serif font-bold text-[2.6rem] sm:text-5xl lg:text-[4rem] leading-[1.1] tracking-tight text-brand-dark">
-              Ikatan Alumni Mesin
-              <br />
-              Institut Teknologi Bandung
-            </h1>
+      {/* ── Ambient background geometry ── */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 select-none overflow-hidden">
+        {/* Top-right gold glow */}
+        <div className="absolute -top-44 -right-44 h-[640px] w-[580px] rounded-full bg-brand-gold/8 blur-[110px]" />
+        {/* Left side deep navy */}
+        <div className="absolute top-[16%] -left-64 h-[700px] w-[520px] rounded-full bg-brand-primary/10 blur-[110px]" />
+        {/* Secondary soft accent – steel blue, mid-left */}
+        <div className="absolute top-[28%] left-[12%] h-[240px] w-[240px] rounded-full bg-brand-light/8 blur-[70px]" />
+        {/* Centre page subtle red warmth */}
+        <div className="absolute top-[52%] left-1/2 h-[400px] w-[440px] -translate-x-1/2 rounded-full bg-brand-red/5 blur-[90px]" />
+        {/* Lower-left warm gold */}
+        <div className="absolute bottom-[14%] -left-24 h-[500px] w-[440px] rounded-full bg-brand-gold/7 blur-[110px]" />
+        {/* Bottom-right dark anchor */}
+        <div className="absolute -bottom-40 -right-40 h-[640px] w-[540px] rounded-full bg-brand-dark/8 blur-[130px]" />
+        {/* Small floating accent – top-centre */}
+        <div className="absolute top-[8%] left-1/2 h-[180px] w-[300px] -translate-x-1/2 rounded-full bg-brand-primary/6 blur-[60px]" />
+      </div>
 
-            <p className="font-serif italic text-xl md:text-2xl text-brand-red font-bold">
-              For Union Machine Strong
-            </p>
+      {/* ── Hero ── */}
+      <Section
+        className="hero-section flex min-h-[92vh] w-full items-center pt-20 pb-12"
+        containerClassName="relative z-10 grid max-w-7xl grid-cols-1 items-center gap-8 px-6 md:px-12 lg:grid-cols-12"
+      >
+        <div className="flex flex-col items-start gap-5 lg:col-span-7">
+          <Heading level={1} className="text-[2.6rem] sm:text-5xl lg:text-[4rem]">
+            Ikatan Alumni Mesin
+            <br />
+            Institut Teknologi Bandung
+          </Heading>
 
-            <div className="pt-3">
-              <Link
-                href="/tentang-kami"
-                className="inline-block bg-brand-primary hover:bg-brand-primary/90 text-white font-display font-semibold text-xs tracking-wider px-7 py-3 rounded-full shadow-md transition-all duration-300 hover:scale-105"
-              >
-                Explore More
-              </Link>
-            </div>
-          </div>
+          <Text
+            variant="lead"
+            className="font-serif text-xl font-bold italic text-brand-red-light md:text-3xl"
+          >
+            For Union Machine Strong
+          </Text>
 
-          {/* Right: Logo with glow aura */}
-          <div className="lg:col-span-5 flex justify-center relative perspective-distant">
-            <Image
-              src="/logo.png"
-              alt="Lambang IAM ITB"
-              width={280}
-              height={280}
-              priority
-              className="relative z-10 object-contain md:w-[380px] md:h-[380px] w-[240px] h-[240px] 
-             transform-[rotateZ(10deg)_rotateY(-45deg)_rotateX(5deg)] 
-             filter-[drop-shadow(20px_10px_40px_rgba(239,68,68,0.4))_drop-shadow(-20px_30px_50px_rgba(30,58,138,0.5))]"
-            />
+          <div className="pt-3">
+            <Button href="/tentang-kami">Explore More</Button>
           </div>
         </div>
-      </section>
 
-      {/* ═══════════════════ ABOUT (Dark Gradient Glass Card) ═══════════════════ */}
-      <section className="relative z-10 px-4 md:px-8 py-16 md:pb-20 -mt-8">
-        <div className="about-card max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/8 relative">
-          {/* Navy gradient background */}
-          <div className="absolute inset-0 bg-linear-to-br from-brand-dark via-brand-primary to-brand-dark z-0" />
-          {/* Subtle inner glow at top */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-linear-to-r from-transparent via-white/20 to-transparent z-10" />
+        <HeroLogo />
+      </Section>
 
-          <div className="relative z-10 p-8 md:p-10 lg:p-12">
-            {/* Top row: Logo + Title + Text */}
-            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
-              {/* Left: Logo in glass box + IAM ITB text */}
-              <div className="shrink-0 flex items-center gap-5">
-                {/* Glass-bordered logo box */}
-                <div className="w-[130px] h-[160px] md:w-[150px] md:h-[180px] rounded-xl border border-white/20 bg-white/6 backdrop-blur-sm flex items-center justify-center shadow-lg shadow-black/10">
-                  <Image
-                    src="/logo.png"
-                    alt="Logo IAM ITB"
-                    width={100}
-                    height={100}
-                    className="object-contain"
-                  />
-                </div>
-                {/* IAM ITB text next to logo */}
-                <span className="font-serif font-bold text-3xl md:text-4xl text-white leading-tight tracking-tight">
-                  IAM
-                  <br />
-                  ITB
-                </span>
+      {/* ── About ── */}
+      <Section
+        className="z-10 -mt-8 px-4 py-16 md:px-8 md:pb-20"
+        containerClassName="max-w-6xl px-0"
+      >
+        <GlassCard className="about-card">
+          <div className="flex flex-col items-start gap-8 lg:flex-row lg:gap-12">
+            <div className="flex shrink-0 items-center gap-5">
+              <div className="flex h-[160px] w-[130px] items-center justify-center rounded-xl border border-white/20 bg-white/6 shadow-lg shadow-black/10 backdrop-blur-sm md:h-[180px] md:w-[150px]">
+                <Image
+                  src="/logo.png"
+                  alt="Logo IAM ITB"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                />
               </div>
 
-              {/* Right: Title + Description */}
-              <div className="flex-1 flex flex-col gap-4">
-                <h2 className="font-serif font-bold text-2xl md:text-3xl text-brand-gold">
-                  Ikatan Alumni Mesin ITB
-                </h2>
-                <p className="font-sans text-sm md:text-[15px] text-white/75 leading-relaxed">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                  officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                  occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                  est laborum.
-                </p>
-              </div>
+              <span className="font-serif text-3xl leading-tight font-bold tracking-tight text-white md:text-4xl">
+                IAM
+                <br />
+                ITB
+              </span>
             </div>
 
-            {/* Bottom row: Glass Moment Tags */}
-            <div className="mt-8 pt-6 border-t border-white/8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {IAM_MOMENTS.map((moment, idx) => (
-                  <div
-                    key={idx}
-                    className="glass-tag rounded-lg border border-white/15 bg-white/6 backdrop-blur-md text-center px-4 py-4 shadow-sm shadow-black/10 hover:border-white/25 transition-colors duration-300 flex items-center justify-center"
-                  >
-                    <span className="font-display font-semibold text-xs text-white/90 uppercase tracking-wider whitespace-pre-line leading-relaxed">
-                      {moment}
+            <div className="flex flex-1 flex-col gap-4">
+              <Heading level={2} tone="accent">
+                Ikatan Alumni Mesin ITB
+              </Heading>
+              <Text tone="inverse">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </Text>
+            </div>
+          </div>
+
+          <div className="mt-8 border-t border-white/8 pt-6">
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+              {IAM_MOMENTS.map((moment, idx) => (
+                <div
+                  key={idx}
+                  className="glass-tag flex items-center justify-center rounded-lg border border-white/15 bg-white/6 px-4 py-4 text-center shadow-sm shadow-black/10 backdrop-blur-md transition-colors duration-300 hover:border-white/25"
+                >
+                  <span className="font-display text-xs font-semibold tracking-wider whitespace-pre-line text-white/90 capitalize leading-relaxed">
+                    {moment}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </GlassCard>
+      </Section>
+
+      {/* ── Program ── */}
+      <Section className="z-10" containerClassName="relative z-10 max-w-6xl px-6 md:px-8">
+        <Ornament
+          variant="blob"
+          shadowSize="md"
+          className="absolute bottom-6 z-10 size-84 blur-[30px] max-sm:left-1/5 md:top-6 md:right-1/5"
+        />
+
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="flex flex-col gap-5 lg:col-span-5">
+            <Heading level={2}>
+              <span className="text-brand-dark">Program </span>
+              <em className="text-brand-red italic">Kami</em>
+            </Heading>
+            <div className="flex flex-col gap-3">
+              <Text>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.
+              </Text>
+              <Text>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </Text>
+            </div>
+            <div className="pt-2">
+              <Button href="/program">Explore More</Button>
+            </div>
+          </div>
+
+          <ProgramImageStack items={PROGRAM_STACK_IMAGES} className="lg:col-span-7" />
+        </div>
+      </Section>
+
+      {/* ── Berita ── */}
+      <Section className="z-10 px-4 py-16 md:px-8 md:pb-24" containerClassName="max-w-6xl px-0">
+        <GlassCard className="berita-card" variant="stripes" contentClassName="p-8 md:p-10 lg:p-14">
+
+          {/* Section header */}
+          <div className="mb-10 flex flex-col items-center gap-3 text-center">
+            <span className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold/60">
+              Kabar Terkini
+            </span>
+            <Heading level={2} tone="accent">
+              Berita IAM ITB
+            </Heading>
+            <div className="h-px w-20 bg-linear-to-r from-transparent via-brand-gold/45 to-transparent" />
+          </div>
+
+          {/* Cards grid */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+            {[0, 1, 2].map((idx) => {
+              const post = beritaList[idx]
+              return (
+                <a
+                  key={idx}
+                  href={post?.slug ? `/berita/${post.slug}` : '#'}
+                  className="berita-item-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 shadow-xl shadow-black/25 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-gold/25 hover:shadow-2xl hover:shadow-black/35"
+                >
+                  {/* Image */}
+                  <div className="relative aspect-4/3 overflow-hidden">
+                    <Image
+                      src={post?.heroImage?.url ?? BERITA_PLACEHOLDER[idx]!}
+                      fill
+                      alt={post?.title ?? 'Berita IAM ITB'}
+                      className="object-cover transition-transform duration-700 group-hover:scale-[1.07]"
+                    />
+                    {/* Bottom gradient overlay */}
+                    <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
+                    {/* Category badge */}
+                    <span className="absolute top-3 left-3 rounded-[3px] bg-brand-red/90 px-2 py-[3px] font-display text-[9px] font-bold uppercase tracking-[0.2em] text-white shadow-lg backdrop-blur-sm">
+                      IAM
+                    </span>
+                    {/* Post index pill */}
+                    <span className="absolute top-3 right-3 flex h-[26px] w-[26px] items-center justify-center rounded-full border border-white/20 bg-black/25 font-display text-[10px] font-bold text-white/65 backdrop-blur-md">
+                      0{idx + 1}
                     </span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ═══════════════════ PROGRAM KAMI ═══════════════════ */}
-      <section className="relative z-10 py-16 md:py-24">
-        <Ornament variant='blob' shadowSize="md" className="absolute top-6 right-1/5 size-84 blur-[30px] z-10" />
+                  {/* Text content */}
+                  <div className="flex flex-1 flex-col gap-2.5 p-4 pb-5">
+                    <h3 className="line-clamp-2 font-serif text-sm font-semibold leading-snug text-white/90 transition-colors duration-300 group-hover:text-brand-gold">
+                      {post?.title ?? 'Kongres IAM ITB'}
+                    </h3>
 
-        <div className="container mx-auto px-6 md:px-8 max-w-6xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-            {/* Left: Text */}
-            <div className="lg:col-span-5 flex flex-col gap-5 order-2 lg:order-1">
-              <h2 className="font-serif font-bold text-3xl md:text-4xl leading-[1.1]">
-                <span className="text-brand-dark">Program </span>
-                <em className="text-brand-red italic">Kami</em>
-              </h2>
-              <div className="flex flex-col gap-3">
-                <p className="font-sans text-sm md:text-[15px] text-brand-dark/70 leading-relaxed">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                  officia deserunt mollit anim id est laborum.
-                </p>
-                <p className="font-sans text-sm md:text-[15px] text-brand-dark/70 leading-relaxed">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
-              <div className="pt-2">
-                <Link
-                  href="/program"
-                  className="inline-block bg-brand-primary hover:bg-brand-primary/90 text-white font-display font-semibold text-xs tracking-wider px-7 py-3 rounded-full shadow-md transition-all duration-300 hover:scale-105"
-                >
-                  Explore More
-                </Link>
-              </div>
-            </div>
-
-            {/* Right: 3 Overlapping Glass-Framed Cards */}
-            <div className="lg:col-span-7 relative h-[420px] md:h-[500px] w-full order-1 lg:order-2">
-              {/* Card 1: Front-left, large */}
-              <div className="absolute z-30 w-[52%] aspect-4/5 left-4 top-0 glass-card-frame">
-                <div className="glass-card-inner">
-                  <Image
-                    src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80"
-                    fill
-                    alt="Kongres IAM ITB"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="glass-card-label">
-                  <span className="text-brand-primary font-serif font-bold text-base drop-shadow-md">
-                    Kongres IAM ITB
-                  </span>
-                </div>
-              </div>
-
-              {/* Card 2: Middle-right, slightly smaller */}
-              <div className="absolute z-20 w-[44%] aspect-4/5 right-0 top-4 glass-card-frame">
-                <div className="glass-card-inner">
-                  <Image
-                    src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80"
-                    fill
-                    alt="Kongres IAM ITB"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="glass-card-label">
-                  <span className="text-brand-primary font-serif font-bold text-sm drop-shadow-md">
-                    Kongres IAM ITB
-                  </span>
-                </div>
-              </div>
-
-              {/* Card 3: Bottom-center */}
-              <div className="absolute z-10 w-[46%] aspect-4/5 right-12 bottom-0 glass-card-frame">
-                <div className="glass-card-inner">
-                  <Image
-                    src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=80"
-                    fill
-                    alt="Kongres IAM ITB"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="glass-card-label">
-                  <span className="text-brand-primary font-serif font-bold text-sm drop-shadow-md">
-                    Kongres IAM ITB
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════ BERITA (Dark Gradient Glass Card + Stripes) ═══════════════════ */}
-      <section className="relative z-10 px-4 md:px-8 py-16 md:pb-24">
-        <div className="berita-card max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/8 relative">
-          {/* Navy gradient background */}
-          <div className="absolute inset-0 bg-linear-to-br from-brand-dark via-brand-primary to-brand-dark z-0" />
-          {/* Three Stripes */}
-          <div className='absolute w-full grid grid-cols-1 grid-rows-5 *:h-10 *:odd:bg-white *:w-full z-0 top-1/2 -translate-y-1/2'>
-            <div className=""></div>
-            <div className=""></div>
-            <div className=""></div>
-            <div className=""></div>
-            <div className=""></div>
-          </div>
-
-          {/* Decorative horizontal stripes on right side */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 z-1 hidden md:flex flex-col gap-3">
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="h-[6px] bg-brand-primary/60 rounded-l-full"
-                style={{ width: `${120 - i * 15}px` }}
-              />
-            ))}
-          </div>
-
-          {/* Subtle inner glow at top */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-px bg-linear-to-r from-transparent via-white/20 to-transparent z-10" />
-
-          <div className="relative z-10 p-8 md:p-10 lg:p-14">
-            {/* Title */}
-            <h2 className="font-serif font-bold text-2xl md:text-3xl text-brand-gold text-center mb-8">
-              Berita IAM ITB
-            </h2>
-
-            {/* 3 Glass Cards in a Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
-              {[0, 1, 2].map((idx) => {
-                const post = beritaList[idx]
-                return (
-                  <Link
-                    key={idx}
-                    href={post?.slug ? `/berita/${post.slug}` : '#'}
-                    className="group glass-berita-card flex flex-col rounded-xl overflow-hidden border border-white/15 bg-white/6 backdrop-blur-sm shadow-lg shadow-black/10 hover:border-white/25 transition-all duration-300"
-                  >
-                    <div className="relative w-full aspect-4/3 overflow-hidden m-2.5 mb-0 rounded-lg">
-                      <Image
-                        src={
-                          post?.heroImage?.url ||
-                          `https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80&sig=${idx}`
-                        }
-                        fill
-                        alt={post?.title || 'Berita'}
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
+                    <div className="mt-auto flex items-center justify-between pt-1">
+                      <time className="font-display text-[10px] font-medium uppercase tracking-wider text-white/35">
+                        {formatDate(post?.publishedAt)}
+                      </time>
+                      <span className="text-[13px] leading-none text-white/25 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-gold">
+                        →
+                      </span>
                     </div>
-                    <div className="p-3 pt-2.5 text-center">
-                      <h3 className="font-serif font-bold text-sm text-white/90 leading-snug line-clamp-2 group-hover:text-brand-gold transition-colors">
-                        {post?.title || 'Kongres IAM ITB'}
-                      </h3>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
+                  </div>
 
-            {/* CTA Button – Yellow/Gold */}
-            <div className="flex justify-center mt-8">
-              <Link
-                href="/berita"
-                className="inline-block bg-brand-gold hover:bg-brand-gold/90 text-brand-dark font-display font-semibold text-xs tracking-wider px-7 py-3 rounded-full shadow-md transition-all duration-300 hover:scale-105"
-              >
-                Berita Lainnya
-              </Link>
-            </div>
+                  {/* Bottom accent sweep on hover */}
+                  <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-linear-to-r from-brand-gold via-brand-gold/70 to-brand-red transition-all duration-500 group-hover:w-full" />
+                </a>
+              )
+            })}
           </div>
-        </div>
-      </section>
+
+          <div className="mt-10 flex justify-center">
+            <Button href="/berita" variant="secondary">
+              Berita Lainnya
+            </Button>
+          </div>
+        </GlassCard>
+      </Section>
     </main>
   )
 }

@@ -211,6 +211,7 @@
   /* Brand Specific Utilities */
   --color-brand-primary: #253041;
   --color-brand-red: #590F11;
+  --color-brand-red-light: #d92524;
   --color-brand-khaki: #F4EDE1;
   --color-brand-dark: #06162F;
   --color-brand-gold: #F0D637;
@@ -266,8 +267,19 @@ html[data-theme='light'] {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   LANDING PAGE: Glass / Glow / Gradient Effects
+   LANDING PAGE: Page Root + Glass / Glow / Gradient Effects
    ═══════════════════════════════════════════════════════════════ */
+
+/* Elegant warm-cool gradient for the page canvas */
+.page-root {
+  background: linear-gradient(
+    165deg,
+    #ffffff 0%,
+    #f8fafc 35%,
+    #f4ede1 70%,
+    #f0eadf 100%
+  );
+}
 
 /* Glass-framed image cards (Program section) */
 .glass-card-frame {
@@ -285,13 +297,18 @@ html[data-theme='light'] {
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.08) inset;
-  transition: transform 0.6s ease, box-shadow 0.4s ease;
+  /* Transition position (for stack→spread) + shadow; transform is handled by Tailwind classes */
+  transition:
+    left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    rotate 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s ease;
   display: flex;
   flex-direction: column;
 }
 
 .glass-card-frame:hover {
-  transform: translateY(-6px);
   box-shadow:
     0 16px 48px rgba(0, 0, 0, 0.18),
     0 0 0 1px rgba(255, 255, 255, 0.12) inset;
@@ -350,6 +367,29 @@ html[data-theme='light'] {
     rgba(255, 255, 255, 0.14) 0%,
     rgba(255, 255, 255, 0.06) 100%
   );
+}
+
+/* Reworked editorial berita item cards */
+.berita-item-card {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.07) inset;
+}
+
+.berita-item-card:hover {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.09) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.30),
+    0 0 0 1px rgba(240, 214, 55, 0.15) inset;
 }
 
 /* Glass tag items (About section moment tags) */
