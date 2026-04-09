@@ -53,7 +53,7 @@ export interface HeadingProps
 }
 
 export function Heading({ level = 2, tone, className, ...props }: HeadingProps) {
-  const Component = `h${level}` as keyof React.JSX.IntrinsicElements
+  const Component = `h${level}` as const
   return <Component className={cn(headingVariants({ level, tone }), className)} {...props} />
 }
 
