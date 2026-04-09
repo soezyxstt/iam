@@ -37,21 +37,48 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
-  const [scrolled, setScrolled] = useState(false)
+  
+  // Navigation states
   const [mobileOpen, setMobileOpen] = useState(false)
+  
+  // Scroll states
+  const [scrolled, setScrolled] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
 
+  // Reset states on route change
   useEffect(() => {
     setHeaderTheme(null)
     setMobileOpen(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
+  // Smart Scroll Logic
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
 
+      // 1. Handle background glass effect (scrolled past 20px)
+      setScrolled(currentScrollY > 20)
+
+      // 2. Handle Hide/Show behavior
+      // Show if scrolling up OR near the very top (hero section)
+      if (currentScrollY < lastScrollY || currentScrollY < 80) {
+        setIsVisible(true)
+      } 
+      // Hide if scrolling down AND past the hero section threshold
+      else if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setIsVisible(false)
+      }
+
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
+
+  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : ''
     return () => {
@@ -65,7 +92,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     <>
       <header
         className={cn(
-          'fixed inset-x-0 top-0 md:top-4 z-50 transition-all duration-300 md:px-8',
+          'fixed inset-x-0 top-0 md:top-4 z-50 transition-all duration-300 ease-in-out md:px-8',
+          // Apply transform to hide/show
+          isVisible ? 'md:translate-y-0' : 'md:-translate-y-[150%]'
         )}
         {...(headerTheme ? { 'data-theme': headerTheme } : {})}
       >
@@ -75,7 +104,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           scrolled && 'shadow-md md:bg-background/95 md:backdrop-blur-md bg-background'
         )}>
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0" aria-label="IAM ITB – Beranda">
+          <Link href="/" className="shrink-0" aria-label="IAM ITB – Beranda">
             <Logo size={36} showText={true} className="text-foreground" />
           </Link>
 

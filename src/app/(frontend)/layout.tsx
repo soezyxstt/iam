@@ -67,7 +67,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       {/* Set default font to sans (Helvetica) and standard colors */}
-      <body className="font-sans antialiased bg-background text-foreground min-h-[100vh] flex flex-col">
+      <body className="font-sans antialiased bg-white text-foreground min-h-screen flex flex-col">
         <Providers>
           <AdminBar
             adminBarProps={{
@@ -77,7 +77,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
           <Header />
           {/* pt accounts for fixed header height (~56px) */}
-          <main className="flex-grow">{children}</main>
+          {children}
           <Footer />
         </Providers>
       </body>

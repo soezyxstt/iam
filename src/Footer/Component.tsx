@@ -6,7 +6,7 @@ export async function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-transparent px-4 md:px-8 pb-8 pt-4 md:pt-16 max-w-7xl mx-auto w-full">
+    <footer className="bg-transparent px-4 md:px-8 pb-8 pt-4 max-w-7xl mx-auto w-full">
       <div className="bg-background border border-border shadow-sm rounded-3xl p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 md:h-[180px]">
         {/* Left: Logo + name */}
         <Link href="/" className="flex items-center gap-4 group" aria-label="IAM ITB – Beranda">
@@ -62,7 +62,7 @@ export async function Footer() {
           </div>
 
           {/* Divider and copyright */}
-          <div className="flex flex-col md:items-end items-center w-full md:w-80 pt-4 border-t border-border mt-auto">
+          <div className="flex flex-col md:items-end items-center w-full md:w-80 pt-4 border-t border-brand-khaki mt-auto">
             <p className="text-[10px] md:text-xs text-foreground/50 font-sans tracking-wide">
               © {currentYear} IAM ITB. Hak Cipta Dilindungi.
             </p>
