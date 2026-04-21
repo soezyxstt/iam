@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { authenticatedOrPublicRead } from '../../access/authenticatedOrPublicRead'
 
 export const Sponsor: CollectionConfig = {
   slug: 'sponsors',
@@ -11,7 +11,7 @@ export const Sponsor: CollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished,
+    read: authenticatedOrPublicRead,
     update: authenticated,
   },
   admin: {

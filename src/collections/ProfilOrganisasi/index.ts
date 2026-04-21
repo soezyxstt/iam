@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { authenticatedOrPublicRead } from '../../access/authenticatedOrPublicRead'
 
 export const ProfilOrganisasi: GlobalConfig = {
   slug: 'organizationProfile',
@@ -9,7 +9,7 @@ export const ProfilOrganisasi: GlobalConfig = {
     group: 'Organisasi & kegiatan',
   },
   access: {
-    read: authenticatedOrPublished,
+    read: authenticatedOrPublicRead,
     update: authenticated,
   },
   fields: [
