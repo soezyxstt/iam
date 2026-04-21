@@ -43,7 +43,7 @@ export function HeroLogo() {
   return (
     <div
       ref={containerRef}
-      className="relative flex justify-center lg:col-span-5"
+      className="relative flex justify-center"
       style={{ perspective: '900px' }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}

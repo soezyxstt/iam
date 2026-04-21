@@ -3,10 +3,31 @@
 .dashboard .before-dashboard {
   margin-bottom: base(1.5);
 
-  &__banner {
+  &__welcome {
+    margin: 0;
+    padding: base(0.9) base(1.1);
+    border-radius: base(0.35);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-left: 4px solid #c9a227;
+    background: linear-gradient(135deg, #ffffff 0%, #f7f9fc 100%);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+
     & h4 {
       margin: 0;
+      font-family:
+        'Montserrat',
+        system-ui,
+        sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      color: var(--theme-elevation-900);
     }
+  }
+
+  &__lead {
+    margin: base(0.75) 0 base(1);
+    line-height: 1.45;
   }
 
   &__instructions {
@@ -16,6 +37,12 @@
     & li {
       width: 100%;
     }
+  }
+
+  &__foot {
+    margin-top: base(1);
+    font-size: 0.9em;
+    opacity: 0.85;
   }
 
   & a:hover {

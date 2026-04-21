@@ -1,15 +1,23 @@
-import React from 'react'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import React from 'react'
 
 import Ornament from '@/components/Ornaments'
 import { HeroLogo } from '@/components/HeroLogo'
+import { ScrollReveal } from '@/components/ScrollReveal'
 import { Button } from '@/components/ui/button'
 import { GlassCard } from '@/components/ui/glass-card'
 import { ProgramImageStack } from '@/components/ui/program-image-stack'
 import { Section } from '@/components/ui/section'
 import { Heading, Text } from '@/components/ui/typography'
+
+export const metadata: Metadata = {
+  title: 'Beranda',
+  description:
+    'Ikatan Alumni Mahasiswa Teknik Mesin ITB — silaturahmi, jejaring profesional, dan kontribusi bagi almamater.',
+}
 
 interface BeritaDoc {
   title?: string | null
@@ -27,6 +35,7 @@ async function getLatestBerita(): Promise<BeritaDoc[]> {
       sort: '-publishedAt',
       where: { _status: { equals: 'published' } },
       depth: 1,
+      overrideAccess: false,
     })
     return result.docs as BeritaDoc[]
   } catch {
@@ -84,7 +93,6 @@ export default async function HomePage() {
 
   return (
     <main className="page-root relative min-h-screen overflow-hidden">
-
       {/* ── Ambient background geometry ── */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 select-none overflow-hidden">
         {/* Top-right gold glow */}
@@ -109,7 +117,10 @@ export default async function HomePage() {
         containerClassName="relative z-10 grid max-w-7xl grid-cols-1 items-center gap-8 px-6 md:px-12 lg:grid-cols-12"
       >
         <div className="flex flex-col items-start gap-5 lg:col-span-7">
-          <Heading level={1} className="text-[2.6rem] sm:text-5xl lg:text-[4rem]">
+          <Heading
+            level={1}
+            className="text-[2.6rem] sm:text-5xl lg:text-[4rem] motion-reduce:animate-none motion-reduce:opacity-100 motion-reduce:translate-y-0 animate-in fade-in slide-in-from-bottom-6 duration-700"
+          >
             Ikatan Alumni Mesin
             <br />
             Institut Teknologi Bandung
@@ -117,17 +128,19 @@ export default async function HomePage() {
 
           <Text
             variant="lead"
-            className="font-serif text-xl font-bold italic text-brand-red-light md:text-3xl"
+            className="font-serif text-xl font-bold italic text-brand-red-light motion-reduce:animate-none motion-reduce:opacity-100 motion-reduce:translate-y-0 md:text-3xl animate-in fade-in slide-in-from-bottom-5 duration-700 delay-100"
           >
             For Union Machine Strong
           </Text>
 
-          <div className="pt-3">
+          <div className="pt-3 motion-reduce:animate-none motion-reduce:opacity-100 motion-reduce:translate-y-0 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
             <Button href="/tentang-kami">Explore More</Button>
           </div>
         </div>
 
-        <HeroLogo />
+        <div className="motion-reduce:animate-none motion-reduce:opacity-100 motion-reduce:translate-y-0 lg:col-span-5 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+          <HeroLogo />
+        </div>
       </Section>
 
       {/* ── About ── */}
@@ -135,6 +148,7 @@ export default async function HomePage() {
         className="z-10 -mt-8 px-4 py-16 md:px-8 md:pb-20"
         containerClassName="max-w-6xl px-0"
       >
+        <ScrollReveal>
         <GlassCard className="about-card">
           <div className="flex flex-col items-start gap-8 lg:flex-row lg:gap-12">
             <div className="flex shrink-0 items-center gap-5">
@@ -190,10 +204,12 @@ export default async function HomePage() {
             </div>
           </div>
         </GlassCard>
+        </ScrollReveal>
       </Section>
 
       {/* ── Program ── */}
       <Section className="z-10" containerClassName="relative z-10 max-w-6xl px-6 md:px-8">
+        <ScrollReveal>
         <Ornament
           variant="blob"
           shadowSize="md"
@@ -228,12 +244,13 @@ export default async function HomePage() {
 
           <ProgramImageStack items={PROGRAM_STACK_IMAGES} className="lg:col-span-7" />
         </div>
+        </ScrollReveal>
       </Section>
 
       {/* ── Berita ── */}
       <Section className="z-10 px-4 py-16 md:px-8 md:pb-24" containerClassName="max-w-6xl px-0">
+        <ScrollReveal>
         <GlassCard className="berita-card" variant="stripes" contentClassName="p-8 md:p-10 lg:p-14">
-
           {/* Section header */}
           <div className="mb-10 flex flex-col items-center gap-3 text-center">
             <span className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold/60">
@@ -252,7 +269,7 @@ export default async function HomePage() {
               return (
                 <a
                   key={idx}
-                  href={post?.slug ? `/berita/${post.slug}` : '#'}
+                  href={post?.slug ? `/posts/${post.slug}` : '#'}
                   className="berita-item-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 shadow-xl shadow-black/25 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-gold/25 hover:shadow-2xl hover:shadow-black/35"
                 >
                   {/* Image */}
@@ -299,11 +316,12 @@ export default async function HomePage() {
           </div>
 
           <div className="mt-10 flex justify-center">
-            <Button href="/berita" variant="secondary">
+            <Button href="/posts" variant="secondary">
               Berita Lainnya
             </Button>
           </div>
         </GlassCard>
+        </ScrollReveal>
       </Section>
     </main>
   )

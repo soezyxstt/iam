@@ -15,7 +15,11 @@ export const LowonganKerja: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'Directory & komunitas',
     useAsTitle: 'position',
+    description:
+      'Lowongan yang terlihat di situs harus berstatus diterbitkan. Kiriman dari formulir “Pengajuan Lowongan” masuk sebagai draf untuk ditinjau.',
+    defaultColumns: ['position', 'companyName', '_status', 'updatedAt'],
   },
   versions: {
     drafts: true,

@@ -1,9 +1,10 @@
 import type { RequiredDataFromCollectionSlug } from 'payload'
 
-// Used for pre-seeded content so that the homepage is not empty
+/** Fallback when DB has no `pages` document with slug `home` (e.g. before seed). */
 export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
   slug: 'home',
   _status: 'published',
+  title: 'Beranda',
   hero: {
     type: 'lowImpact',
     richText: {
@@ -19,7 +20,7 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
                 format: 0,
                 mode: 'normal',
                 style: '',
-                text: 'Payload Website Template',
+                text: 'Ikatan Alumni Mesin ITB',
                 version: 1,
               },
             ],
@@ -33,35 +34,12 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
             type: 'paragraph',
             children: [
               {
-                type: 'link',
-                children: [
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'Visit the admin dashboard',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                fields: {
-                  linkType: 'custom',
-                  newTab: false,
-                  url: '/admin',
-                },
-                format: '',
-                indent: 0,
-                version: 2,
-              },
-              {
                 type: 'text',
                 detail: 0,
                 format: 0,
                 mode: 'normal',
                 style: '',
-                text: ' to make your account and seed content for your website.',
+                text: 'Edit halaman Beranda dari dasbor admin (slug: home) atau jalankan seed untuk konten lengkap.',
                 version: 1,
               },
             ],
@@ -80,9 +58,9 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
     },
   },
   meta: {
-    description: 'An open-source website built with Payload and Next.js.',
-    title: 'Payload Website Template',
+    description:
+      'Ikatan Alumni Mahasiswa Teknik Mesin ITB — komunikasi, kolaborasi, dan jejaring profesional.',
+    title: 'Beranda | IAM ITB',
   },
-  title: 'Home',
   layout: [],
 }

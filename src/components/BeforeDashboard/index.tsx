@@ -1,4 +1,3 @@
-import { Banner } from '@payloadcms/ui/elements/Banner'
 import React from 'react'
 
 import { SeedButton } from './SeedButton'
@@ -9,59 +8,41 @@ const baseClass = 'before-dashboard'
 const BeforeDashboard: React.FC = () => {
   return (
     <div className={baseClass}>
-      <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Selamat datang di dasbor Anda!</h4>
-      </Banner>
-      Berikut adalah hal yang bisa dilakukan selanjutnya:
+      <div className={`${baseClass}__welcome`}>
+        <h4>Selamat datang di dasbor IAM ITB</h4>
+      </div>
+      <p className={`${baseClass}__lead`}>
+        Kelola beranda, berita, direktori alumni, sponsor, dan lowongan dari sini. Pratinjau live tersedia di
+        editor halaman dan berita.
+      </p>
       <ul className={`${baseClass}__instructions`}>
         <li>
+          <strong>Beranda:</strong> edit halaman dengan slug <code>home</code> — hero, blok highlight aktivitas /
+          sponsor / lowongan, dan arsip berita.
+        </li>
+        <li>
+          <strong>Konten organisasi:</strong> global <em>Profil Organisasi</em>, koleksi Kepengurusan, Ketua IAM,
+          Galeri, Aktivitas.
+        </li>
+        <li>
+          <strong>Moderasi:</strong> pengajuan usaha alumni dan lowongan dari formulir tersimpan sebagai{' '}
+          <em>draf</em> — tinjau lalu terbitkan di koleksi terkait.
+        </li>
+        <li>
           <SeedButton />
-          {' dengan beberapa halaman, post, dan proyek untuk memulai situs baru Anda, lalu '}
-          <a href="/" target="_blank">
-            kunjungi situs web Anda
+          {' untuk data awal, lalu '}
+          <a href="/" rel="noreferrer" target="_blank">
+            buka situs
           </a>
-          {' untuk melihat hasilnya.'}
-        </li>
-        <li>
-          {'Modifikasi '}
-          <a
-            href="https://payloadcms.com/docs/configuration/collections"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            koleksi
-          </a>
-          {' Anda dan tambahkan lebih banyak '}
-          <a
-            href="https://payloadcms.com/docs/fields/overview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            bidang
-          </a>
-          {' sesuai kebutuhan. Jika Anda baru menggunakan Payload, kami sarankan Anda membaca dokumentasi '}
-          <a
-            href="https://payloadcms.com/docs/getting-started/what-is-payload"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Memulai
-          </a>
-          {'.'}
-        </li>
-        <li>
-          Commit dan push perubahan Anda untuk memicu penerapan ulang proyek Anda.
+          .
         </li>
       </ul>
-      {'Tips Pro: Blok ini adalah sebuah '}
-      <a
-        href="https://payloadcms.com/docs/custom-components/overview"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        komponen kustom
-      </a>
-      , Anda bisa menghapusnya kapan saja dengan memperbarui <strong>payload.config</strong> Anda.
+      <p className={`${baseClass}__foot`}>
+        Dokumentasi Payload:{' '}
+        <a href="https://payloadcms.com/docs/getting-started/what-is-payload" rel="noreferrer" target="_blank">
+          Memulai
+        </a>
+      </p>
     </div>
   )
 }

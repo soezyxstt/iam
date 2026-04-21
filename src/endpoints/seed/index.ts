@@ -1,8 +1,13 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 
+import type { Activity, JobVacancy } from '@/payload-types'
+import { defaultHeaderNavItems } from '@/config/defaultNav'
 import { contactForm as contactFormData } from './contact-form'
+import { pengajuanLowonganForm } from './pengajuan-lowongan-form'
+import { usahaAlumniForm } from './usaha-alumni-form'
 import { contact as contactPageData } from './contact-page'
 import { home } from './home'
+import { plainTextToLexicalRoot } from '@/utilities/plainTextToLexicalRoot'
 import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { imageHero1 } from './image-hero-1'
@@ -18,6 +23,15 @@ const collections: CollectionSlug[] = [
   'forms',
   'form-submissions',
   'search',
+  'activities',
+  'sponsors',
+  'jobVacancies',
+  'alumniMembers',
+  'alumniBusinesses',
+  'communities',
+  'galleries',
+  'iamPresidents',
+  'managements',
 ]
 
 const globals: GlobalSlug[] = ['header', 'footer']
@@ -192,13 +206,112 @@ export const seed = async ({
     },
   })
 
-  payload.logger.info(`— Seeding contact form...`)
+  payload.logger.info(`— Seeding forms...`)
 
-  const contactForm = await payload.create({
-    collection: 'forms',
-    depth: 0,
-    data: contactFormData,
-  })
+  const [contactForm, _usahaForm, _lowonganForm] = await Promise.all([
+    payload.create({
+      collection: 'forms',
+      depth: 0,
+      data: contactFormData,
+    }),
+    payload.create({
+      collection: 'forms',
+      depth: 0,
+      data: usahaAlumniForm,
+    }),
+    payload.create({
+      collection: 'forms',
+      depth: 0,
+      data: pengajuanLowonganForm,
+    }),
+  ])
+
+  payload.logger.info(`— Seeding aktivitas, sponsor, lowongan...`)
+
+  const [activity1, activity2, sponsor1, sponsor2, job1, job2] = await Promise.all([
+    payload.create({
+      collection: 'activities',
+      depth: 0,
+      context: { disableRevalidate: true },
+      data: {
+        activityName: 'Reuni Akbar IAM',
+        date: '2025-08-15T12:00:00.000Z',
+        activityType: 'reuni',
+        description: plainTextToLexicalRoot(
+          'Silaturahmi lintas angkatan dan pembentukan jaringan profesional.',
+        ) as NonNullable<Activity['description']>,
+      },
+    }),
+    payload.create({
+      collection: 'activities',
+      depth: 0,
+      context: { disableRevalidate: true },
+      data: {
+        activityName: 'Pulang Kampus',
+        date: '2025-09-01T12:00:00.000Z',
+        activityType: 'pulang_kampus',
+        description: plainTextToLexicalRoot(
+          'Berbagi pengalaman dengan mahasiswa teknik mesin ITB.',
+        ) as NonNullable<Activity['description']>,
+      },
+    }),
+    payload.create({
+      collection: 'sponsors',
+      depth: 0,
+      context: { disableRevalidate: true },
+      data: {
+        companyName: 'Mitra industri IAM',
+        logo: image1Doc.id,
+        shortDescription: 'Dukungan kegiatan dan program IAM ITB.',
+        supportPeriod: '2025/2026',
+        officialWebsite: 'https://example.com',
+      },
+    }),
+    payload.create({
+      collection: 'sponsors',
+      depth: 0,
+      context: { disableRevalidate: true },
+      data: {
+        companyName: 'Partner teknologi',
+        logo: image2Doc.id,
+        shortDescription: 'Kolaborasi riset dan rekrutmen alumni.',
+        supportPeriod: '2025/2026',
+        officialWebsite: 'https://example.com',
+      },
+    }),
+    payload.create({
+      collection: 'jobVacancies',
+      depth: 0,
+      context: { disableRevalidate: true },
+      draft: false,
+      data: {
+        _status: 'published',
+        position: 'Mechanical Design Engineer',
+        companyName: 'PT Contoh Industri',
+        employmentType: 'full_time',
+        jobDescription: plainTextToLexicalRoot(
+          'Merancang komponen mekanikal, berkolaborasi dengan tim produksi.',
+        ) as NonNullable<JobVacancy['jobDescription']>,
+        officialLink: 'https://example.com/karier',
+      },
+    }),
+    payload.create({
+      collection: 'jobVacancies',
+      depth: 0,
+      context: { disableRevalidate: true },
+      draft: false,
+      data: {
+        _status: 'published',
+        position: 'Internship — R&D',
+        companyName: 'Startup Mekanikal',
+        employmentType: 'internship',
+        jobDescription: plainTextToLexicalRoot(
+          'Program magang 3 bulan di divisi penelitian dan pengembangan.',
+        ) as NonNullable<JobVacancy['jobDescription']>,
+        officialLink: 'https://example.com/intern',
+      },
+    }),
+  ])
 
   payload.logger.info(`— Seeding pages...`)
 
@@ -206,7 +319,13 @@ export const seed = async ({
     payload.create({
       collection: 'pages',
       depth: 0,
-      data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
+      data: home({
+        heroImage: imageHomeDoc,
+        metaImage: image2Doc,
+        activityIds: [activity1.id, activity2.id],
+        sponsorIds: [sponsor1.id, sponsor2.id],
+        jobIds: [job1.id, job2.id],
+      }),
     }),
     payload.create({
       collection: 'pages',
@@ -221,25 +340,7 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'header',
       data: {
-        navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Berita',
-              url: '/posts',
-            },
-          },
-          {
-            link: {
-              type: 'reference',
-              label: 'Contact',
-              reference: {
-                relationTo: 'pages',
-                value: contactPage.id,
-              },
-            },
-          },
-        ],
+        navItems: defaultHeaderNavItems,
       },
     }),
     payload.updateGlobal({

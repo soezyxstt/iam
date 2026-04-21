@@ -15,6 +15,7 @@ export const Komunitas: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'Directory & komunitas',
     useAsTitle: 'communityName',
   },
   fields: [

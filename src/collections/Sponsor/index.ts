@@ -15,7 +15,9 @@ export const Sponsor: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'Organisasi & kegiatan',
     useAsTitle: 'companyName',
+    defaultColumns: ['companyName', 'supportPeriod', 'updatedAt'],
   },
   fields: [
     {
@@ -36,6 +38,14 @@ export const Sponsor: CollectionConfig = {
       label: 'Deskripsi Singkat',
       type: 'textarea',
       required: true,
+    },
+    {
+      name: 'supportPeriod',
+      label: 'Periode dukungan',
+      type: 'text',
+      admin: {
+        description: 'Misalnya tahun ajaran atau periode program sponsorship.',
+      },
     },
     {
       name: 'officialWebsite',

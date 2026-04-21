@@ -4,11 +4,17 @@ import type { Media } from '@/payload-types'
 type HomeArgs = {
   heroImage: Media
   metaImage: Media
+  activityIds: number[]
+  sponsorIds: number[]
+  jobIds: number[]
 }
 
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   heroImage,
   metaImage,
+  activityIds,
+  sponsorIds,
+  jobIds,
 }) => {
   return {
     slug: 'home',
@@ -140,6 +146,24 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
       },
     },
     layout: [
+      {
+        blockName: 'Highlight Aktivitas',
+        blockType: 'highlightActivities',
+        sectionTitle: 'Aktivitas terbaru',
+        activities: activityIds,
+      },
+      {
+        blockName: 'Highlight Sponsor',
+        blockType: 'highlightSponsors',
+        sectionTitle: 'Sponsor & mitra',
+        sponsors: sponsorIds,
+      },
+      {
+        blockName: 'Highlight Lowongan',
+        blockType: 'highlightJobVacancies',
+        sectionTitle: 'Lowongan & magang',
+        vacancies: jobIds,
+      },
       {
         blockName: 'Content Block',
         blockType: 'content',

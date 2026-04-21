@@ -15,6 +15,7 @@ export const Kepengurusan: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'Organisasi & kegiatan',
     useAsTitle: 'period',
   },
   fields: [

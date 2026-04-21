@@ -9,6 +9,7 @@ import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { HighlightAktivitas } from '../../blocks/HighlightAktivitas/config'
 import { HighlightSponsor } from '../../blocks/HighlightSponsor/config'
+import { HighlightLowongan } from '../../blocks/HighlightLowongan/config'
 
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
@@ -41,6 +42,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slug: true,
   },
   admin: {
+    group: 'Konten & halaman',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
@@ -86,6 +88,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 FormBlock,
                 HighlightAktivitas,
                 HighlightSponsor,
+                HighlightLowongan,
               ],
               required: true,
               admin: {

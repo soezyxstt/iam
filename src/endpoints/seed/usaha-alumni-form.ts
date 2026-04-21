@@ -1,0 +1,117 @@
+import type { RequiredDataFromCollectionSlug } from 'payload'
+
+export const usahaAlumniForm: RequiredDataFromCollectionSlug<'forms'> = {
+  title: 'Pengajuan Usaha Alumni',
+  confirmationType: 'message',
+  confirmationMessage: {
+    root: {
+      type: 'root',
+      children: [
+        {
+          type: 'paragraph',
+          children: [
+            {
+              type: 'text',
+              detail: 0,
+              format: 0,
+              mode: 'normal',
+              style: '',
+              text: 'Terima kasih. Pengajuan akan ditinjau admin sebelum ditampilkan di situs.',
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          format: '',
+          indent: 0,
+          textFormat: 0,
+          version: 1,
+        },
+      ],
+      direction: 'ltr',
+      format: '',
+      indent: 0,
+      version: 1,
+    },
+  },
+  emails: [],
+  fields: [
+    {
+      name: 'ownerName',
+      blockType: 'text',
+      label: 'Pemilik usaha',
+      required: true,
+      width: 100,
+    },
+    {
+      name: 'businessName',
+      blockType: 'text',
+      label: 'Nama usaha',
+      required: true,
+      width: 100,
+    },
+    {
+      name: 'category',
+      blockType: 'select',
+      label: 'Kategori',
+      required: true,
+      options: [
+        { label: 'Manufaktur', value: 'manufaktur' },
+        { label: 'Jasa', value: 'jasa' },
+        { label: 'F&B', value: 'fnb' },
+        { label: 'Teknologi', value: 'teknologi' },
+        { label: 'Lainnya', value: 'lainnya' },
+      ],
+      width: 100,
+    },
+    {
+      name: 'description',
+      blockType: 'textarea',
+      label: 'Narasi / deskripsi',
+      required: true,
+      width: 100,
+    },
+    {
+      name: 'productsOrServices',
+      blockType: 'text',
+      label: 'Produk / jasa',
+      required: true,
+      width: 100,
+    },
+    {
+      name: 'address',
+      blockType: 'textarea',
+      label: 'Alamat',
+      required: true,
+      width: 100,
+    },
+    {
+      name: 'phoneNumber',
+      blockType: 'text',
+      label: 'Nomor telepon',
+      required: true,
+      width: 50,
+    },
+    {
+      name: 'email',
+      blockType: 'email',
+      label: 'Email',
+      required: false,
+      width: 50,
+    },
+    {
+      name: 'website',
+      blockType: 'text',
+      label: 'Website',
+      required: false,
+      width: 50,
+    },
+    {
+      name: 'instagram',
+      blockType: 'text',
+      label: 'Instagram',
+      required: false,
+      width: 50,
+    },
+  ],
+  submitButtonLabel: 'Kirim pengajuan',
+}

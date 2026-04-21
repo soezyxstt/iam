@@ -7,6 +7,9 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { HighlightAktivitasBlock } from '@/blocks/HighlightAktivitas/Component'
+import { HighlightSponsorBlock } from '@/blocks/HighlightSponsor/Component'
+import { HighlightLowonganBlock } from '@/blocks/HighlightLowongan/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -14,8 +17,9 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
-  highlightActivities: () => <div className="p-4 border">Highlight Aktivitas Placeholder</div>,
-  highlightSponsors: () => <div className="p-4 border">Highlight Sponsor Placeholder</div>,
+  highlightActivities: HighlightAktivitasBlock,
+  highlightSponsors: HighlightSponsorBlock,
+  highlightJobVacancies: HighlightLowonganBlock,
 }
 
 export const RenderBlocks: React.FC<{

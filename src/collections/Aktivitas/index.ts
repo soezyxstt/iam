@@ -15,7 +15,9 @@ export const Aktivitas: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'Organisasi & kegiatan',
     useAsTitle: 'activityName',
+    defaultColumns: ['activityName', 'activityType', 'date', 'updatedAt'],
   },
   fields: [
     {
@@ -23,6 +25,20 @@ export const Aktivitas: CollectionConfig = {
       label: 'Nama Kegiatan',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'activityType',
+      label: 'Tipe kegiatan',
+      type: 'select',
+      options: [
+        { label: 'Pulang Kampus', value: 'pulang_kampus' },
+        { label: 'Beasiswa IAM ITB', value: 'beasiswa' },
+        { label: 'Reuni Akbar', value: 'reuni' },
+        { label: 'Kongres IAM ITB', value: 'kongres' },
+        { label: 'Agenda Rutin', value: 'agenda_rutin' },
+        { label: 'Lainnya', value: 'lainnya' },
+      ],
+      defaultValue: 'lainnya',
     },
     {
       name: 'date',

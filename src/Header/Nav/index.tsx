@@ -27,12 +27,18 @@ interface NavItemWithDropdown {
   dropdownItems?: Array<{ link: NavLink }> | null
 }
 
+export function linkIsActive(pathname: string, url?: string | null): boolean {
+  if (!url || url.startsWith('http')) return false
+  if (url === '/') return pathname === '/'
+  return pathname === url || pathname.startsWith(`${url}/`)
+}
+
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = (data?.navItems || []) as NavItemWithDropdown[]
   const pathname = usePathname()
 
   return (
-    <nav className="hidden lg:flex items-center gap-1">
+    <nav className="hidden lg:flex items-center gap-0.5">
       {navItems.map((item, i) => {
         const { link, hasDropdown, dropdownItems } = item
 
@@ -47,16 +53,17 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
           )
         }
 
-        const isActive = link?.url && pathname === link.url
+        const isActive = linkIsActive(pathname, link?.url)
 
         return (
           <CMSLink
             key={i}
             {...link}
             className={cn(
-              'px-3 py-1.5 text-sm font-display font-semibold transition-colors duration-150',
-              'text-foreground/70 hover:text-foreground hover:bg-muted',
-              isActive ? 'text-foreground border-b border-foreground pb-0.5' : 'border-b border-transparent pb-0.5',
+              'rounded-md px-3 py-2 text-sm font-display transition-colors duration-200',
+              isActive
+                ? 'font-semibold text-foreground'
+                : 'font-medium text-muted-foreground hover:text-foreground',
             )}
             appearance="link"
           />
@@ -86,51 +93,49 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ link, dropdownItems, pathna
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const isActive = dropdownItems?.some(
-    (di) => di?.link?.url && pathname.startsWith(di.link.url),
-  )
+  const isActive = dropdownItems?.some((di) => linkIsActive(pathname, di?.link?.url))
 
   return (
     <div ref={ref} className="relative">
       <button
+        type="button"
         onClick={() => setOpen((v) => !v)}
         onMouseEnter={() => setOpen(true)}
         className={cn(
-          'flex items-center gap-1 px-3 py-1.5 text-sm font-display font-semibold transition-colors duration-150',
-          'text-foreground/70 hover:text-foreground hover:bg-muted',
-          isActive ? 'text-foreground border-b border-foreground pb-0.5' : 'border-b border-transparent pb-0.5',
+          'flex items-center gap-1 rounded-md px-3 py-2 text-sm font-display transition-colors duration-200',
+          isActive || open
+            ? 'font-semibold text-foreground'
+            : 'font-medium text-muted-foreground hover:text-foreground',
         )}
         aria-expanded={open}
         aria-haspopup="true"
       >
         {link?.label || 'Menu'}
         <ChevronDown
-          className={cn('w-3.5 h-3.5 transition-transform duration-200', open && 'rotate-180')}
+          className={cn('size-3.5 opacity-60 transition-transform duration-200', open && 'rotate-180')}
+          aria-hidden
         />
       </button>
 
-      {/* Dropdown panel */}
       <div
         onMouseLeave={() => setOpen(false)}
         className={cn(
-          'absolute left-0 top-full mt-3 min-w-[200px] z-50',
-          'bg-background/90 backdrop-blur-xl border border-border/40 shadow-xl rounded-xl p-2',
-          'transition-all duration-200 origin-top',
-          open
-            ? 'opacity-100 scale-y-100 pointer-events-auto'
-            : 'opacity-0 scale-y-95 pointer-events-none',
+          'absolute left-0 top-full z-50 mt-2 min-w-[200px] rounded-lg border border-border/50 bg-background p-1 shadow-md',
+          'transition-opacity duration-150',
+          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
       >
         {dropdownItems.map((di, j) => {
-          const isChildActive = di?.link?.url && pathname === di.link.url
+          const isChildActive = linkIsActive(pathname, di?.link?.url)
           return (
             <CMSLink
               key={j}
               {...di.link}
               className={cn(
-                'block px-3 py-2 text-sm font-display font-medium rounded-md',
-                'text-foreground/70 hover:text-accent hover:bg-muted transition-colors',
-                isChildActive && 'text-foreground bg-muted',
+                'block rounded-md px-3 py-2 text-sm font-display transition-colors duration-200',
+                isChildActive
+                  ? 'font-semibold text-foreground'
+                  : 'font-medium text-muted-foreground hover:text-foreground',
               )}
               appearance="link"
             />

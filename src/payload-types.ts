@@ -80,6 +80,7 @@ export interface Config {
     managements: Management;
     galleries: Gallery;
     communities: Community;
+    alumniMembers: AlumniMember;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -110,6 +111,7 @@ export interface Config {
     managements: ManagementsSelect<false> | ManagementsSelect<true>;
     galleries: GalleriesSelect<false> | GalleriesSelect<true>;
     communities: CommunitiesSelect<false> | CommunitiesSelect<true>;
+    alumniMembers: AlumniMembersSelect<false> | AlumniMembersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -235,6 +237,13 @@ export interface Page {
         id?: string | null;
         blockName?: string | null;
         blockType: 'highlightSponsors';
+      }
+    | {
+        sectionTitle: string;
+        vacancies: (number | JobVacancy)[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'highlightJobVacancies';
       }
   )[];
   meta?: {
@@ -823,6 +832,7 @@ export interface Form {
 export interface Activity {
   id: number;
   activityName: string;
+  activityType?: ('pulang_kampus' | 'beasiswa' | 'reuni' | 'kongres' | 'agenda_rutin' | 'lainnya') | null;
   date: string;
   description: {
     root: {
@@ -851,11 +861,17 @@ export interface Sponsor {
   companyName: string;
   logo: number | Media;
   shortDescription: string;
+  /**
+   * Misalnya tahun ajaran atau periode program sponsorship.
+   */
+  supportPeriod?: string | null;
   officialWebsite?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
+ * Lowongan yang terlihat di situs harus berstatus diterbitkan. Kiriman dari formulir “Pengajuan Lowongan” masuk sebagai draf untuk ditinjau.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "jobVacancies".
  */
@@ -885,6 +901,8 @@ export interface JobVacancy {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Usaha yang terlihat di situs harus berstatus diterbitkan. Kiriman dari formulir “Pengajuan Usaha Alumni” masuk sebagai draf untuk ditinjau.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "alumniBusinesses".
  */
@@ -929,7 +947,7 @@ export interface IamPresident {
     [k: string]: unknown;
   } | null;
   personalStory?: string | null;
-  linkedInLabel?: string | null;
+  linkedInUrl?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -950,7 +968,14 @@ export interface Management {
  */
 export interface Gallery {
   id: number;
-  media: number | Media;
+  /**
+   * Opsional jika memakai URL sematan. Unggah gambar atau video (mp4/webm).
+   */
+  media?: (number | null) | Media;
+  /**
+   * Opsional. Tautan YouTube/Vimeo untuk menyematkan video tanpa unggah file besar.
+   */
+  embedUrl?: string | null;
   description?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -980,6 +1005,34 @@ export interface Community {
     };
     [k: string]: unknown;
   } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Data alumni untuk direktori publik. Hanya entri dengan “Tampil di direktori publik” yang terlihat di situs untuk pengunjung. Email dan telepon hanya terlihat oleh admin.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alumniMembers".
+ */
+export interface AlumniMember {
+  id: number;
+  fullName: string;
+  photo?: (number | null) | Media;
+  /**
+   * Tahun kelulusan atau angkatan masuk — sesuai konvensi IAM.
+   */
+  graduationYear?: number | null;
+  headline?: string | null;
+  employer?: string | null;
+  role?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  linkedInUrl?: string | null;
+  bio?: string | null;
+  /**
+   * Jika diaktifkan, profil ini muncul di situs untuk pengunjung (tanpa email/telepon).
+   */
+  listPublicly?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1226,6 +1279,10 @@ export interface PayloadLockedDocument {
         value: number | Community;
       } | null)
     | ({
+        relationTo: 'alumniMembers';
+        value: number | AlumniMember;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1336,6 +1393,14 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               sectionTitle?: T;
               sponsors?: T;
+              id?: T;
+              blockName?: T;
+            };
+        highlightJobVacancies?:
+          | T
+          | {
+              sectionTitle?: T;
+              vacancies?: T;
               id?: T;
               blockName?: T;
             };
@@ -1645,6 +1710,7 @@ export interface AlumniBusinessesSelect<T extends boolean = true> {
  */
 export interface ActivitiesSelect<T extends boolean = true> {
   activityName?: T;
+  activityType?: T;
   date?: T;
   description?: T;
   updatedAt?: T;
@@ -1658,6 +1724,7 @@ export interface SponsorsSelect<T extends boolean = true> {
   companyName?: T;
   logo?: T;
   shortDescription?: T;
+  supportPeriod?: T;
   officialWebsite?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1672,7 +1739,7 @@ export interface IamPresidentsSelect<T extends boolean = true> {
   shortBiography?: T;
   professionalCareer?: T;
   personalStory?: T;
-  linkedInLabel?: T;
+  linkedInUrl?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1692,6 +1759,7 @@ export interface ManagementsSelect<T extends boolean = true> {
  */
 export interface GalleriesSelect<T extends boolean = true> {
   media?: T;
+  embedUrl?: T;
   description?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1706,6 +1774,25 @@ export interface CommunitiesSelect<T extends boolean = true> {
   shortDescription?: T;
   contactPerson?: T;
   joinInformation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "alumniMembers_select".
+ */
+export interface AlumniMembersSelect<T extends boolean = true> {
+  fullName?: T;
+  photo?: T;
+  graduationYear?: T;
+  headline?: T;
+  employer?: T;
+  role?: T;
+  email?: T;
+  phone?: T;
+  linkedInUrl?: T;
+  bio?: T;
+  listPublicly?: T;
   updatedAt?: T;
   createdAt?: T;
 }

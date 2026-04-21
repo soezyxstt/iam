@@ -5,6 +5,9 @@ import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 export const ProfilOrganisasi: GlobalConfig = {
   slug: 'organizationProfile',
   label: 'Profil Organisasi',
+  admin: {
+    group: 'Organisasi & kegiatan',
+  },
   access: {
     read: authenticatedOrPublished,
     update: authenticated,

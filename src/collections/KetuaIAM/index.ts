@@ -15,6 +15,7 @@ export const KetuaIAM: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'Organisasi & kegiatan',
     useAsTitle: 'name',
   },
   fields: [
@@ -47,9 +48,20 @@ export const KetuaIAM: CollectionConfig = {
       type: 'textarea',
     },
     {
-      name: 'linkedInLabel',
+      name: 'linkedInUrl',
       label: 'Tautan LinkedIn',
       type: 'text',
+      validate: (value: string | null | undefined) => {
+        if (!value || value === '') return true
+        try {
+          const u = new URL(value.startsWith('http') ? value : `https://${value}`)
+          if (!['http:', 'https:'].includes(u.protocol)) return 'Gunakan URL http(s)'
+          if (!u.hostname.includes('linkedin.com')) return 'Gunakan URL profil LinkedIn'
+          return true
+        } catch {
+          return 'URL tidak valid'
+        }
+      },
     },
   ],
 }

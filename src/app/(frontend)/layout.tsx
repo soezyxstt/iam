@@ -3,13 +3,11 @@ import { Montserrat } from 'next/font/google'
 import localFont from 'next/font/local'
 import React from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
 import type { Metadata } from 'next'
 
 import './globals.css'
@@ -53,8 +51,6 @@ const helveticaNeue = localFont({
 })
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
-
   return (
     <html
       className={cn(montserrat.variable, baskerville.variable, helveticaNeue.variable)}
@@ -69,12 +65,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       {/* Set default font to sans (Helvetica) and standard colors */}
       <body className="font-sans antialiased bg-white text-foreground min-h-screen flex flex-col">
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
-
           <Header />
           {/* pt accounts for fixed header height (~56px) */}
           {children}

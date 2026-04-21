@@ -8,8 +8,10 @@ import { SearchIcon, MenuIcon, XIcon, ChevronDown } from 'lucide-react'
 import { cn } from '@/utilities/ui'
 
 import type { Header, Page, Post } from '@/payload-types'
+import { defaultHeaderNavItems } from '@/config/defaultNav'
 import { Logo } from '@/components/Logo/Logo'
-import { HeaderNav } from './Nav'
+import { HeaderNav, linkIsActive } from './Nav'
+import { HeaderAdminIcon } from './HeaderAdminIcon'
 import { CMSLink } from '@/components/Link'
 
 interface NavLink {
@@ -86,7 +88,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     }
   }, [mobileOpen])
 
-  const navItems = (data?.navItems || []) as NavItemWithDropdown[]
+  const navItems = (
+    data?.navItems?.length ? data.navItems : defaultHeaderNavItems
+  ) as NavItemWithDropdown[]
+
+  const headerDataForNav = { ...data, navItems } as Header
 
   return (
     <>
@@ -115,11 +121,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
           {/* Desktop Nav – centered */}
           <div className="flex-1 flex justify-center">
-            <HeaderNav data={data} />
+            <HeaderNav data={headerDataForNav} />
           </div>
 
-          {/* Right Side: Search + Hamburger */}
-          <div className="flex items-center gap-2">
+          {/* Right: Search, then admin icon (far right before menu on mobile) */}
+          <div className="flex min-w-0 items-center gap-2">
             {/* Search box desktop */}
             <form
               onSubmit={(e) => {
@@ -127,14 +133,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 const q = (e.currentTarget.elements.namedItem('q') as HTMLInputElement)?.value
                 if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`
               }}
-              className="hidden md:flex items-center gap-2 bg-white/6 hover:bg-white/12 border border-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 transition-colors duration-150"
+              className="hidden md:flex items-center gap-2 rounded-full border border-border/40 bg-background/50 px-4 py-1.5 backdrop-blur-sm transition-colors focus-within:border-border"
             >
               <SearchIcon className="w-4 h-4 text-foreground/60 shrink-0" />
               <input
                 name="q"
                 type="text"
                 placeholder="Search"
-                className="bg-transparent text-sm font-display text-foreground placeholder:text-foreground/60 outline-none w-24 focus:w-32 transition-all duration-300"
+                className="w-28 max-w-40 bg-transparent text-sm font-display text-foreground placeholder:text-muted-foreground outline-none transition-[width] duration-200 focus:w-36"
                 aria-label="Cari konten"
               />
             </form>
@@ -142,16 +148,18 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             {/* Mobile: search icon link */}
             <Link
               href="/search"
-              className="md:hidden p-2 rounded-md text-foreground hover:bg-muted transition-colors"
+              className="md:hidden rounded-md p-2 text-foreground transition-opacity hover:opacity-70"
               aria-label="Pencarian"
             >
               <SearchIcon className="w-5 h-5" />
             </Link>
 
+            <HeaderAdminIcon />
+
             {/* Hamburger */}
             <button
               onClick={() => setMobileOpen((v) => !v)}
-              className="lg:hidden p-2 rounded-md text-foreground hover:bg-muted transition-colors"
+              className="lg:hidden rounded-md p-2 text-foreground transition-opacity hover:opacity-70"
               aria-label={mobileOpen ? 'Tutup menu' : 'Buka menu'}
               aria-expanded={mobileOpen}
             >
@@ -186,7 +194,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           {/* Close button */}
           <button
             onClick={() => setMobileOpen(false)}
-            className="absolute top-4 right-4 p-2 rounded-md text-white/70 hover:bg-white/10 transition-colors"
+            className="absolute top-4 right-4 rounded-md p-2 text-white/70 transition-opacity hover:opacity-100"
             aria-label="Tutup menu"
           >
             <XIcon className="w-5 h-5" />
@@ -208,15 +216,21 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                     key={i}
                     link={link}
                     dropdownItems={dropdownItems}
+                    pathname={pathname}
                   />
                 )
               }
+
+              const active = linkIsActive(pathname, link?.url)
 
               return (
                 <CMSLink
                   key={i}
                   {...link}
-                  className="block px-3 py-2.5 text-sm font-display font-medium text-white/80 hover:text-brand-gold hover:bg-white/8 rounded transition-colors"
+                  className={cn(
+                    'block rounded-md px-3 py-2.5 text-sm font-display transition-colors duration-200',
+                    active ? 'font-semibold text-white' : 'font-medium text-white/65 hover:text-white',
+                  )}
                   appearance="link"
                 />
               )
@@ -258,30 +272,43 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 const MobileDropdownItem: React.FC<{
   link: NavItemWithDropdown['link']
   dropdownItems: Array<{ link: NavItemWithDropdown['link'] }>
-}> = ({ link, dropdownItems }) => {
+  pathname: string
+}> = ({ link, dropdownItems, pathname }) => {
   const [open, setOpen] = useState(false)
+  const sectionActive = dropdownItems.some((di) => linkIsActive(pathname, di?.link?.url))
 
   return (
     <div>
       <button
+        type="button"
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-display font-medium text-white/80 hover:text-brand-gold hover:bg-white/8 rounded transition-colors"
+        className={cn(
+          'flex w-full items-center justify-between rounded-md px-3 py-2.5 text-left text-sm font-display transition-colors duration-200',
+          sectionActive || open ? 'font-semibold text-white' : 'font-medium text-white/65 hover:text-white',
+        )}
       >
         {link?.label || 'Menu'}
         <ChevronDown
-          className={cn('w-3.5 h-3.5 transition-transform duration-200', open && 'rotate-180')}
+          className={cn('size-3.5 shrink-0 opacity-60 transition-transform duration-200', open && 'rotate-180')}
+          aria-hidden
         />
       </button>
       {open && (
-        <div className="pl-4 mt-0.5 flex flex-col gap-0.5">
-          {dropdownItems.map((di, j) => (
-            <CMSLink
-              key={j}
-              {...di.link}
-              className="block px-3 py-2 text-sm font-display font-medium text-white/60 hover:text-brand-gold hover:bg-white/8 rounded transition-colors"
-              appearance="link"
-            />
-          ))}
+        <div className="mt-0.5 flex flex-col gap-0.5 pl-3">
+          {dropdownItems.map((di, j) => {
+            const childActive = linkIsActive(pathname, di?.link?.url)
+            return (
+              <CMSLink
+                key={j}
+                {...di.link}
+                className={cn(
+                  'block rounded-md px-3 py-2 text-sm font-display transition-colors duration-200',
+                  childActive ? 'font-semibold text-white' : 'font-medium text-white/55 hover:text-white',
+                )}
+                appearance="link"
+              />
+            )
+          })}
         </div>
       )}
     </div>

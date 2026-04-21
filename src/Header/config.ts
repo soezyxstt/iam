@@ -5,6 +5,9 @@ import { revalidateHeader } from './hooks/revalidateHeader'
 
 export const Header: GlobalConfig = {
   slug: 'header',
+  admin: {
+    group: 'Pengaturan situs',
+  },
   access: {
     read: () => true,
   },

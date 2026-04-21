@@ -23,6 +23,7 @@ import { KetuaIAM } from './collections/KetuaIAM'
 import { Kepengurusan } from './collections/Kepengurusan'
 import { Galeri } from './collections/Galeri'
 import { Komunitas } from './collections/Komunitas'
+import { AlumniMembers } from './collections/AlumniMembers'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -70,6 +71,8 @@ export default buildConfig({
       title: 'IAM ITB',
       titleSuffix: ' - IAM ITB',
     },
+    /** Light theme only — matches IAM admin styling in `app/(payload)/custom.scss`. */
+    theme: 'light',
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
@@ -92,6 +95,7 @@ export default buildConfig({
     Kepengurusan,
     Galeri,
     Komunitas,
+    AlumniMembers,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, ProfilOrganisasi],

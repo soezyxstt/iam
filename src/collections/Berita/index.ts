@@ -49,6 +49,7 @@ export const Berita: CollectionConfig<'posts'> = {
     },
   },
   admin: {
+    group: 'Konten & halaman',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>

@@ -15,7 +15,11 @@ export const UsahaAlumni: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'Directory & komunitas',
     useAsTitle: 'businessName',
+    description:
+      'Usaha yang terlihat di situs harus berstatus diterbitkan. Kiriman dari formulir “Pengajuan Usaha Alumni” masuk sebagai draf untuk ditinjau.',
+    defaultColumns: ['businessName', 'ownerName', '_status', 'updatedAt'],
   },
   versions: {
     drafts: true,
