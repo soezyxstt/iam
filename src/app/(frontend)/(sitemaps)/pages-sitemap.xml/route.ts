@@ -61,7 +61,7 @@ const getPagesSitemap = unstable_cache(
 
     // 5. Fetch Previous Chairs
     const chairs = await payload.find({
-      collection: 'ketuaIAM',
+      collection: 'iamPresidents',
       overrideAccess: false,
       depth: 0,
       limit: 1000,
