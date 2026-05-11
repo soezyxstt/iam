@@ -1,7 +1,5 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
+import { getServerSideURL } from '@/utilities/getURL'
 
 import type { Activity, JobVacancy } from '@/payload-types'
 import { defaultHeaderNavItems } from '@/config/defaultNav'
@@ -100,18 +98,17 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding media...`)
 
-  const __filename = fileURLToPath(import.meta.url)
-  const __dirname = path.dirname(__filename)
-  const mediaPath = path.resolve(__dirname, '../../../../public/media')
+  const baseUrl = getServerSideURL()
 
-  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer, motorBuffer, tanggaBuffer] = await Promise.all([
-    localFileLoader(path.join(mediaPath, 'image-post1.webp')),
-    localFileLoader(path.join(mediaPath, 'image-post2.webp')),
-    localFileLoader(path.join(mediaPath, 'image-post3.webp')),
-    localFileLoader(path.join(mediaPath, 'image-hero1.webp')),
-    localFileLoader(path.join(mediaPath, 'motor.jpeg')),
-    localFileLoader(path.join(mediaPath, 'tangga.jpg')),
-  ])
+  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer, motorBuffer, tanggaBuffer] =
+    await Promise.all([
+      fetchFileByURL(`${baseUrl}/media/image-post1.webp`),
+      fetchFileByURL(`${baseUrl}/media/image-post2.webp`),
+      fetchFileByURL(`${baseUrl}/media/image-post3.webp`),
+      fetchFileByURL(`${baseUrl}/media/image-hero1.webp`),
+      fetchFileByURL(`${baseUrl}/media/motor.jpeg`),
+      fetchFileByURL(`${baseUrl}/media/tangga.jpg`),
+    ])
 
   const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc, motorDoc, tanggaDoc] = await Promise.all([
     payload.create({
@@ -431,20 +428,22 @@ export const seed = async ({
   payload.logger.info('Seeded database successfully!')
 }
 
-async function localFileLoader(filePath: string): Promise<File> {
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Seed file not found: ${filePath}`)
+async function fetchFileByURL(url: string): Promise<File> {
+  const res = await fetch(url)
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch file from ${url}, status: ${res.status}`)
   }
 
-  const data = fs.readFileSync(filePath)
-  const name = path.basename(filePath)
-  const ext = path.extname(filePath).slice(1)
+  const data = await res.arrayBuffer()
+  const name = url.split('/').pop() || `file-${Date.now()}`
+  const ext = name.split('.').pop() || 'jpg'
 
   return {
     name,
-    data,
+    data: Buffer.from(data),
     mimetype: ext === 'webp' ? 'image/webp' : ext === 'png' ? 'image/png' : 'image/jpeg',
-    size: data.length,
+    size: data.byteLength,
   }
 }
 
