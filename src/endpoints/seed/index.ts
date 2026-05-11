@@ -1,4 +1,7 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 import type { Activity, JobVacancy } from '@/payload-types'
 import { defaultHeaderNavItems } from '@/config/defaultNav'
@@ -97,22 +100,20 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding media...`)
 
-  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post1.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post2.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post3.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-hero1.webp',
-    ),
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = path.dirname(__filename)
+  const mediaPath = path.resolve(__dirname, '../../../../public/media')
+
+  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer, motorBuffer, tanggaBuffer] = await Promise.all([
+    localFileLoader(path.join(mediaPath, 'image-post1.webp')),
+    localFileLoader(path.join(mediaPath, 'image-post2.webp')),
+    localFileLoader(path.join(mediaPath, 'image-post3.webp')),
+    localFileLoader(path.join(mediaPath, 'image-hero1.webp')),
+    localFileLoader(path.join(mediaPath, 'motor.jpeg')),
+    localFileLoader(path.join(mediaPath, 'tangga.jpg')),
   ])
 
-  const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
+  const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc, motorDoc, tanggaDoc] = await Promise.all([
     payload.create({
       collection: 'users',
       data: {
@@ -140,6 +141,16 @@ export const seed = async ({
       collection: 'media',
       data: imageHero1,
       file: hero1Buffer,
+    }),
+    payload.create({
+      collection: 'media',
+      data: { alt: 'Motor' },
+      file: motorBuffer,
+    }),
+    payload.create({
+      collection: 'media',
+      data: { alt: 'Tangga' },
+      file: tanggaBuffer,
     }),
     categories.map((category) =>
       payload.create({
@@ -251,6 +262,7 @@ export const seed = async ({
         slug: 'reuni-akbar',
         date: '2025-08-15T12:00:00.000Z',
         activityType: 'reuni',
+        heroImage: motorDoc.id,
         description: plainTextToLexicalRoot(
           'Silaturahmi lintas angkatan dan pembentukan jaringan profesional.',
         ) as NonNullable<Activity['description']>,
@@ -266,6 +278,7 @@ export const seed = async ({
         slug: 'pulang-kampus',
         date: '2025-09-01T12:00:00.000Z',
         activityType: 'pulang_kampus',
+        heroImage: tanggaDoc.id,
         description: plainTextToLexicalRoot(
           'Berbagi pengalaman dengan mahasiswa teknik mesin ITB.',
         ) as NonNullable<Activity['description']>,
@@ -416,6 +429,23 @@ export const seed = async ({
   ])
 
   payload.logger.info('Seeded database successfully!')
+}
+
+async function localFileLoader(filePath: string): Promise<File> {
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Seed file not found: ${filePath}`)
+  }
+
+  const data = fs.readFileSync(filePath)
+  const name = path.basename(filePath)
+  const ext = path.extname(filePath).slice(1)
+
+  return {
+    name,
+    data,
+    mimetype: ext === 'webp' ? 'image/webp' : ext === 'png' ? 'image/png' : 'image/jpeg',
+    size: data.length,
+  }
 }
 
 async function fetchFileByURL(url: string): Promise<File> {

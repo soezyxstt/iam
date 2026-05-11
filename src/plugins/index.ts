@@ -117,6 +117,9 @@ export const plugins: Plugin[] = [
             // Fail fast if file not found to prevent Next.js timeouts
             maxAttempts: 1,
           },
+          generateFileURL: ({ filename }) => {
+            return `https://${process.env.S3_BUCKET}.06d62d8a9335fed189a6a59fda0a4f48.r2.cloudflarestorage.com/${filename}`
+          },
         }),
       ]
     : []),
