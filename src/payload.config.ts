@@ -1,3 +1,4 @@
+import { resendAdapter } from '@payloadcms/email-resend'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import sharp from 'sharp'
 import path from 'path'
@@ -22,6 +23,7 @@ import { Sponsor } from './collections/Sponsor'
 import { KetuaIAM } from './collections/KetuaIAM'
 import { Kepengurusan } from './collections/Kepengurusan'
 import { Galeri } from './collections/Galeri'
+import { GaleriKategori } from './collections/GaleriKategori'
 import { Komunitas } from './collections/Komunitas'
 import { AlumniMembers } from './collections/AlumniMembers'
 
@@ -94,11 +96,17 @@ export default buildConfig({
     KetuaIAM,
     Kepengurusan,
     Galeri,
+    GaleriKategori,
     Komunitas,
     AlumniMembers,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, ProfilOrganisasi],
+  email: resendAdapter({
+    defaultFromAddress: process.env.EMAIL_FROM_ADDRESS || 'onboarding@resend.dev',
+    defaultFromName: process.env.EMAIL_FROM_NAME || 'IAM ITB',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

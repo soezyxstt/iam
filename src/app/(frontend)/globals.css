@@ -281,7 +281,57 @@ html[data-theme='light'] {
   );
 }
 
-/* Glass-framed image cards (Program section) */
+/*
+  Article body on page-root stays light while the UI theme may be dark; dark:prose-invert
+  maps body text to --tw-prose-invert-* (light gray). Force editorial “ink on paper” for
+  post detail + any nested RichText (e.g. media captions).
+*/
+.post-detail .payload-richtext.prose {
+  color: #253041;
+  --tw-prose-body: #253041;
+  --tw-prose-headings: #06162f;
+  --tw-prose-lead: #445e86;
+  --tw-prose-links: #253041;
+  --tw-prose-bold: #06162f;
+  --tw-prose-counters: #445e86;
+  --tw-prose-bullets: #556d8f;
+  --tw-prose-hr: #d9d9d9;
+  --tw-prose-quotes: #445e86;
+  --tw-prose-quote-borders: #f0d637;
+  --tw-prose-captions: #5c6f8c;
+  --tw-prose-kbd: #06162f;
+  --tw-prose-kbd-shadows: rgb(6 22 47 / 12%);
+  --tw-prose-code: #06162f;
+  --tw-prose-pre-code: #f4ede1;
+  --tw-prose-pre-bg: #253041;
+  --tw-prose-th-borders: #d9d9d9;
+  --tw-prose-td-borders: #e5e2d9;
+  /* When dark:prose-invert is active, these feed the same resolved tokens */
+  --tw-prose-invert-body: #253041;
+  --tw-prose-invert-headings: #06162f;
+  --tw-prose-invert-lead: #445e86;
+  --tw-prose-invert-links: #253041;
+  --tw-prose-invert-bold: #06162f;
+  --tw-prose-invert-counters: #445e86;
+  --tw-prose-invert-bullets: #556d8f;
+  --tw-prose-invert-hr: #d9d9d9;
+  --tw-prose-invert-quotes: #445e86;
+  --tw-prose-invert-quote-borders: #f0d637;
+  --tw-prose-invert-captions: #5c6f8c;
+  --tw-prose-invert-kbd: #06162f;
+  --tw-prose-invert-kbd-shadows: rgb(6 22 47 / 12%);
+  --tw-prose-invert-code: #06162f;
+  --tw-prose-invert-pre-code: #f4ede1;
+  --tw-prose-invert-pre-bg: #253041;
+  --tw-prose-invert-th-borders: #d9d9d9;
+  --tw-prose-invert-td-borders: #e5e2d9;
+}
+
+.post-detail .payload-richtext.prose :where(a:hover) {
+  color: #06162f;
+}
+
+/* Glass-framed image cards (Aktivitas section) */
 .glass-card-frame {
   background: linear-gradient(
     135deg,
@@ -371,22 +421,12 @@ html[data-theme='light'] {
 
 /* Reworked editorial berita item cards */
 .berita-item-card {
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.22),
     0 0 0 1px rgba(255, 255, 255, 0.07) inset;
 }
 
 .berita-item-card:hover {
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.09) 0%,
-    rgba(255, 255, 255, 0.04) 100%
-  );
   box-shadow:
     0 16px 48px rgba(0, 0, 0, 0.30),
     0 0 0 1px rgba(240, 214, 55, 0.15) inset;

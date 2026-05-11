@@ -87,10 +87,12 @@ export function GaleriGroupNav({ items }: GaleriGroupNavProps) {
           )}
         >
           <div className="min-w-0 flex-1">
-            <p className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-gold">
+            <p className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red-light">
               Album kegiatan
             </p>
-            <p className="mt-1 truncate font-display text-sm font-medium text-white">{activeTitle}</p>
+            <p className="mt-1 truncate font-display text-sm font-medium text-white">
+              {activeTitle}
+            </p>
           </div>
           <ChevronDown
             className={cn(
@@ -118,7 +120,7 @@ export function GaleriGroupNav({ items }: GaleriGroupNavProps) {
                 'bg-brand-dark/95 shadow-2xl backdrop-blur-2xl',
               )}
             >
-              <p className="border-b border-white/10 px-4 py-2.5 font-display text-xs text-white/60">
+              <p className="border-b border-white/10 px-4 py-2.5 font-display text-xs text-white/75">
                 Lompat ke bagian di bawah.
               </p>
               <ul
@@ -155,12 +157,12 @@ export function GaleriGroupNav({ items }: GaleriGroupNavProps) {
         )}
       </div>
 
-      {/* Desktop: sidebar */}
+      {/* Desktop: light bg = brand red like landing hero / Program accent; dark theme = lighter red */}
       <div className="hidden lg:block">
-        <p className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-gold">
+        <p className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red dark:text-brand-red-light">
           Album kegiatan
         </p>
-        <p className="mt-2 max-w-[16rem] font-display text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-2 max-w-[16rem] font-display text-xs leading-relaxed text-brand-dark/85 dark:text-muted-foreground">
           Lompat ke bagian di bawah.
         </p>
 

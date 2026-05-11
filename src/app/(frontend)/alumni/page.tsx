@@ -1,123 +1,110 @@
-import type { Metadata } from 'next'
-import Image from 'next/image'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 import React from 'react'
-
-import { PageShell } from '@/components/PageShell'
-import { ScrollReveal } from '@/components/ScrollReveal'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 import { Section } from '@/components/ui/section'
-import { Heading, Text } from '@/components/ui/typography'
+import { Heading, Text, Eyebrow } from '@/components/ui/typography'
+import { Media } from '@/components/Media'
+import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Direktori Alumni',
-  description: 'Alumni Teknik Mesin ITB yang memilih menampilkan profil di situs IAM ITB.',
+  title: 'Direktori Alumni | IAM ITB',
+  description: 'Basis data alumni Teknik Mesin ITB.',
 }
 
-export default async function AlumniDirectoryPage() {
+export default async function AlumniPage() {
   const payload = await getPayload({ config: configPromise })
-  const { docs } = await payload.find({
+  
+  const alumniData = await payload.find({
     collection: 'alumniMembers',
-    depth: 1,
-    limit: 500,
-    overrideAccess: false,
-    sort: '-graduationYear',
     where: {
       listPublicly: {
         equals: true,
       },
     },
+    overrideAccess: false,
+    limit: 500, // Or implement pagination
+    sort: '-graduationYear',
   })
 
   return (
-    <PageShell>
-      <Section className="z-10" containerClassName="max-w-6xl px-4 md:px-8">
-        <ScrollReveal>
-          <header className="mb-10 border-b border-brand-dark/10 pb-8 md:mb-14">
-            <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
-              Jaringan
-            </span>
-            <Heading level={1} className="mt-2">
-              Direktori Alumni
-            </Heading>
-            <Text className="mt-3 max-w-2xl text-brand-light">
-              Profil ditampilkan atas persetujuan masing-masing dan dikelola oleh pengurus IAM ITB.
-            </Text>
-          </header>
+    <main className="min-h-screen pt-24 pb-12 bg-brand-primary overflow-hidden">
+      {/* Decorative Background */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20 z-0">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-brand-red rounded-full blur-3xl mix-blend-multiply" />
+        <div className="absolute top-40 -left-40 w-96 h-96 bg-brand-gold rounded-full blur-3xl mix-blend-multiply" />
+      </div>
 
-          {docs.length === 0 ? (
-            <Text className="text-brand-light">Belum ada profil publik. Silakan cek lagi nanti.</Text>
-          ) : (
-            <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {docs.map((alumnus) => {
-                const photo =
-                  typeof alumnus.photo === 'object' && alumnus.photo !== null && 'url' in alumnus.photo
-                    ? alumnus.photo
-                    : null
+      <Section className="py-12 md:py-24 relative z-10">
+        <div className="max-w-3xl mb-16 text-center mx-auto">
+          <Eyebrow tone="gold" className="mb-4">
+            Jaringan Alumni
+          </Eyebrow>
+          <Heading level={1} tone="inverse" className="mb-6">
+            Direktori Alumni
+          </Heading>
+          <Text variant="lead" tone="light">
+            Temukan dan jalin koneksi dengan sesama alumni Teknik Mesin ITB dari berbagai angkatan dan profesi di seluruh dunia.
+          </Text>
+        </div>
 
-                return (
-                  <li key={alumnus.id}>
-                    <article className="flex h-full flex-col rounded-2xl border border-brand-dark/10 bg-white p-5 shadow-sm">
-                      <div className="flex items-start gap-4">
-                        {photo?.url ? (
-                          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-brand-dark/10">
-                            <Image
-                              src={photo.url}
-                              alt={alumnus.fullName}
-                              fill
-                              className="object-cover"
-                              sizes="64px"
-                            />
-                          </div>
-                        ) : (
-                          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-dashed border-brand-dark/15 bg-brand-khaki/40 font-display text-lg font-bold text-brand-light">
-                            {alumnus.fullName.slice(0, 1).toUpperCase()}
-                          </div>
-                        )}
-                        <div className="min-w-0">
-                          <Heading level={3} className="text-lg">
-                            {alumnus.fullName}
-                          </Heading>
-                          {alumnus.graduationYear ? (
-                            <p className="font-display text-[10px] font-semibold uppercase tracking-wider text-brand-light">
-                              Angkatan {alumnus.graduationYear}
-                            </p>
-                          ) : null}
-                        </div>
-                      </div>
-                      {alumnus.headline ? (
-                        <p className="mt-3 text-sm font-medium text-brand-dark">{alumnus.headline}</p>
-                      ) : null}
-                      {(alumnus.employer || alumnus.role) && (
-                        <p className="mt-2 text-sm text-brand-light">
-                          {[alumnus.role, alumnus.employer].filter(Boolean).join(' · ')}
-                        </p>
-                      )}
-                      {alumnus.bio ? (
-                        <p className="mt-3 line-clamp-4 text-sm text-brand-light">{alumnus.bio}</p>
-                      ) : null}
-                      {alumnus.linkedInUrl ? (
-                        <a
-                          href={
-                            alumnus.linkedInUrl.startsWith('http')
-                              ? alumnus.linkedInUrl
-                              : `https://${alumnus.linkedInUrl}`
-                          }
-                          className="mt-4 text-sm font-semibold text-brand-red hover:underline"
-                          target="_blank"
-                          rel="noreferrer noopener"
-                        >
-                          LinkedIn
-                        </a>
-                      ) : null}
-                    </article>
-                  </li>
-                )
-              })}
-            </ul>
+        {/* Dynamic Avatar Gallery */}
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 max-w-6xl mx-auto">
+          {alumniData.docs.map((alumni) => {
+            const photo = typeof alumni.photo === 'object' && alumni.photo !== null ? alumni.photo : null
+            const hasLink = !!alumni.linkedInUrl
+
+            const cardContent = (
+              <div className="group relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full cursor-pointer transition-transform duration-500 hover:scale-110 hover:z-20">
+                <div className="w-full h-full rounded-full overflow-hidden border-4 border-brand-primary/50 shadow-lg bg-brand-khaki flex items-center justify-center">
+                  {photo ? (
+                    <Media resource={photo} fill className="object-cover" />
+                  ) : (
+                    <span className="text-4xl font-bold text-brand-primary/20">
+                      {alumni.fullName.charAt(0)}
+                    </span>
+                  )}
+                </div>
+                
+                {/* Hover Tooltip / Info Card */}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-48 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-30 scale-95 group-hover:scale-100">
+                  <div className="bg-white text-brand-primary p-4 rounded-xl shadow-2xl relative">
+                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45" />
+                    <Heading level={4} tone="default" className="text-sm mb-1 relative z-10 text-center">
+                      {alumni.fullName}
+                    </Heading>
+                    <Text variant="small" tone="muted" className="text-center block mb-1">
+                      M {alumni.graduationYear}
+                    </Text>
+                    {(alumni.headline || alumni.employer) && (
+                      <Text variant="small" tone="default" className="text-center font-semibold border-t pt-2 mt-2">
+                        {alumni.headline} {alumni.employer ? `@ ${alumni.employer}` : ''}
+                      </Text>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )
+
+            if (hasLink) {
+              return (
+                <a key={alumni.id} href={alumni.linkedInUrl as string} target="_blank" rel="noopener noreferrer" className="block relative z-10 hover:z-20">
+                  {cardContent}
+                </a>
+              )
+            }
+
+            return <div key={alumni.id} className="relative z-10 hover:z-20">{cardContent}</div>
+          })}
+          
+          {alumniData.docs.length === 0 && (
+            <div className="text-center py-24 w-full">
+              <Text variant="body" tone="light">
+                Belum ada data alumni yang dipublikasikan.
+              </Text>
+            </div>
           )}
-        </ScrollReveal>
+        </div>
       </Section>
-    </PageShell>
+    </main>
   )
 }

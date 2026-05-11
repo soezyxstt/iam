@@ -66,7 +66,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="font-sans antialiased bg-white text-foreground min-h-screen flex flex-col">
         <Providers>
           <Header />
-          {/* pt accounts for fixed header height (~56px) */}
+          {/* pt accounts for fixed header; match PageShell inner pages */}
           {children}
           <Footer />
         </Providers>

@@ -1,12 +1,14 @@
-import * as React from 'react'
+import Image from 'next/image'
 
 const Logo: React.FC = () => {
   return (
     <div className="admin-brand-logo" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <img
+      <Image
         src="/logo.png"
         alt="Logo Ikatan Alumni Mahasiswa Teknik Mesin ITB"
-        style={{ height: 32, width: 'auto' }}
+        height={32}
+        width={32}
+        style={{ width: 'auto' }}
       />
       <span style={{ fontWeight: 600 }}>IAM ITB</span>
     </div>

@@ -17,13 +17,28 @@ export const Sponsor: CollectionConfig = {
   admin: {
     group: 'Organisasi & kegiatan',
     useAsTitle: 'companyName',
-    defaultColumns: ['companyName', 'supportPeriod', 'updatedAt'],
+    defaultColumns: ['companyName', 'category', 'supportPeriod', 'updatedAt'],
   },
   fields: [
     {
       name: 'companyName',
       label: 'Nama Perusahaan',
       type: 'text',
+      required: true,
+    },
+    {
+      name: 'category',
+      label: 'Kategori Sponsor',
+      type: 'select',
+      options: [
+        { label: 'Platinum', value: 'platinum' },
+        { label: 'Gold', value: 'gold' },
+        { label: 'Silver', value: 'silver' },
+        { label: 'Bronze', value: 'bronze' },
+        { label: 'Media Partner', value: 'media_partner' },
+        { label: 'Lainnya', value: 'other' },
+      ],
+      defaultValue: 'other',
       required: true,
     },
     {

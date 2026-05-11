@@ -4,8 +4,9 @@ import React from 'react'
 
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
-import { Heading, Text } from '@/components/ui/typography'
+import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
+import { Heading } from '@/components/ui/typography'
 import { KepengurusanBoard } from './KepengurusanBoard'
 
 export const metadata: Metadata = {
@@ -13,67 +14,166 @@ export const metadata: Metadata = {
   description: 'Organogram dan struktur kepengurusan IAM ITB.',
 }
 
-const ORG_PLACEHOLDER_LINES = [0, 1, 2].map((i) => (
-  <div
-    key={i}
-    className="h-px w-full bg-white/20"
-    style={{ opacity: 0.35 + i * 0.2 }}
-  />
-))
+const OrgNode = ({ role, name }: { role: string; name: string }) => (
+  <div className="flex flex-col items-center relative z-10 group">
+    <div className="w-2 h-2 rounded-full bg-brand-gold shadow-[0_0_8px_rgba(240,214,55,0.6)] mb-2 transition-transform duration-300 group-hover:scale-125" />
+    <span className="font-display text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] text-brand-gold text-center">
+      {role}
+    </span>
+    <span className="font-sans text-sm md:text-[15px] font-medium text-white mt-1 text-center max-w-[140px] leading-snug">
+      {name}
+    </span>
+  </div>
+)
+
+const VertLine = ({ h = 'h-10' }: { h?: string }) => (
+  <div className={`w-px ${h} bg-white/20`} />
+)
 
 const TEAM = [
   {
-    src: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80',
-    name: 'Adi Haditya Nursyam',
-    role: 'Ketua',
+    src: 'https://ui-avatars.com/api/?name=Bagus+Setyawan&background=0A1628&color=C9A84C&size=400',
+    name: 'Bagus Setyawan',
+    role: 'Ketua Umum',
   },
   {
-    src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80',
-    name: 'Budi Santoso',
-    role: 'Wakil Ketua',
+    src: 'https://ui-avatars.com/api/?name=Rina+Kusuma&background=0A1628&color=C9A84C&size=400',
+    name: 'Rina Kusuma',
+    role: 'Wakil Ketua 1',
   },
   {
-    src: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80',
-    name: 'Citra Lestari',
-    role: 'Sekretaris',
+    src: 'https://ui-avatars.com/api/?name=Tirta+Wijaya&background=0A1628&color=C9A84C&size=400',
+    name: 'Tirta Wijaya',
+    role: 'Wakil Ketua 2',
   },
   {
-    src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80',
-    name: 'Dedi Kurniawan',
-    role: 'Bendahara',
+    src: 'https://ui-avatars.com/api/?name=Dina+Mariana&background=0A1628&color=C9A84C&size=400',
+    name: 'Dina Mariana',
+    role: 'Sekretaris Umum',
+  },
+  {
+    src: 'https://ui-avatars.com/api/?name=Fajar+Hidayat&background=0A1628&color=C9A84C&size=400',
+    name: 'Fajar Hidayat',
+    role: 'Bendahara Umum',
+  },
+  {
+    src: 'https://ui-avatars.com/api/?name=Dimas+Anggara&background=0A1628&color=C9A84C&size=400',
+    name: 'Dimas Anggara',
+    role: 'Koordinator Internal',
+  },
+  {
+    src: 'https://ui-avatars.com/api/?name=Siti+Nurbaya&background=0A1628&color=C9A84C&size=400',
+    name: 'Siti Nurbaya',
+    role: 'Koordinator Eksternal',
+  },
+  {
+    src: 'https://ui-avatars.com/api/?name=Reza+Fahlevi&background=0A1628&color=C9A84C&size=400',
+    name: 'Reza Fahlevi',
+    role: 'Koordinator Aktivitas',
   },
 ]
 
 export default function KepengurusanPage() {
   return (
     <PageShell>
-      <Section className="z-10 pb-8" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pb-8 pt-3 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
         <ScrollReveal>
-          <Heading level={1} className="text-center">
-            Organogram
-          </Heading>
-          <Text className="mt-3 text-center font-display text-base text-brand-light md:text-lg">
-            Kepengurusan IAM ITB
-          </Text>
+          <PageHeroHeader title="Organogram" subtitle="Kepengurusan IAM ITB" />
         </ScrollReveal>
       </Section>
 
-      {/* Organogram placeholder: full-width band, no rounded card frame */}
-      <section className="relative z-10 mb-16 md:mb-20">
-        <div className="border-y border-white/10 bg-linear-to-b from-brand-primary via-brand-dark to-[#03060c]">
-          <div className="mx-auto max-w-6xl px-4 py-14 md:px-8 md:py-20">
+      {/* Organogram Tree Section */}
+      <section className="relative z-10 mb-16 md:mb-20 overflow-hidden">
+        <div className="relative border-y border-white/10 bg-linear-to-b from-brand-primary via-brand-dark to-[#03060c]">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/[0.04] via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none" />
+          
+          <div className="relative z-10 mx-auto max-w-6xl px-4 py-14 md:px-8 md:py-20">
             <ScrollReveal>
-              <div className="flex min-h-[260px] flex-col md:min-h-[300px]">
-                <div className="flex items-start justify-between gap-6 border-b border-white/10 pb-8">
-                  <div className="relative h-11 w-11 md:h-14 md:w-14">
-                    <Image src="/logo.png" alt="" fill className="object-contain opacity-95" />
+              <div className="flex flex-col">
+                <div className="flex items-start justify-between gap-6 pb-12">
+                  <div className="relative h-11 w-11 md:h-14 md:w-14 shrink-0">
+                    <Image src="/logo.png" alt="Logo IAM ITB" fill className="object-contain opacity-95" />
                   </div>
-                  <div className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-gold">
+                  <div className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-gold mt-2">
                     Struktur
                   </div>
                 </div>
-                <div className="flex flex-1 flex-col justify-center gap-8 py-12 md:gap-10 md:py-16">
-                  {ORG_PLACEHOLDER_LINES}
+
+                <div className="w-full overflow-x-auto pb-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                  <div className="min-w-[800px] flex flex-col items-center">
+                    
+                    {/* 1. KETUA */}
+                    <OrgNode role="Ketua Umum" name="Adi Haditya Nursyam" />
+                    
+                    <VertLine h="h-10" />
+
+                    {/* 2. WAKIL KETUA */}
+                    <div className="relative flex justify-center w-[460px]">
+                      <div className="absolute top-0 left-[20%] right-[20%] h-px bg-white/20" />
+                      
+                      <div className="flex-1 flex flex-col items-center">
+                        <div className="w-px h-4 bg-white/20" />
+                        <OrgNode role="Wakil Ketua Internal" name="Budi Santoso" />
+                      </div>
+                      
+                      <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/20 -translate-x-1/2" />
+
+                      <div className="flex-1 flex flex-col items-center">
+                        <div className="w-px h-4 bg-white/20" />
+                        <OrgNode role="Wakil Ketua Eksternal" name="Diana Putri" />
+                      </div>
+                    </div>
+
+                    <VertLine h="h-10" />
+
+                    {/* 3. SEK & BEN */}
+                    <div className="relative flex justify-center w-[660px]">
+                      <div className="absolute top-0 left-[20%] right-[20%] h-px bg-white/20" />
+                      
+                      <div className="flex-1 flex flex-col items-center">
+                        <div className="w-px h-4 bg-white/20" />
+                        <OrgNode role="Sekretaris Umum" name="Citra Lestari" />
+                      </div>
+
+                      <div className="absolute top-0 bottom-0 left-1/2 w-px bg-white/20 -translate-x-1/2" />
+
+                      <div className="flex-1 flex flex-col items-center">
+                        <div className="w-px h-4 bg-white/20" />
+                        <OrgNode role="Bendahara Umum" name="Dedi Kurniawan" />
+                      </div>
+                    </div>
+
+                    <VertLine h="h-12" />
+
+                    {/* 4. DEWANS */}
+                    <div className="relative flex justify-center w-full max-w-4xl">
+                      <div className="absolute top-0 left-[12.5%] right-[12.5%] h-px bg-white/20" />
+                      
+                      {['A', 'B', 'C', 'D'].map((d) => (
+                        <div key={d} className="flex-1 flex flex-col items-center">
+                          <div className="w-px h-4 bg-white/20" />
+                          <OrgNode role={`Dewan ${d}`} name={`Ketua Dewan ${d}`} />
+                          
+                          <div className="w-px h-6 bg-white/20" />
+                          <div className="relative w-full max-w-[160px] flex flex-col gap-4 py-2">
+                            <div className="absolute top-0 bottom-4 left-4 w-px bg-white/20" />
+                            
+                            {[1, 2, 3, 4].map((b) => (
+                              <div key={b} className="relative flex items-center pl-8 text-left group cursor-default">
+                                <div className="absolute left-4 top-1/2 w-3 h-px bg-white/20 transition-colors group-hover:bg-brand-gold/50" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/60 mr-3 shrink-0 transition-transform group-hover:scale-125" />
+                                <span className="font-sans text-[13px] font-medium text-white/80 transition-colors group-hover:text-white">
+                                  Bidang {b}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
@@ -112,19 +212,19 @@ export default function KepengurusanPage() {
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           {TEAM.map((member) => (
             <ScrollReveal key={member.name}>
-              <div className="group">
-                <div className="relative aspect-3/4 overflow-hidden bg-muted">
+              <div className="group block cursor-default">
+                <div className="relative aspect-3/4 overflow-hidden rounded-[4px] bg-brand-khaki">
                   <Image
                     src={member.src}
                     alt={member.name}
                     fill
-                    className="object-cover grayscale-[0.15] transition-[filter,transform] duration-700 group-hover:scale-[1.02] group-hover:grayscale-0"
-                    sizes="(max-width: 640px) 100vw, 25vw"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
-                <div className="mt-5 border-t border-brand-dark/10 pt-4">
+                <div className="mt-4 transition-transform duration-500 ease-out group-hover:-translate-y-1">
                   <p className="font-serif text-lg font-bold text-brand-dark">{member.name}</p>
-                  <p className="mt-1 font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-red">
+                  <p className="mt-1 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-brand-red">
                     {member.role}
                   </p>
                 </div>

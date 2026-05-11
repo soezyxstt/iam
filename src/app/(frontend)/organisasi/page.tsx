@@ -1,13 +1,16 @@
 import Image from 'next/image'
-import { Handshake, Lightbulb, UserRound } from 'lucide-react'
+import Link from 'next/link'
+import { ChevronRight, Handshake, Lightbulb } from 'lucide-react'
 import type { Metadata } from 'next'
 import React from 'react'
 
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
-import { Button } from '@/components/ui/button'
-import { Heading, Text } from '@/components/ui/typography'
+import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
+import { Eyebrow, Heading, Text } from '@/components/ui/typography'
+
+import { PREVIOUS_CHAIR_ENTRIES } from './previous-chairs-data'
 
 export const metadata: Metadata = {
   title: 'Organisasi',
@@ -21,54 +24,56 @@ const PLACEHOLDER_BODY =
 const FOREWORD_AVATAR =
   'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80'
 
-const PREVIOUS_CHAIRS = [
-  { name: 'Adi Haditya Nursyam', period: 'Periode 2025–2026' },
-  { name: 'Adi Haditya Nursyam', period: 'Periode 2024–2025' },
-  { name: 'Adi Haditya Nursyam', period: 'Periode 2023–2024' },
-  { name: 'Adi Haditya Nursyam', period: 'Periode 2022–2023' },
-]
-
 export default function OrganisasiPage() {
   return (
     <PageShell>
+      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
+        <ScrollReveal>
+          <PageHeroHeader title="Organisasi" subtitle="Ikatan Alumni Mesin ITB" />
+        </ScrollReveal>
+      </Section>
+
       {/* Kata Pengantar — editorial split, no card chrome */}
       <Section
-        className="z-10 pb-12 md:pb-20"
+        className="z-10 pt-0 pb-12 md:pt-0 md:pb-20"
         containerClassName="max-w-6xl px-4 md:px-8"
       >
         <ScrollReveal>
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-0">
-            <div className="relative lg:col-span-5 lg:pr-10">
-              <div className="absolute -left-4 top-0 hidden h-32 w-px bg-brand-red/35 lg:block" aria-hidden />
-              <div className="relative mx-auto max-w-[280px] lg:mx-0 lg:max-w-none">
-                <div className="relative aspect-3/4 w-full max-w-[260px] overflow-hidden lg:max-w-none">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-x-0 lg:gap-y-0">
+            <div className="flex flex-col items-center lg:col-span-3 lg:items-end lg:pr-7">
+              <div className="relative w-full max-w-[200px] sm:max-w-[220px] lg:w-[220px] lg:max-w-none lg:shrink-0">
+                <div
+                  className="absolute -left-3 top-0 hidden h-30 w-px bg-brand-red/35 lg:block"
+                  aria-hidden
+                />
+                <div className="relative aspect-4/5 w-full overflow-hidden">
                   <Image
                     src={FOREWORD_AVATAR}
                     alt="Ketua IAM ITB"
                     fill
                     className="object-cover"
-                    sizes="(max-width: 1024px) 280px, 40vw"
+                    sizes="(max-width: 640px) 200px, 220px"
                     priority
                   />
                 </div>
-                <div className="mt-8 border-t border-brand-dark/15 pt-6">
-                  <p className="font-serif text-2xl font-bold tracking-tight text-brand-dark">Adi Haditya</p>
-                  <p className="mt-1 font-display text-xs font-semibold uppercase tracking-[0.2em] text-brand-light">
+                <div className="mt-7 border-t border-brand-dark/15 pt-6">
+                  <Text tone="strong" className="font-serif text-xl font-bold tracking-tight sm:text-[1.35rem]">
+                    Adi Haditya
+                  </Text>
+                  <Eyebrow tone="muted" className="mt-2 tracking-[0.2em]">
                     Ketua IAM ITB
-                  </p>
+                  </Eyebrow>
                 </div>
               </div>
             </div>
-            <div className="relative lg:col-span-7 lg:border-l lg:border-brand-dark/10 lg:pl-12 lg:pt-2">
-              <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
-                Pembukaan
-              </span>
-              <Heading level={2} className="mt-3 mb-8">
+            <div className="relative lg:col-span-9 lg:border-l lg:border-brand-dark/12 lg:pl-8 lg:pr-2 lg:pt-1 xl:pl-10">
+              <Eyebrow tone="red">Pembukaan</Eyebrow>
+              <Heading level={2} className="mt-3 mb-7 md:mb-8">
                 Kata Pengantar
               </Heading>
-              <div className="flex max-w-2xl flex-col gap-5">
-                <Text className="text-[15px] leading-[1.75]">{PLACEHOLDER_BODY}</Text>
-                <Text className="text-[15px] leading-[1.75]">{PLACEHOLDER_BODY}</Text>
+              <div className="flex flex-col gap-6 max-w-prose mx-auto lg:mx-0">
+                <Text variant="editorial" className="leading-loose">{PLACEHOLDER_BODY}</Text>
+                <Text variant="editorial" className="leading-loose">{PLACEHOLDER_BODY}</Text>
               </div>
             </div>
           </div>
@@ -80,15 +85,13 @@ export default function OrganisasiPage() {
         <div className="absolute inset-0 bg-linear-to-br from-brand-dark via-brand-primary to-brand-dark" />
         <div className="relative mx-auto max-w-6xl px-4 md:px-8">
           <ScrollReveal className="max-w-2xl">
-            <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-gold">
-              Arah organisasi
-            </span>
+            <Eyebrow tone="gold">Arah organisasi</Eyebrow>
             <Heading level={2} tone="inverse" className="mt-3">
               Visi dan Misi
             </Heading>
-            <p className="mt-4 font-display text-sm font-medium text-brand-gold/90">
+            <Text variant="editorial" tone="accent" className="mt-4 font-display font-medium">
               Lorem Ipsum Dolor Sit Amet
-            </p>
+            </Text>
           </ScrollReveal>
 
           <div className="mt-16 grid grid-cols-1 gap-12 border-t border-white/15 pt-12 lg:grid-cols-2 lg:gap-0 lg:border-t-0 lg:pt-0">
@@ -116,10 +119,10 @@ export default function OrganisasiPage() {
                       strokeWidth={1.5}
                       aria-hidden
                     />
-                    <span className="font-serif text-3xl font-bold text-white md:text-4xl">{item.title}</span>
+                    <Heading level={2} tone="inverse" className="text-3xl md:text-4xl">{item.title}</Heading>
                   </div>
                   <div className="mt-6 h-px w-12 bg-brand-gold/55" />
-                  <Text tone="inverse" className="mt-6 max-w-prose text-[15px] leading-[1.75] text-white/72">
+                  <Text variant="editorial" tone="inverse" className="mt-6 max-w-prose text-white/72 leading-loose">
                     {item.body}
                   </Text>
                 </div>
@@ -134,15 +137,13 @@ export default function OrganisasiPage() {
         <ScrollReveal>
           <div className="flex flex-col gap-14 lg:flex-row lg:items-start lg:justify-between lg:gap-20">
             <div className="max-w-xl lg:max-w-[52%]">
-              <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
-                Konteks
-              </span>
+              <Eyebrow tone="red">Konteks</Eyebrow>
               <Heading level={2} className="mt-3 mb-8">
                 Latar Belakang
               </Heading>
-              <div className="flex flex-col gap-5">
-                <Text className="text-[15px] leading-[1.75]">{PLACEHOLDER_BODY}</Text>
-                <Text className="text-[15px] leading-[1.75]">{PLACEHOLDER_BODY}</Text>
+              <div className="flex flex-col gap-6 max-w-prose mx-auto lg:mx-0">
+                <Text variant="editorial" className="leading-loose">{PLACEHOLDER_BODY}</Text>
+                <Text variant="editorial" className="leading-loose">{PLACEHOLDER_BODY}</Text>
               </div>
             </div>
             <div className="relative flex flex-1 justify-center lg:justify-end">
@@ -166,37 +167,55 @@ export default function OrganisasiPage() {
       <section className="relative z-10 mt-8 border-t border-brand-dark/10 bg-linear-to-b from-brand-dark/3 to-transparent py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-4 md:px-8">
           <ScrollReveal className="mb-12 text-center lg:text-left">
-            <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
-              Jejak kepemimpinan
-            </span>
+            <Eyebrow tone="red">Jejak kepemimpinan</Eyebrow>
             <Heading level={2} className="mt-3">
               Profil Ketua Sebelumnya
             </Heading>
           </ScrollReveal>
 
-          <div className="divide-y divide-brand-dark/10 border-y border-brand-dark/10">
-            {PREVIOUS_CHAIRS.map((row, idx) => (
-              <ScrollReveal key={idx}>
-                <div className="flex flex-col gap-3 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 md:py-7">
-                  <div className="flex items-center gap-4">
-                    <UserRound
-                      className="size-5 shrink-0 text-brand-red/90"
-                      strokeWidth={1.5}
-                      aria-hidden
-                    />
-                    <p className="font-display text-base font-semibold text-brand-dark">{row.name}</p>
-                  </div>
-                  <p className="font-display text-sm tabular-nums text-brand-light sm:text-right">{row.period}</p>
-                </div>
-              </ScrollReveal>
+          <ul className="divide-y divide-brand-dark/10 border-y border-brand-dark/10">
+            {PREVIOUS_CHAIR_ENTRIES.map((chair) => (
+              <li key={chair.slug}>
+                <ScrollReveal>
+                  <Link
+                    href={`/organisasi/ketua-sebelumnya/${chair.slug}`}
+                    aria-label={`Lihat profil ${chair.name}, ${chair.periodLabel}`}
+                    className="group relative flex flex-col gap-3 py-6 transition-colors duration-300 hover:bg-brand-dark/3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red/40 focus-visible:ring-offset-2 sm:flex-row sm:items-center sm:justify-between sm:gap-8 md:py-7"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="relative size-12 shrink-0 overflow-hidden rounded-full ring-1 ring-brand-dark/10 sm:size-14">
+                        <Image
+                          src={chair.portraitSrc}
+                          alt=""
+                          fill
+                          sizes="56px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </span>
+                      <div>
+                        <Text variant="body" tone="strong" className="font-display text-base font-semibold transition-colors duration-300 group-hover:text-brand-primary">
+                          {chair.name}
+                        </Text>
+                        <Eyebrow tone="muted" className="mt-0.5 tracking-[0.18em]">
+                          {chair.majorLabel}
+                        </Eyebrow>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <Text variant="small" tone="light" className="font-display tabular-nums transition-colors duration-300 group-hover:text-brand-dark sm:text-right">
+                        {chair.periodLabel}
+                      </Text>
+                      <ChevronRight
+                        className="size-4 shrink-0 text-brand-dark/35 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-red"
+                        strokeWidth={2}
+                        aria-hidden
+                      />
+                    </div>
+                  </Link>
+                </ScrollReveal>
+              </li>
             ))}
-          </div>
-
-          <div className="mt-12 flex justify-center lg:justify-start">
-            <Button type="button" variant="outline" size="sm" className="border-brand-dark/25">
-              Lihat Lebih Banyak
-            </Button>
-          </div>
+          </ul>
         </div>
       </section>
     </PageShell>

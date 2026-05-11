@@ -9,9 +9,9 @@ import { HeroLogo } from '@/components/HeroLogo'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { Button } from '@/components/ui/button'
 import { GlassCard } from '@/components/ui/glass-card'
-import { ProgramImageStack } from '@/components/ui/program-image-stack'
+import { AktivitasImageStack } from '@/components/ui/aktivitas-image-stack'
 import { Section } from '@/components/ui/section'
-import { Heading, Text } from '@/components/ui/typography'
+import { Eyebrow, Heading, Text } from '@/components/ui/typography'
 
 export const metadata: Metadata = {
   title: 'Beranda',
@@ -113,7 +113,7 @@ export default async function HomePage() {
 
       {/* ── Hero ── */}
       <Section
-        className="hero-section flex min-h-[92vh] w-full items-center pt-20 pb-12"
+        className="hero-section flex min-h-[92vh] w-full items-center pt-14 pb-12 md:pt-[4.75rem]"
         containerClassName="relative z-10 grid max-w-7xl grid-cols-1 items-center gap-8 px-6 md:px-12 lg:grid-cols-12"
       >
         <div className="flex flex-col items-start gap-5 lg:col-span-7">
@@ -173,7 +173,7 @@ export default async function HomePage() {
               <Heading level={2} tone="accent">
                 Ikatan Alumni Mesin ITB
               </Heading>
-              <Text tone="inverse">
+              <Text tone="inverse" variant="editorial">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
@@ -207,7 +207,7 @@ export default async function HomePage() {
         </ScrollReveal>
       </Section>
 
-      {/* ── Program ── */}
+      {/* ── Aktivitas ── */}
       <Section className="z-10" containerClassName="relative z-10 max-w-6xl px-6 md:px-8">
         <ScrollReveal>
         <Ornament
@@ -219,30 +219,25 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col gap-5 lg:col-span-5">
             <Heading level={2}>
-              <span className="text-brand-dark">Program </span>
-              <em className="text-brand-red italic">Kami</em>
+              Aktivitas <em className="text-brand-red italic">Kami</em>
             </Heading>
             <div className="flex flex-col gap-3">
-              <Text>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
+              <Text variant="editorial">
+                IAM ITB menyelenggarakan berbagai aktivitas untuk mempererat tali silaturahmi,
+                mengembangkan potensi profesional, serta memberikan kontribusi nyata bagi
+                almamater dan masyarakat luas.
               </Text>
-              <Text>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              <Text variant="editorial">
+                Jelajahi berbagai agenda kami, mulai dari pertemuan rutin, workshop pengembangan diri,
+                hingga aksi sosial yang berdampak positif bagi lingkungan sekitar.
               </Text>
             </div>
             <div className="pt-2">
-              <Button href="/program">Explore More</Button>
+              <Button href="/aktivitas">Explore More</Button>
             </div>
           </div>
 
-          <ProgramImageStack items={PROGRAM_STACK_IMAGES} className="lg:col-span-7" />
+          <AktivitasImageStack items={PROGRAM_STACK_IMAGES} className="lg:col-span-7" />
         </div>
         </ScrollReveal>
       </Section>
@@ -253,9 +248,9 @@ export default async function HomePage() {
         <GlassCard className="berita-card" variant="stripes" contentClassName="p-8 md:p-10 lg:p-14">
           {/* Section header */}
           <div className="mb-10 flex flex-col items-center gap-3 text-center">
-            <span className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold/60">
+            <Eyebrow tone="gold" className="text-brand-gold/60 tracking-[0.25em]">
               Kabar Terkini
-            </span>
+            </Eyebrow>
             <Heading level={2} tone="accent">
               Berita IAM ITB
             </Heading>
@@ -269,7 +264,7 @@ export default async function HomePage() {
               return (
                 <a
                   key={idx}
-                  href={post?.slug ? `/posts/${post.slug}` : '#'}
+                  href={post?.slug ? `/berita/${post.slug}` : '#'}
                   className="berita-item-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 shadow-xl shadow-black/25 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-gold/25 hover:shadow-2xl hover:shadow-black/35"
                 >
                   {/* Image */}
@@ -283,9 +278,9 @@ export default async function HomePage() {
                     {/* Bottom gradient overlay */}
                     <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
                     {/* Category badge */}
-                    <span className="absolute top-3 left-3 rounded-[3px] bg-brand-red/90 px-2 py-[3px] font-display text-[9px] font-bold uppercase tracking-[0.2em] text-white shadow-lg backdrop-blur-sm">
+                    <Eyebrow tone="white" className="absolute top-3 left-3 rounded-[3px] bg-brand-red/90 px-2 py-[3px] text-[9px] tracking-[0.2em] shadow-lg backdrop-blur-sm">
                       IAM
-                    </span>
+                    </Eyebrow>
                     {/* Post index pill */}
                     <span className="absolute top-3 right-3 flex h-[26px] w-[26px] items-center justify-center rounded-full border border-white/20 bg-black/25 font-display text-[10px] font-bold text-white/65 backdrop-blur-md">
                       0{idx + 1}
@@ -294,14 +289,14 @@ export default async function HomePage() {
 
                   {/* Text content */}
                   <div className="flex flex-1 flex-col gap-2.5 p-4 pb-5">
-                    <h3 className="line-clamp-2 font-serif text-sm font-semibold leading-snug text-white/90 transition-colors duration-300 group-hover:text-brand-gold">
+                    <Heading level={4} tone="inverse" className="line-clamp-2 text-sm leading-snug transition-colors duration-300 group-hover:text-brand-gold">
                       {post?.title ?? 'Kongres IAM ITB'}
-                    </h3>
+                    </Heading>
 
                     <div className="mt-auto flex items-center justify-between pt-1">
-                      <time className="font-display text-[10px] font-medium uppercase tracking-wider text-white/35">
+                      <Text variant="small" tone="inverse" className="font-display text-[10px] uppercase tracking-wider opacity-35">
                         {formatDate(post?.publishedAt)}
-                      </time>
+                      </Text>
                       <span className="text-[13px] leading-none text-white/25 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-gold">
                         →
                       </span>
@@ -316,7 +311,7 @@ export default async function HomePage() {
           </div>
 
           <div className="mt-10 flex justify-center">
-            <Button href="/posts" variant="secondary">
+            <Button href="/berita" variant="secondary">
               Berita Lainnya
             </Button>
           </div>

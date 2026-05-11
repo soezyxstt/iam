@@ -2,6 +2,8 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublicRead } from '../../access/authenticatedOrPublicRead'
 
+import { slugField } from 'payload'
+
 export const Aktivitas: CollectionConfig = {
   slug: 'activities',
   labels: {
@@ -25,6 +27,21 @@ export const Aktivitas: CollectionConfig = {
       label: 'Nama Kegiatan',
       type: 'text',
       required: true,
+    },
+    slugField({ useAsSlug: 'activityName' }),
+    {
+      name: 'excerpt',
+      label: 'Ringkasan',
+      type: 'textarea',
+      admin: {
+        description: 'Ringkasan singkat untuk tampilan kartu di beranda/daftar program.',
+      },
+    },
+    {
+      name: 'heroImage',
+      label: 'Gambar Utama',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       name: 'activityType',

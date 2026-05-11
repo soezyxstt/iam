@@ -3,7 +3,7 @@ import React from 'react'
 
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
-import { Heading } from '@/components/ui/typography'
+import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
 
 import { GALLERY_GROUPS } from './galeri-data'
@@ -16,18 +16,10 @@ export const metadata: Metadata = {
 
 export default function GaleriPage() {
   return (
-    <PageShell>
-      <Section className="z-10 pb-2 pt-4" containerClassName="max-w-6xl px-4 md:px-8">
+    <PageShell className="pb-16 md:pb-24">
+      <Section className="z-10 pb-4 pt-3 md:pb-8 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
         <ScrollReveal>
-          <div className="border-b border-brand-dark/15 pb-8 md:pb-10">
-            <Heading level={1} className="text-center">
-              Galeri IAM ITB
-            </Heading>
-            <p className="mx-auto mt-3 max-w-lg text-center font-display text-sm text-brand-light">
-              Dokumentasi kegiatan — gunakan daftar album di samping (desktop) atau di atas (mobile),
-              lalu scroll untuk menjelajah.
-            </p>
-          </div>
+          <PageHeroHeader title="Galeri" subtitle="Ikatan Alumni Mesin ITB" />
         </ScrollReveal>
       </Section>
 

@@ -30,7 +30,7 @@ export function GlassCard({
 
       {variant === 'stripes' && (
         <>
-          <div className="absolute top-1/2 z-0 grid w-full -translate-y-1/2 grid-cols-1 grid-rows-5 *:h-10 *:w-full *:odd:bg-white">
+          <div className="absolute top-1/2 z-0 grid w-full -translate-y-1/2 grid-cols-1 grid-rows-5 *:h-10 *:w-full *:odd:bg-white/5">
             <div />
             <div />
             <div />

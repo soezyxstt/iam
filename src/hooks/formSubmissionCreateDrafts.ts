@@ -2,6 +2,7 @@ import type { CollectionAfterChangeHook } from 'payload'
 
 import type { FormSubmission, JobVacancy } from '@/payload-types'
 import { plainTextToLexicalRoot } from '@/utilities/plainTextToLexicalRoot'
+import { toSlug } from '@/utilities/toSlug'
 
 function pick(
   submissionData: FormSubmission['submissionData'],
@@ -39,6 +40,9 @@ export const formSubmissionCreateDrafts: CollectionAfterChangeHook<FormSubmissio
       ? category
       : 'lainnya'
 
+    const businessName = pick(doc.submissionData, 'businessName')
+    const slug = toSlug(businessName)
+
     await req.payload.create({
       collection: 'alumniBusinesses',
       req,
@@ -46,7 +50,8 @@ export const formSubmissionCreateDrafts: CollectionAfterChangeHook<FormSubmissio
       data: {
         _status: 'draft',
         ownerName: pick(doc.submissionData, 'ownerName'),
-        businessName: pick(doc.submissionData, 'businessName'),
+        businessName,
+        ...(slug ? { slug } : {}),
         category: categorySafe as typeof allowed[number],
         description: pick(doc.submissionData, 'description'),
         productsOrServices: pick(doc.submissionData, 'productsOrServices'),

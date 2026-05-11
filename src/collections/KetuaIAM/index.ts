@@ -2,6 +2,8 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublicRead } from '../../access/authenticatedOrPublicRead'
 
+import { slugField } from 'payload'
+
 export const KetuaIAM: CollectionConfig = {
   slug: 'iamPresidents',
   labels: {
@@ -17,6 +19,7 @@ export const KetuaIAM: CollectionConfig = {
   admin: {
     group: 'Organisasi & kegiatan',
     useAsTitle: 'name',
+    defaultColumns: ['name', 'period', 'updatedAt'],
   },
   fields: [
     {
@@ -24,6 +27,21 @@ export const KetuaIAM: CollectionConfig = {
       label: 'Nama',
       type: 'text',
       required: true,
+    },
+    slugField({ useAsSlug: 'name' }),
+    {
+      name: 'portraitImage',
+      label: 'Foto Profil',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'majorLabel',
+      label: 'Angkatan / Jurusan',
+      type: 'text',
+      admin: {
+        placeholder: 'contoh: Mesin 98',
+      },
     },
     {
       name: 'period',

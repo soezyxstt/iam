@@ -1,6 +1,10 @@
 import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
+import { PageShell } from '@/components/PageShell'
+import { PageHeroHeader } from '@/components/ui/page-hero-header'
+import { Section } from '@/components/ui/section'
+import { Text } from '@/components/ui/typography'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
@@ -60,24 +64,23 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   })
 
   return (
-    <div className="pt-24 pb-24">
+    <PageShell className="pb-24">
       <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Pencarian</h1>
-
-          <div className="max-w-[50rem] mx-auto">
-            <Search />
-          </div>
+      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
+        <PageHeroHeader title="Pencarian" subtitle="Ikatan Alumni Mesin ITB" />
+        <div className="mx-auto mt-6 max-w-2xl">
+          <Search />
         </div>
-      </div>
+      </Section>
 
-      {posts.totalDocs > 0 ? (
-        <CollectionArchive posts={posts.docs as CardPostData[]} />
-      ) : (
-        <div className="container">Tidak ada hasil ditemukan.</div>
-      )}
-    </div>
+      <Section className="z-10 py-8 md:py-12" containerClassName="max-w-6xl px-4 md:px-8">
+        {posts.totalDocs > 0 ? (
+          <CollectionArchive posts={posts.docs as CardPostData[]} />
+        ) : (
+          <Text className="text-brand-light">Tidak ada hasil ditemukan.</Text>
+        )}
+      </Section>
+    </PageShell>
   )
 }
 

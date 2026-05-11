@@ -1,9 +1,15 @@
 import type { Header } from '@/payload-types'
 
+
+
 /**
+
  * Shown when Payload `header` global has no nav items (e.g. empty DB).
+
  * Keep in sync with seed `updateGlobal({ slug: 'header' })` in `src/endpoints/seed/index.ts`.
+
  */
+
 export const defaultHeaderNavItems: NonNullable<Header['navItems']> = [
   {
     link: {
@@ -29,8 +35,15 @@ export const defaultHeaderNavItems: NonNullable<Header['navItems']> = [
   {
     link: {
       type: 'custom',
+      label: 'Usaha Alumni',
+      url: '/usaha-alumni',
+    },
+  },
+  {
+    link: {
+      type: 'custom',
       label: 'Seputar Kami',
-      url: '/posts',
+      url: '/berita',
     },
     hasDropdown: true,
     dropdownItems: [
@@ -38,30 +51,18 @@ export const defaultHeaderNavItems: NonNullable<Header['navItems']> = [
         link: {
           type: 'custom',
           label: 'Berita',
-          url: '/posts',
+          url: '/berita',
         },
       },
       {
         link: {
           type: 'custom',
-          label: 'Hubungi Kami',
-          url: '/contact',
+          label: 'Aktivitas',
+          url: '/aktivitas',
         },
       },
     ],
   },
-  {
-    link: {
-      type: 'custom',
-      label: 'Direktori Alumni',
-      url: '/alumni',
-    },
-  },
-  {
-    link: {
-      type: 'custom',
-      label: 'Komunitas',
-      url: '/komunitas',
-    },
-  },
 ]
+
+

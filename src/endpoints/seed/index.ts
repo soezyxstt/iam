@@ -14,24 +14,26 @@ import { imageHero1 } from './image-hero-1'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
+import { dummyUsahaAlumniSeedData } from './usaha-alumni-businesses'
 
+/** Order respects FK / NOT NULL uploads to media (avoid delete failures when dev DB has live rows). */
 const collections: CollectionSlug[] = [
-  'categories',
-  'media',
-  'pages',
-  'posts',
-  'forms',
   'form-submissions',
   'search',
+  'posts',
+  'pages',
   'activities',
-  'sponsors',
   'jobVacancies',
   'alumniMembers',
   'alumniBusinesses',
+  'sponsors',
   'communities',
   'galleries',
   'iamPresidents',
   'managements',
+  'forms',
+  'categories',
+  'media',
 ]
 
 const globals: GlobalSlug[] = ['header', 'footer']
@@ -57,31 +59,29 @@ export const seed = async ({
   // the custom `/api/seed` endpoint does not
   payload.logger.info(`— Clearing collections and globals...`)
 
-  // clear the database
-  await Promise.all(
-    globals.map((global) =>
-      payload.updateGlobal({
-        slug: global,
-        data: {
-          navItems: [],
-        } as any,
-        depth: 0,
-        context: {
-          disableRevalidate: true,
-        },
-      }),
-    ),
-  )
+  // Sequential clears reduce PostgreSQL deadlocks when other connections hold rows (e.g. dev server).
+  for (const global of globals) {
+    await payload.updateGlobal({
+      slug: global,
+      data: {
+        navItems: [],
+      } as Record<string, unknown>,
+      depth: 0,
+      context: {
+        disableRevalidate: true,
+      },
+    })
+  }
 
-  await Promise.all(
-    collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
-  )
+  for (const collection of collections) {
+    await payload.db.deleteMany({ collection, req, where: {} })
+  }
 
-  await Promise.all(
-    collections
-      .filter((collection) => Boolean(payload.collections[collection].config.versions))
-      .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
-  )
+  for (const collection of collections) {
+    if (payload.collections[collection].config.versions) {
+      await payload.db.deleteVersions({ collection, req, where: {} })
+    }
+  }
 
   payload.logger.info(`— Seeding demo author and user...`)
 
@@ -162,6 +162,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
+    draft: false,
     data: post1({ heroImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
   })
 
@@ -171,6 +172,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
+    draft: false,
     data: post2({ heroImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
   })
 
@@ -180,6 +182,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
+    draft: false,
     data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
   })
 
@@ -187,6 +190,9 @@ export const seed = async ({
   await payload.update({
     id: post1Doc.id,
     collection: 'posts',
+    context: {
+      disableRevalidate: true,
+    },
     data: {
       relatedPosts: [post2Doc.id, post3Doc.id],
     },
@@ -194,6 +200,9 @@ export const seed = async ({
   await payload.update({
     id: post2Doc.id,
     collection: 'posts',
+    context: {
+      disableRevalidate: true,
+    },
     data: {
       relatedPosts: [post1Doc.id, post3Doc.id],
     },
@@ -201,6 +210,9 @@ export const seed = async ({
   await payload.update({
     id: post3Doc.id,
     collection: 'posts',
+    context: {
+      disableRevalidate: true,
+    },
     data: {
       relatedPosts: [post1Doc.id, post2Doc.id],
     },
@@ -233,8 +245,10 @@ export const seed = async ({
       collection: 'activities',
       depth: 0,
       context: { disableRevalidate: true },
+      draft: false,
       data: {
         activityName: 'Reuni Akbar IAM',
+        slug: 'reuni-akbar',
         date: '2025-08-15T12:00:00.000Z',
         activityType: 'reuni',
         description: plainTextToLexicalRoot(
@@ -246,8 +260,10 @@ export const seed = async ({
       collection: 'activities',
       depth: 0,
       context: { disableRevalidate: true },
+      draft: false,
       data: {
         activityName: 'Pulang Kampus',
+        slug: 'pulang-kampus',
         date: '2025-09-01T12:00:00.000Z',
         activityType: 'pulang_kampus',
         description: plainTextToLexicalRoot(
@@ -259,8 +275,10 @@ export const seed = async ({
       collection: 'sponsors',
       depth: 0,
       context: { disableRevalidate: true },
+      draft: false,
       data: {
         companyName: 'Mitra industri IAM',
+        category: 'platinum',
         logo: image1Doc.id,
         shortDescription: 'Dukungan kegiatan dan program IAM ITB.',
         supportPeriod: '2025/2026',
@@ -271,8 +289,10 @@ export const seed = async ({
       collection: 'sponsors',
       depth: 0,
       context: { disableRevalidate: true },
+      draft: false,
       data: {
         companyName: 'Partner teknologi',
+        category: 'gold',
         logo: image2Doc.id,
         shortDescription: 'Kolaborasi riset dan rekrutmen alumni.',
         supportPeriod: '2025/2026',
@@ -313,12 +333,28 @@ export const seed = async ({
     }),
   ])
 
+  payload.logger.info(`— Seeding usaha alumni...`)
+
+  await Promise.all(
+    dummyUsahaAlumniSeedData.map((biz) =>
+      payload.create({
+        collection: 'alumniBusinesses',
+        depth: 0,
+        context: { disableRevalidate: true },
+        draft: false,
+        data: biz,
+      }),
+    ),
+  )
+
   payload.logger.info(`— Seeding pages...`)
 
-  const [_, contactPage] = await Promise.all([
+  const [_homePage, _contactPage] = await Promise.all([
     payload.create({
       collection: 'pages',
       depth: 0,
+      context: { disableRevalidate: true },
+      draft: false,
       data: home({
         heroImage: imageHomeDoc,
         metaImage: image2Doc,
@@ -330,6 +366,8 @@ export const seed = async ({
     payload.create({
       collection: 'pages',
       depth: 0,
+      context: { disableRevalidate: true },
+      draft: false,
       data: contactPageData({ contactForm: contactForm }),
     }),
   ])
@@ -342,6 +380,7 @@ export const seed = async ({
       data: {
         navItems: defaultHeaderNavItems,
       },
+      context: { disableRevalidate: true },
     }),
     payload.updateGlobal({
       slug: 'footer',
@@ -372,6 +411,7 @@ export const seed = async ({
           },
         ],
       },
+      context: { disableRevalidate: true },
     }),
   ])
 

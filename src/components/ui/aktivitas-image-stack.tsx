@@ -5,7 +5,7 @@ import * as React from 'react'
 
 import { cn } from '@/utilities/ui'
 
-export interface ProgramImageStackItem {
+export interface AktivitasImageStackItem {
   src: string
   alt: string
   title: string
@@ -14,8 +14,8 @@ export interface ProgramImageStackItem {
   wrapperClassName?: string
 }
 
-export interface ProgramImageStackProps extends React.HTMLAttributes<HTMLDivElement> {
-  items: ProgramImageStackItem[]
+export interface AktivitasImageStackProps extends React.HTMLAttributes<HTMLDivElement> {
+  items: AktivitasImageStackItem[]
 }
 
 // All positions use only left/top (no right/bottom) so CSS transitions work smoothly.
@@ -35,7 +35,7 @@ const CARD_CONFIGS = [
   },
 ]
 
-export function ProgramImageStack({ items, className, ...props }: ProgramImageStackProps) {
+export function AktivitasImageStack({ items, className, ...props }: AktivitasImageStackProps) {
   const [hovered, setHovered] = React.useState(false)
   const displayItems = items.slice(0, 3)
 

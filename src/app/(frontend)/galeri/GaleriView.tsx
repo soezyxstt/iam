@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { ScrollReveal } from '@/components/ScrollReveal'
-import { Heading } from '@/components/ui/typography'
+import { Eyebrow, Heading, Text } from '@/components/ui/typography'
 import { cn } from '@/utilities/ui'
 
 import type { GalleryGroup } from './galeri-data'
@@ -53,21 +53,23 @@ export function GaleriView({ groups }: GaleriViewProps) {
               key={group.id}
               id={group.id}
               className={cn(
-                /* Match PageShell pt-20 + fixed header so # anchors aren’t hidden */
-                'relative z-10 scroll-mt-20',
+                /* Match PageShell top offset so # anchors aren’t hidden under fixed header */
+                'relative z-10 scroll-mt-14 md:scroll-mt-[4.75rem]',
                 idx > 0 && 'mt-16 border-t border-brand-dark/10 pt-16 md:mt-20 md:pt-20',
               )}
             >
               <ScrollReveal>
                 <header className="mb-8 border-b border-brand-dark/10 pb-6 md:mb-10 md:pb-8">
-                  <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
+                  <Eyebrow tone="red">
                     {String(idx + 1).padStart(2, '0')}
-                  </span>
+                  </Eyebrow>
                   <Heading level={2} className="mt-2">
                     {group.title}
                   </Heading>
                   {group.subtitle && (
-                    <p className="mt-2 font-display text-sm text-brand-light">{group.subtitle}</p>
+                    <Text variant="small" tone="light" className="mt-2 font-display">
+                      {group.subtitle}
+                    </Text>
                   )}
                 </header>
                 <GalleryImageGrid images={group.images} onSelect={setLightbox} />
@@ -108,7 +110,9 @@ export function GaleriView({ groups }: GaleriViewProps) {
               />
             </div>
             {lightbox.caption && (
-              <p className="mt-4 text-center font-display text-sm text-white/90">{lightbox.caption}</p>
+              <Text tone="inverse" variant="small" className="mt-4 text-center font-display opacity-90">
+                {lightbox.caption}
+              </Text>
             )}
           </div>
         </div>

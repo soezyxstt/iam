@@ -21,7 +21,7 @@ interface OrnamentProps extends React.SVGAttributes<SVGSVGElement> {
 
 const Ornament: React.FC<OrnamentProps> = ({
   variant = 'blob',
-  size = 64,
+  size: _size = 64,
   shadowSize = 'md',
   className,
   ...props

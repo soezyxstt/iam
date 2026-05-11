@@ -41,7 +41,7 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               return (
                 <div className="my-16" key={index}>
-                  {/* @ts-ignore */}
+                  {/* @ts-expect-error - Block types are complex and vary between block components */}
                   <Block {...block} disableInnerContainer />
                 </div>
               )

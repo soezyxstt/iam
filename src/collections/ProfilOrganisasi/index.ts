@@ -14,13 +14,50 @@ export const ProfilOrganisasi: GlobalConfig = {
   },
   fields: [
     {
+      name: 'tagline',
+      label: 'Tagline',
+      type: 'text',
+      admin: {
+        description: 'Contoh: For Union Machine Strong',
+      },
+    },
+    {
+      name: 'aboutBrief',
+      label: 'Ringkasan Tentang Kami (Beranda)',
+      type: 'textarea',
+      admin: {
+        description: 'Ditampilkan di bagian "About" pada halaman beranda.',
+      },
+    },
+    {
+      name: 'vision',
+      label: 'Visi',
+      type: 'richText',
+    },
+    {
+      name: 'mission',
+      label: 'Misi',
+      type: 'richText',
+    },
+    {
+      name: 'currentChairman',
+      label: 'Ketua Saat Ini',
+      type: 'relationship',
+      relationTo: 'iamPresidents',
+    },
+    {
       name: 'chairmanForeword',
       label: 'Kata Pengantar Ketua',
       type: 'richText',
     },
     {
+      name: 'historyBrief',
+      label: 'Ringkasan Latar Belakang',
+      type: 'textarea',
+    },
+    {
       name: 'history',
-      label: 'Sejarah IAM ITB',
+      label: 'Sejarah IAM ITB (Lengkap)',
       type: 'richText',
     },
     {

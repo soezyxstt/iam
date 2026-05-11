@@ -1,4 +1,5 @@
 import React from 'react'
+import { cn } from '@/utilities/ui'
 
 const defaultLabels = {
   plural: 'Dokumen',
@@ -45,7 +46,12 @@ export const PageRange: React.FC<{
     {}
 
   return (
-    <div className={[className, 'font-semibold'].filter(Boolean).join(' ')}>
+    <div
+      className={cn(
+        'font-display text-sm font-semibold tracking-tight text-brand-dark/75',
+        className,
+      )}
+    >
       {(typeof totalDocs === 'undefined' || totalDocs === 0) && 'Pencarian tidak membuahkan hasil.'}
       {typeof totalDocs !== 'undefined' &&
         totalDocs > 0 &&

@@ -106,12 +106,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       >
         <div className={cn(
           'max-w-6xl mx-auto flex items-center justify-between gap-4 transition-all duration-300',
-          'relative overflow-hidden',
+          'relative',
           'bg-background/85 backdrop-blur-xl',
           'border-b border-border/40 md:border md:border-white/12 md:rounded-full px-4 md:px-6 py-2.5',
           'shadow-sm shadow-black/5',
           scrolled && 'shadow-md shadow-black/10 md:bg-background/95'
         )}>
+
           {/* Shimmer highlight line — mirrors GlassCard top-edge treatment */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/30 to-transparent" />
           {/* Logo */}
@@ -229,9 +230,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   {...link}
                   className={cn(
                     'block rounded-md px-3 py-2.5 text-sm font-display transition-colors duration-200',
-                    active ? 'font-semibold text-white' : 'font-medium text-white/65 hover:text-white',
+                    active ? 'font-bold text-brand-gold bg-brand-gold/10' : 'font-medium text-white/65 hover:text-white',
                   )}
-                  appearance="link"
+                  appearance="inline"
                 />
               )
             })}
@@ -284,7 +285,7 @@ const MobileDropdownItem: React.FC<{
         onClick={() => setOpen((v) => !v)}
         className={cn(
           'flex w-full items-center justify-between rounded-md px-3 py-2.5 text-left text-sm font-display transition-colors duration-200',
-          sectionActive || open ? 'font-semibold text-white' : 'font-medium text-white/65 hover:text-white',
+          sectionActive || open ? 'font-bold text-brand-gold' : 'font-medium text-white/65 hover:text-white',
         )}
       >
         {link?.label || 'Menu'}
@@ -303,9 +304,9 @@ const MobileDropdownItem: React.FC<{
                 {...di.link}
                 className={cn(
                   'block rounded-md px-3 py-2 text-sm font-display transition-colors duration-200',
-                  childActive ? 'font-semibold text-white' : 'font-medium text-white/55 hover:text-white',
+                  childActive ? 'font-bold text-brand-gold bg-brand-gold/10' : 'font-medium text-white/55 hover:text-white',
                 )}
-                appearance="link"
+                appearance="inline"
               />
             )
           })}

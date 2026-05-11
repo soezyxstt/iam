@@ -60,12 +60,12 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
             key={i}
             {...link}
             className={cn(
-              'rounded-md px-3 py-2 text-sm font-display transition-colors duration-200',
+              'rounded-md px-3 py-2 text-sm font-display transition-all duration-200 relative',
               isActive
-                ? 'font-semibold text-foreground'
+                ? 'font-bold text-foreground after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1/2 after:h-[2px] after:bg-brand-gold'
                 : 'font-medium text-muted-foreground hover:text-foreground',
             )}
-            appearance="link"
+            appearance="inline"
           />
         )
       })}
@@ -96,15 +96,19 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ link, dropdownItems, pathna
   const isActive = dropdownItems?.some((di) => linkIsActive(pathname, di?.link?.url))
 
   return (
-    <div ref={ref} className="relative">
+    <div
+      ref={ref}
+      className="relative group"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        onMouseEnter={() => setOpen(true)}
         className={cn(
-          'flex items-center gap-1 rounded-md px-3 py-2 text-sm font-display transition-colors duration-200',
+          'flex items-center gap-1 rounded-md px-3 py-2 text-sm font-display transition-all duration-200 relative',
           isActive || open
-            ? 'font-semibold text-foreground'
+            ? 'font-bold text-foreground after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1/2 after:h-[2px] after:bg-brand-gold'
             : 'font-medium text-muted-foreground hover:text-foreground',
         )}
         aria-expanded={open}
@@ -118,13 +122,21 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ link, dropdownItems, pathna
       </button>
 
       <div
-        onMouseLeave={() => setOpen(false)}
         className={cn(
-          'absolute left-0 top-full z-50 mt-2 min-w-[200px] rounded-lg border border-border/50 bg-background p-1 shadow-md',
-          'transition-opacity duration-150',
-          open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
+          'absolute left-1/2 -translate-x-1/2 top-full z-50 mt-2 min-w-[220px] rounded-xl',
+          'border border-white/10 bg-brand-dark/90 backdrop-blur-xl p-1.5 shadow-2xl',
+          'transition-all duration-300 ease-out origin-top',
+          open
+            ? 'pointer-events-auto opacity-100 translate-y-0 scale-100'
+            : 'pointer-events-none opacity-0 -translate-y-2 scale-95',
         )}
       >
+        {/* Invisible bridge to prevent flickering when moving mouse to menu */}
+        <div className="absolute -top-2 inset-x-0 h-2" />
+        
+        {/* Subtle top indicator/shimmer */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
         {dropdownItems.map((di, j) => {
           const isChildActive = linkIsActive(pathname, di?.link?.url)
           return (
@@ -132,16 +144,18 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ link, dropdownItems, pathna
               key={j}
               {...di.link}
               className={cn(
-                'block rounded-md px-3 py-2 text-sm font-display transition-colors duration-200',
+                'block rounded-lg px-4 py-2.5 text-sm font-display transition-all duration-200',
                 isChildActive
-                  ? 'font-semibold text-foreground'
-                  : 'font-medium text-muted-foreground hover:text-foreground',
+                  ? 'font-bold text-brand-gold bg-brand-gold/10'
+                  : 'font-medium text-white/70 hover:text-white hover:bg-white/10',
               )}
-              appearance="link"
+              appearance="inline"
+              onClick={() => setOpen(false)}
             />
           )
         })}
       </div>
     </div>
+
   )
 }

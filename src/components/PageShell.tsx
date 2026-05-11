@@ -14,7 +14,8 @@ export function PageShell({ children, className, showAmbient = true }: PageShell
     <main
       className={cn(
         /* No overflow-y clip here — it breaks position:sticky in descendants (e.g. Galeri nav). */
-        'page-root relative min-h-screen w-full max-w-[100vw] pt-20 pb-16 md:pb-24',
+        /* Below fixed header: ~56px bar + md:top-4 inset; keep tight without clipping */
+        'page-root relative min-h-screen w-full max-w-[100vw] pt-14 md:pt-[4.75rem]',
         className,
       )}
     >

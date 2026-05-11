@@ -79,6 +79,7 @@ export interface Config {
     iamPresidents: IamPresident;
     managements: Management;
     galleries: Gallery;
+    galleryCategories: GalleryCategory;
     communities: Community;
     alumniMembers: AlumniMember;
     redirects: Redirect;
@@ -110,6 +111,7 @@ export interface Config {
     iamPresidents: IamPresidentsSelect<false> | IamPresidentsSelect<true>;
     managements: ManagementsSelect<false> | ManagementsSelect<true>;
     galleries: GalleriesSelect<false> | GalleriesSelect<true>;
+    galleryCategories: GalleryCategoriesSelect<false> | GalleryCategoriesSelect<true>;
     communities: CommunitiesSelect<false> | CommunitiesSelect<true>;
     alumniMembers: AlumniMembersSelect<false> | AlumniMembersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -832,6 +834,16 @@ export interface Form {
 export interface Activity {
   id: number;
   activityName: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
+   * Ringkasan singkat untuk tampilan kartu di beranda/daftar program.
+   */
+  excerpt?: string | null;
+  heroImage?: (number | null) | Media;
   activityType?: ('pulang_kampus' | 'beasiswa' | 'reuni' | 'kongres' | 'agenda_rutin' | 'lainnya') | null;
   date: string;
   description: {
@@ -859,6 +871,7 @@ export interface Activity {
 export interface Sponsor {
   id: number;
   companyName: string;
+  category: 'platinum' | 'gold' | 'silver' | 'bronze' | 'media_partner' | 'other';
   logo: number | Media;
   shortDescription: string;
   /**
@@ -910,6 +923,15 @@ export interface AlumniBusiness {
   id: number;
   ownerName: string;
   businessName: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  /**
+   * Foto bisnis atau logo untuk kartu di halaman Profil Usaha Alumni. Jika kosong, gambar default dipakai.
+   */
+  coverImage?: (number | null) | Media;
   category: 'manufaktur' | 'jasa' | 'fnb' | 'teknologi' | 'lainnya';
   description: string;
   productsOrServices: string;
@@ -918,6 +940,43 @@ export interface AlumniBusiness {
   email?: string | null;
   website?: string | null;
   instagram?: string | null;
+  /**
+   * Opsional — ditampilkan di halaman rincian (kartu ringkas).
+   */
+  yearFounded?: number | null;
+  /**
+   * Contoh: 150+ atau 25
+   */
+  employeesSummary?: string | null;
+  /**
+   * Contoh: ISO 9001
+   */
+  certifications?: string | null;
+  /**
+   * Contoh: Founder & CEO
+   */
+  ownerRole?: string | null;
+  /**
+   * Contoh: Teknik Mesin ITB 1998
+   */
+  ownerEducationLine?: string | null;
+  /**
+   * Paragraf singkat di kartu pemilik pada halaman rincian.
+   */
+  ownerBio?: string | null;
+  /**
+   * Contoh: Program Kerja Praktik: Tersedia — ditampilkan di bawah tombol aksi pada rincian.
+   */
+  featuredHighlight?: string | null;
+  /**
+   * Foto tambahan untuk halaman rincian (di bawah kontak).
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -929,6 +988,13 @@ export interface AlumniBusiness {
 export interface IamPresident {
   id: number;
   name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  portraitImage?: (number | null) | Media;
+  majorLabel?: string | null;
   period: string;
   shortBiography: string;
   professionalCareer?: {
@@ -968,6 +1034,7 @@ export interface Management {
  */
 export interface Gallery {
   id: number;
+  category: number | GalleryCategory;
   /**
    * Opsional jika memakai URL sematan. Unggah gambar atau video (mp4/webm).
    */
@@ -982,13 +1049,40 @@ export interface Gallery {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galleryCategories".
+ */
+export interface GalleryCategory {
+  id: number;
+  title: string;
+  subtitle?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "communities".
  */
 export interface Community {
   id: number;
   communityName: string;
   logo: number | Media;
+  heroImage?: (number | null) | Media;
   shortDescription: string;
+  visionMission?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   contactPerson?: string | null;
   joinInformation?: {
     root: {
@@ -1005,6 +1099,12 @@ export interface Community {
     };
     [k: string]: unknown;
   } | null;
+  relatedPosts?: (number | Post)[] | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -1273,6 +1373,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'galleries';
         value: number | Gallery;
+      } | null)
+    | ({
+        relationTo: 'galleryCategories';
+        value: number | GalleryCategory;
       } | null)
     | ({
         relationTo: 'communities';
@@ -1692,6 +1796,9 @@ export interface JobVacanciesSelect<T extends boolean = true> {
 export interface AlumniBusinessesSelect<T extends boolean = true> {
   ownerName?: T;
   businessName?: T;
+  generateSlug?: T;
+  slug?: T;
+  coverImage?: T;
   category?: T;
   description?: T;
   productsOrServices?: T;
@@ -1700,6 +1807,19 @@ export interface AlumniBusinessesSelect<T extends boolean = true> {
   email?: T;
   website?: T;
   instagram?: T;
+  yearFounded?: T;
+  employeesSummary?: T;
+  certifications?: T;
+  ownerRole?: T;
+  ownerEducationLine?: T;
+  ownerBio?: T;
+  featuredHighlight?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1710,6 +1830,10 @@ export interface AlumniBusinessesSelect<T extends boolean = true> {
  */
 export interface ActivitiesSelect<T extends boolean = true> {
   activityName?: T;
+  generateSlug?: T;
+  slug?: T;
+  excerpt?: T;
+  heroImage?: T;
   activityType?: T;
   date?: T;
   description?: T;
@@ -1722,6 +1846,7 @@ export interface ActivitiesSelect<T extends boolean = true> {
  */
 export interface SponsorsSelect<T extends boolean = true> {
   companyName?: T;
+  category?: T;
   logo?: T;
   shortDescription?: T;
   supportPeriod?: T;
@@ -1735,6 +1860,10 @@ export interface SponsorsSelect<T extends boolean = true> {
  */
 export interface IamPresidentsSelect<T extends boolean = true> {
   name?: T;
+  generateSlug?: T;
+  slug?: T;
+  portraitImage?: T;
+  majorLabel?: T;
   period?: T;
   shortBiography?: T;
   professionalCareer?: T;
@@ -1758,9 +1887,20 @@ export interface ManagementsSelect<T extends boolean = true> {
  * via the `definition` "galleries_select".
  */
 export interface GalleriesSelect<T extends boolean = true> {
+  category?: T;
   media?: T;
   embedUrl?: T;
   description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "galleryCategories_select".
+ */
+export interface GalleryCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1771,9 +1911,14 @@ export interface GalleriesSelect<T extends boolean = true> {
 export interface CommunitiesSelect<T extends boolean = true> {
   communityName?: T;
   logo?: T;
+  heroImage?: T;
   shortDescription?: T;
+  visionMission?: T;
   contactPerson?: T;
   joinInformation?: T;
+  relatedPosts?: T;
+  generateSlug?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2156,6 +2301,45 @@ export interface Footer {
  */
 export interface OrganizationProfile {
   id: number;
+  /**
+   * Contoh: For Union Machine Strong
+   */
+  tagline?: string | null;
+  /**
+   * Ditampilkan di bagian "About" pada halaman beranda.
+   */
+  aboutBrief?: string | null;
+  vision?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  mission?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  currentChairman?: (number | null) | IamPresident;
   chairmanForeword?: {
     root: {
       type: string;
@@ -2171,6 +2355,7 @@ export interface OrganizationProfile {
     };
     [k: string]: unknown;
   } | null;
+  historyBrief?: string | null;
   history?: {
     root: {
       type: string;
@@ -2347,7 +2532,13 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "organizationProfile_select".
  */
 export interface OrganizationProfileSelect<T extends boolean = true> {
+  tagline?: T;
+  aboutBrief?: T;
+  vision?: T;
+  mission?: T;
+  currentChairman?: T;
   chairmanForeword?: T;
+  historyBrief?: T;
   history?: T;
   relationWithHmm?: T;
   valuesAndPhilosophy?:

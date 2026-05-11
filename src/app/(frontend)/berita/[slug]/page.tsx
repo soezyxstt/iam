@@ -11,6 +11,8 @@ import RichText from '@/components/RichText'
 import type { Post } from '@/payload-types'
 
 import { PostHero } from '@/heros/PostHero'
+import { PageShell } from '@/components/PageShell'
+import { Section } from '@/components/ui/section'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -46,13 +48,13 @@ export default async function Post({ params: paramsPromise }: Args) {
   const { slug = '' } = await paramsPromise
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
-  const url = '/posts/' + decodedSlug
+  const url = '/berita/' + decodedSlug
   const post = await queryPostBySlug({ slug: decodedSlug })
 
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
+    <PageShell showAmbient={false}>
       <PageClient />
 
       {/* Allows redirects for valid pages too */}
@@ -62,18 +64,27 @@ export default async function Post({ params: paramsPromise }: Args) {
 
       <PostHero post={post} />
 
-      <div className="flex flex-col items-center gap-4 pt-8">
-        <div className="container">
-          <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
+      <Section
+        className="z-10 border-t border-border/25 bg-white/90 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] backdrop-blur-md md:py-16 dark:bg-white/80"
+        containerClassName="max-w-6xl px-4 md:px-8"
+      >
+        <div className="flex flex-col items-center gap-4">
+          <article className="post-detail w-full max-w-[48rem]">
+            <RichText
+              className="mx-auto w-full max-w-none text-[17px] leading-[1.75] md:text-[18px] md:leading-[1.8]"
+              data={post.content}
+              enableGutter={false}
+            />
+          </article>
           {post.relatedPosts && post.relatedPosts.length > 0 && (
             <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
+              className="mt-20 w-full max-w-6xl"
               docs={post.relatedPosts.filter((post) => typeof post === 'object')}
             />
           )}
         </div>
-      </div>
-    </article>
+      </Section>
+    </PageShell>
   )
 }
 

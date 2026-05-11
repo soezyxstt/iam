@@ -27,7 +27,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
             type: 'custom',
             appearance: 'default',
             label: 'Semua berita',
-            url: '/posts',
+            url: '/berita',
           },
         },
         {
@@ -602,7 +602,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
               type: 'custom',
               appearance: 'default',
               label: 'Semua berita',
-              url: '/posts',
+              url: '/berita',
             },
           },
         ],

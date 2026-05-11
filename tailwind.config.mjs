@@ -6,8 +6,9 @@ const config = {
         DEFAULT: {
           css: [
             {
-              '--tw-prose-body': 'var(--text)',
-              '--tw-prose-headings': 'var(--text)',
+              /* Match IAM brand ink on light backgrounds (fixes undefined --text). */
+              '--tw-prose-body': '#253041',
+              '--tw-prose-headings': '#06162F',
               h1: {
                 fontWeight: 'normal',
                 marginBottom: '0.25em',

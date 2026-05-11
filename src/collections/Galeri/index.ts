@@ -32,6 +32,16 @@ export const Galeri: CollectionConfig = {
   },
   fields: [
     {
+      name: 'category',
+      label: 'Kategori / Album',
+      type: 'relationship',
+      relationTo: 'galleryCategories',
+      required: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'media',
       label: 'Gambar atau file video',
       type: 'upload',
