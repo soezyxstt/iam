@@ -17,8 +17,13 @@ export const PostHero: React.FC<{
   return (
     <div className="relative -mt-14 flex min-h-[80vh] items-end md:-mt-[4.75rem]">
       <div className="absolute inset-0 min-h-[80vh] select-none">
-        {heroImage && typeof heroImage !== 'string' && (
+        {heroImage && typeof heroImage === 'object' && (
           <Media fill priority imgClassName="object-cover" resource={heroImage} />
+        )}
+        {heroImage && typeof heroImage === 'string' && (
+          <div className="absolute inset-0 flex items-center justify-center bg-brand-dark/50 text-xs text-white/30">
+            Memuat gambar...
+          </div>
         )}
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/85 via-black/25 to-black/10" />
       </div>

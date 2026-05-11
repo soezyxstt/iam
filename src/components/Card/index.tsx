@@ -8,7 +8,7 @@ import type { Post } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { Eyebrow, Heading, Text } from '@/components/ui/typography'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title' | 'publishedAt'>
+export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title' | 'publishedAt' | 'heroImage'>
 
 export const Card: React.FC<{
   alignItems?: 'center'
@@ -21,8 +21,10 @@ export const Card: React.FC<{
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo = 'posts', showCategories, title: titleFromProps } = props
 
-  const { slug, categories, meta, title, publishedAt } = doc || {}
+  const { slug, categories, meta, title, publishedAt, heroImage } = doc || {}
   const { description, image: metaImage } = meta || {}
+
+  const imageToUse = metaImage || heroImage
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
@@ -51,20 +53,24 @@ export const Card: React.FC<{
       ref={card.ref}
     >
       <div className="relative aspect-4/3 w-full overflow-hidden">
-        {!metaImage && (
+        {!imageToUse && (
           <div className="flex h-full w-full items-center justify-center bg-brand-dark/50 text-xs text-white/30">
             Tidak ada gambar
           </div>
         )}
-        {metaImage && typeof metaImage !== 'string' && (
+        {imageToUse && typeof imageToUse === 'object' && (
           <Media
-            resource={metaImage}
+            resource={imageToUse}
             size="33vw"
             fill
             imgClassName="object-cover transition-transform duration-1000 group-hover:scale-110"
             className="h-full w-full relative"
           />
-
+        )}
+        {imageToUse && typeof imageToUse === 'string' && (
+          <div className="flex h-full w-full items-center justify-center bg-brand-dark/50 text-xs text-white/30">
+            Memuat gambar...
+          </div>
         )}
 
         {/* Bottom gradient overlay - more dramatic for better text isolation */}

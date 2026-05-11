@@ -32,6 +32,7 @@ export default async function Page() {
       categories: true,
       meta: true,
       publishedAt: true,
+      heroImage: true,
     },
   })
 
