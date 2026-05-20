@@ -64,7 +64,7 @@ export async function Footer() {
 
             {/* Divider and copyright */}
             <div className="flex flex-col md:items-end items-center w-full md:w-80 pt-4 border-t border-white/10 mt-auto">
-              <p className="text-[10px] md:text-xs text-white/40 font-sans tracking-wide">
+              <p className="text-[10px] md:text-xs text-white/60 font-sans tracking-wide">
                 © {currentYear} IAM ITB. Hak Cipta Dilindungi.
               </p>
             </div>

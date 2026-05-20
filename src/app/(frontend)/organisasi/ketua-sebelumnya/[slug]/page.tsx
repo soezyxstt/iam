@@ -85,6 +85,14 @@ export default async function PreviousChairPage({ params }: PageProps) {
             />
 
             <div className="relative">
+              {chair.socialLinks.length > 0 ? (
+                <div className="mb-8 md:absolute md:top-2 md:right-0 md:mb-0 flex flex-wrap items-center justify-center gap-2.5 z-20">
+                  {chair.socialLinks.map((link) => (
+                    <SocialChip key={`${link.platform}-${link.href}`} link={link} />
+                  ))}
+                </div>
+              ) : null}
+
               <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-12">
                 <div className="flex justify-center md:col-span-4 md:justify-start">
                   <div className="relative aspect-square w-44 sm:w-52 md:w-full md:max-w-[260px]">
@@ -105,7 +113,7 @@ export default async function PreviousChairPage({ params }: PageProps) {
                   </div>
                 </div>
 
-                <div className="text-center md:col-span-8 md:text-left">
+                <div className="text-center md:col-span-8 md:text-left pr-0 md:pr-40">
                   <h1 className="font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-[2.5rem] md:leading-[1.1]">
                     {chair.name}
                   </h1>
@@ -131,19 +139,6 @@ export default async function PreviousChairPage({ params }: PageProps) {
                   </Text>
                 ))}
               </div>
-
-              {chair.socialLinks.length > 0 ? (
-                <div className="mt-12 flex flex-col items-center gap-5 md:mt-14">
-                  <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-gold/85">
-                    Tautan Sosial
-                  </span>
-                  <div className="flex flex-wrap items-center justify-center gap-3">
-                    {chair.socialLinks.map((link) => (
-                      <SocialChip key={`${link.platform}-${link.href}`} link={link} />
-                    ))}
-                  </div>
-                </div>
-              ) : null}
             </div>
           </GlassCard>
         </ScrollReveal>

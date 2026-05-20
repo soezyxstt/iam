@@ -11,7 +11,7 @@ export function AktivitasScrollToGridButton() {
 
   return (
     <Button type="button" variant="primary" size="md" onClick={scrollToGrid}>
-      Explore More
+      Jelajahi
     </Button>
   )
 }

@@ -15,16 +15,24 @@ export type RelatedPostsProps = {
 
 export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
   const { className, docs, introContent } = props
+  const count = docs?.length ?? 0
 
   return (
     <div className={clsx('lg:container', className)}>
       {introContent && <RichText data={introContent} enableGutter={false} />}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
+      <div
+        className={clsx(
+          'grid gap-6 md:gap-8 items-stretch justify-center mx-auto',
+          count === 1 && 'grid-cols-1 max-w-sm',
+          count === 2 && 'grid-cols-1 md:grid-cols-2 max-w-2xl',
+          count >= 3 && 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl',
+        )}
+      >
         {docs?.map((doc, index) => {
           if (typeof doc === 'string') return null
 
-          return <Card key={index} doc={doc} relationTo="posts" showCategories />
+          return <Card key={index} doc={doc} type="berita" showCategories />
         })}
       </div>
     </div>

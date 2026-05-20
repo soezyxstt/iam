@@ -38,7 +38,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ media: _media, richText
               variant="brandRed"
               className="rounded-full px-8 py-6 text-lg font-display font-semibold tracking-wider"
             >
-              <Link href="/about">Explore More</Link>
+              <Link href="/about">Jelajahi</Link>
             </Button>
           </div>
         </div>

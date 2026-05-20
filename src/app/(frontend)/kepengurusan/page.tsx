@@ -14,17 +14,31 @@ export const metadata: Metadata = {
   description: 'Organogram dan struktur kepengurusan IAM ITB.',
 }
 
-const OrgNode = ({ role, name }: { role: string; name: string }) => (
-  <div className="flex flex-col items-center relative z-10 group">
-    <div className="w-2 h-2 rounded-full bg-brand-gold shadow-[0_0_8px_rgba(240,214,55,0.6)] mb-2 transition-transform duration-300 group-hover:scale-125" />
-    <span className="font-display text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] text-brand-gold text-center">
-      {role}
-    </span>
-    <span className="font-sans text-sm md:text-[15px] font-medium text-white mt-1 text-center max-w-[140px] leading-snug">
-      {name}
-    </span>
-  </div>
-)
+const OrgNode = ({ role, name }: { role: string; name: string }) => {
+  const initials = name
+    .split(' ')
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+
+  return (
+    <div className="flex flex-col items-center relative z-10 group">
+      <div className="relative mb-2 shrink-0">
+        <div className="absolute -inset-0.5 rounded-full bg-brand-gold/40 opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 blur-[2px]" />
+        <div className="relative flex size-12 items-center justify-center rounded-full border border-brand-gold/60 bg-brand-dark font-display text-xs font-bold tracking-wider text-brand-gold shadow-md">
+          {initials}
+        </div>
+      </div>
+      <span className="font-display text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] text-brand-gold text-center">
+        {role}
+      </span>
+      <span className="font-sans text-sm md:text-[15px] font-medium text-white mt-1 text-center max-w-[140px] leading-snug">
+        {name}
+      </span>
+    </div>
+  )
+}
 
 const VertLine = ({ h = 'h-10' }: { h?: string }) => (
   <div className={`w-px ${h} bg-white/20`} />
@@ -76,7 +90,7 @@ const TEAM = [
 export default function KepengurusanPage() {
   return (
     <PageShell>
-      <Section className="z-10 pb-8 pt-3 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pb-8 pt-3 md:pt-4">
         <ScrollReveal>
           <PageHeroHeader title="Organogram" subtitle="Kepengurusan IAM ITB" />
         </ScrollReveal>
@@ -88,7 +102,7 @@ export default function KepengurusanPage() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/[0.04] via-transparent to-transparent pointer-events-none" />
           <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none" />
           
-          <div className="relative z-10 mx-auto max-w-6xl px-4 py-14 md:px-8 md:py-20">
+          <div className="container relative z-10 py-14 md:py-20">
             <ScrollReveal>
               <div className="flex flex-col">
                 <div className="flex items-start justify-between gap-6 pb-12">
@@ -181,7 +195,7 @@ export default function KepengurusanPage() {
         </div>
       </section>
 
-      <Section className="z-10 pt-0" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pt-0">
         <ScrollReveal>
           <div className="mb-12 text-center">
             <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
@@ -197,7 +211,7 @@ export default function KepengurusanPage() {
         </ScrollReveal>
       </Section>
 
-      <Section className="z-10 border-t border-brand-dark/10 pb-20 pt-16 md:pt-20" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 border-t border-brand-dark/10 pb-20 pt-16 md:pt-20">
         <ScrollReveal>
           <div className="mb-12 text-center md:text-left">
             <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
@@ -209,11 +223,11 @@ export default function KepengurusanPage() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-12 sm:gap-x-10 sm:gap-y-14">
           {TEAM.map((member) => (
-            <ScrollReveal key={member.name}>
+            <ScrollReveal key={member.name} className="w-full sm:w-[calc(50%-20px)] lg:w-[calc(25%-30px)] max-w-[280px]">
               <div className="group block cursor-default">
-                <div className="relative aspect-3/4 overflow-hidden rounded-[4px] bg-brand-khaki">
+                <div className="relative aspect-3/4 overflow-hidden rounded-2xl bg-brand-khaki shadow-md">
                   <Image
                     src={member.src}
                     alt={member.name}
@@ -222,7 +236,7 @@ export default function KepengurusanPage() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
-                <div className="mt-4 transition-transform duration-500 ease-out group-hover:-translate-y-1">
+                <div className="mt-4 transition-transform duration-500 ease-out group-hover:-translate-y-1 text-center md:text-left">
                   <p className="font-serif text-lg font-bold text-brand-dark">{member.name}</p>
                   <p className="mt-1 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-brand-red">
                     {member.role}

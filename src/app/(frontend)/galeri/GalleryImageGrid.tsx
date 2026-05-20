@@ -25,7 +25,7 @@ export function GalleryImageGrid({ images, onSelect }: GalleryImageGridProps) {
           type="button"
           onClick={() => onSelect(img)}
           className={cn(
-            'group relative aspect-4/3 overflow-hidden bg-muted text-left',
+            'group relative aspect-4/3 overflow-hidden bg-muted text-left rounded-2xl shadow-md border border-white/10',
             'focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2 focus-visible:outline-none',
           )}
         >

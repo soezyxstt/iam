@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function GaleriPage() {
   return (
     <PageShell className="pb-16 md:pb-24">
-      <Section className="z-10 pb-4 pt-3 md:pb-8 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pb-4 pt-3 md:pb-8 md:pt-4">
         <ScrollReveal>
           <PageHeroHeader title="Galeri" subtitle="Ikatan Alumni Mesin ITB" />
         </ScrollReveal>

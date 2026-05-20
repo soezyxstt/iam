@@ -10,7 +10,8 @@ type OrnamentVariant =
   | 'pill' 
   | 'amoeba' 
   | 'wave' 
-  | 'ring';
+  | 'ring'
+  | 'gear';
 
 interface OrnamentProps extends React.SVGAttributes<SVGSVGElement> {
   variant?: OrnamentVariant;
@@ -44,6 +45,7 @@ const Ornament: React.FC<OrnamentProps> = ({
     'amoeba': <path d="M32,2c-15,0-30,10-30,30s15,30,30,30s30-10,30-30S47,2,32,2z M45,45c-8,8-18,8-26,0s-8-18,0-26s18-8,26,0 S53,37,45,45z" fillRule="evenodd" />,
     'wave': <path d="M12,32c0-10,8-18,18-18s18,8,18,18s8,18,18,18" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />,
     'ring': <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" strokeWidth="6" />,
+    'gear': <path d="M32 20a12 12 0 1 0 12 12 12 12 0 0 0 -12 -12zm0 18a6 6 0 1 1 6 -6 6 6 0 0 1 -6 6zm1.5-23.5h-3l-.5 3.5a14 14 0 0 0 -2.4 1l-3-2.2l-2.1 2.1l2.2 3a14 14 0 0 0 -1 2.4l-3.5.5v3l3.5.5a14 14 0 0 0 1 2.4l-2.2 3l2.1 2.1l3-2.2a14 14 0 0 0 2.4 1l.5 3.5h3l.5-3.5a14 14 0 0 0 2.4-1l3 2.2l2.1-2.1l-2.2-3a14 14 0 0 0 1-2.4l3.5-.5v-3l-3.5-.5a14 14 0 0 0 -1-2.4l2.2-3l-2.1-2.1l-3 2.2a14 14 0 0 0 -2.4-1z" />,
   };
 
   return (

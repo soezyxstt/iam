@@ -11,6 +11,10 @@ const defaultCollectionLabels = {
     plural: 'Postingan',
     singular: 'Postingan',
   },
+  jobVacancies: {
+    plural: 'Lowongan',
+    singular: 'Lowongan',
+  },
 }
 
 export const PageRange: React.FC<{

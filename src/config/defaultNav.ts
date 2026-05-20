@@ -61,6 +61,13 @@ export const defaultHeaderNavItems: NonNullable<Header['navItems']> = [
           url: '/aktivitas',
         },
       },
+      {
+        link: {
+          type: 'custom',
+          label: 'Lowongan Kerja',
+          url: '/lowongan-kerja',
+        },
+      },
     ],
   },
 ]

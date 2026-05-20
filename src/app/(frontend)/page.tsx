@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import React from 'react'
@@ -12,6 +13,8 @@ import { GlassCard } from '@/components/ui/glass-card'
 import { AktivitasImageStack } from '@/components/ui/aktivitas-image-stack'
 import { Section } from '@/components/ui/section'
 import { Eyebrow, Heading, Text } from '@/components/ui/typography'
+import { Card } from '@/components/Card'
+import type { Sponsor } from '@/payload-types'
 
 export const metadata: Metadata = {
   title: 'Beranda',
@@ -38,6 +41,21 @@ async function getLatestBerita(): Promise<BeritaDoc[]> {
       overrideAccess: false,
     })
     return result.docs as BeritaDoc[]
+  } catch {
+    return []
+  }
+}
+
+async function getSponsors(): Promise<Sponsor[]> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'sponsors',
+      limit: 12,
+      depth: 1,
+      overrideAccess: false,
+    })
+    return result.docs as Sponsor[]
   } catch {
     return []
   }
@@ -88,8 +106,10 @@ const BERITA_PLACEHOLDER = [
   'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&q=80',
 ]
 
+
+
 export default async function HomePage() {
-  const beritaList = await getLatestBerita()
+  const [beritaList, sponsors] = await Promise.all([getLatestBerita(), getSponsors()])
 
   return (
     <main className="page-root relative min-h-screen overflow-hidden">
@@ -109,12 +129,22 @@ export default async function HomePage() {
         <div className="absolute -bottom-40 -right-40 h-[640px] w-[540px] rounded-full bg-brand-dark/8 blur-[130px]" />
         {/* Small floating accent – top-centre */}
         <div className="absolute top-[8%] left-1/2 h-[180px] w-[300px] -translate-x-1/2 rounded-full bg-brand-primary/6 blur-[60px]" />
+        {/* Mechanical blueprint/gear vector ornaments */}
+        <div className="absolute -top-20 -left-20 w-[340px] h-[340px] opacity-[0.05] text-brand-gold animate-[spin_55s_linear_infinite] blur-[1px]">
+          <Ornament variant="gear" />
+        </div>
+        <div className="absolute top-[35%] right-[-120px] w-[420px] h-[420px] opacity-[0.04] text-brand-primary animate-[spin_70s_linear_infinite] blur-[1.5px]">
+          <Ornament variant="gear" />
+        </div>
+        <div className="absolute top-[8%] left-[45%] w-[260px] h-[260px] opacity-[0.03] text-brand-red animate-[spin_45s_linear_infinite] blur-[0.5px]">
+          <Ornament variant="gear" />
+        </div>
       </div>
 
       {/* ── Hero ── */}
       <Section
         className="hero-section flex min-h-[92vh] w-full items-center pt-14 pb-12 md:pt-[4.75rem]"
-        containerClassName="relative z-10 grid max-w-7xl grid-cols-1 items-center gap-8 px-6 md:px-12 lg:grid-cols-12"
+        containerClassName="relative z-10 grid grid-cols-1 items-center gap-8 lg:grid-cols-12"
       >
         <div className="flex flex-col items-start gap-5 lg:col-span-7">
           <Heading
@@ -125,7 +155,7 @@ export default async function HomePage() {
             <br />
             Institut Teknologi Bandung
           </Heading>
-
+ 
           <Text
             variant="lead"
             className="font-serif text-xl font-bold italic text-brand-red-light motion-reduce:animate-none motion-reduce:opacity-100 motion-reduce:translate-y-0 md:text-3xl animate-in fade-in slide-in-from-bottom-5 duration-700 delay-100"
@@ -134,7 +164,7 @@ export default async function HomePage() {
           </Text>
 
           <div className="pt-3 motion-reduce:animate-none motion-reduce:opacity-100 motion-reduce:translate-y-0 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-            <Button href="/tentang-kami">Explore More</Button>
+            <Button href="/tentang-kami">Jelajahi</Button>
           </div>
         </div>
 
@@ -145,20 +175,19 @@ export default async function HomePage() {
 
       {/* ── About ── */}
       <Section
-        className="z-10 -mt-8 px-4 py-16 md:px-8 md:pb-20"
-        containerClassName="max-w-6xl px-0"
+        className="z-10 -mt-8 py-16 md:pb-20"
       >
         <ScrollReveal>
         <GlassCard className="about-card">
           <div className="flex flex-col items-start gap-8 lg:flex-row lg:gap-12">
-            <div className="flex shrink-0 items-center gap-5">
-              <div className="flex h-[160px] w-[130px] items-center justify-center rounded-xl border border-white/20 bg-white/6 shadow-lg shadow-black/10 backdrop-blur-sm md:h-[180px] md:w-[150px]">
+            <div className="flex shrink-0 items-center gap-6">
+              <div className="h-[150px] w-[130px] flex items-center justify-start">
                 <Image
                   src="/logo.png"
                   alt="Logo IAM ITB"
-                  width={100}
-                  height={100}
-                  className="object-contain"
+                  width={120}
+                  height={120}
+                  className="object-contain object-left"
                 />
               </div>
 
@@ -208,7 +237,7 @@ export default async function HomePage() {
       </Section>
 
       {/* ── Aktivitas ── */}
-      <Section className="z-10" containerClassName="relative z-10 max-w-6xl px-6 md:px-8">
+      <Section className="z-10" containerClassName="relative z-10">
         <ScrollReveal>
         <Ornament
           variant="blob"
@@ -233,7 +262,7 @@ export default async function HomePage() {
               </Text>
             </div>
             <div className="pt-2">
-              <Button href="/aktivitas">Explore More</Button>
+              <Button href="/aktivitas">Jelajahi</Button>
             </div>
           </div>
 
@@ -243,7 +272,7 @@ export default async function HomePage() {
       </Section>
 
       {/* ── Berita ── */}
-      <Section className="z-10 px-4 py-16 md:px-8 md:pb-24" containerClassName="max-w-6xl px-0">
+      <Section className="z-10 py-16 md:pb-24">
         <ScrollReveal>
         <GlassCard className="berita-card" variant="stripes" contentClassName="p-8 md:p-10 lg:p-14">
           {/* Section header */}
@@ -261,51 +290,29 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
             {[0, 1, 2].map((idx) => {
               const post = beritaList[idx]
+              const postData = post
+                ? {
+                    title: post.title,
+                    slug: post.slug,
+                    publishedAt: post.publishedAt,
+                    heroImage: post.heroImage
+                      ? { url: post.heroImage.url }
+                      : { url: BERITA_PLACEHOLDER[idx] },
+                  }
+                : {
+                    title: idx === 0 ? 'Kongres IAM ITB' : idx === 1 ? 'Workshop Teknik' : 'Gathering Alumni',
+                    slug: '',
+                    publishedAt: new Date().toISOString(),
+                    heroImage: { url: BERITA_PLACEHOLDER[idx] },
+                  }
               return (
-                <a
+                <Card
                   key={idx}
-                  href={post?.slug ? `/berita/${post.slug}` : '#'}
-                  className="berita-item-card group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 shadow-xl shadow-black/25 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-gold/25 hover:shadow-2xl hover:shadow-black/35"
-                >
-                  {/* Image */}
-                  <div className="relative aspect-4/3 overflow-hidden">
-                    <Image
-                      src={post?.heroImage?.url ?? BERITA_PLACEHOLDER[idx]!}
-                      fill
-                      alt={post?.title ?? 'Berita IAM ITB'}
-                      className="object-cover transition-transform duration-700 group-hover:scale-[1.07]"
-                    />
-                    {/* Bottom gradient overlay */}
-                    <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent transition-opacity duration-500 group-hover:from-black/70" />
-                    {/* Category badge */}
-                    <Eyebrow tone="white" className="absolute top-3 left-3 rounded-[3px] bg-brand-red/90 px-2 py-[3px] text-[9px] tracking-[0.2em] shadow-lg backdrop-blur-sm">
-                      IAM
-                    </Eyebrow>
-                    {/* Post index pill */}
-                    <span className="absolute top-3 right-3 flex h-[26px] w-[26px] items-center justify-center rounded-full border border-white/20 bg-black/25 font-display text-[10px] font-bold text-white/65 backdrop-blur-md">
-                      0{idx + 1}
-                    </span>
-                  </div>
-
-                  {/* Text content */}
-                  <div className="flex flex-1 flex-col gap-2.5 p-4 pb-5">
-                    <Heading level={4} tone="inverse" className="line-clamp-2 text-sm leading-snug transition-colors duration-300 group-hover:text-brand-gold">
-                      {post?.title ?? 'Kongres IAM ITB'}
-                    </Heading>
-
-                    <div className="mt-auto flex items-center justify-between pt-1">
-                      <Text variant="small" tone="inverse" className="font-display text-[10px] uppercase tracking-wider opacity-35">
-                        {formatDate(post?.publishedAt)}
-                      </Text>
-                      <span className="text-[13px] leading-none text-white/25 transition-all duration-300 group-hover:translate-x-1 group-hover:text-brand-gold">
-                        →
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Bottom accent sweep on hover */}
-                  <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-linear-to-r from-brand-gold via-brand-gold/70 to-brand-red transition-all duration-500 group-hover:w-full" />
-                </a>
+                  type="berita"
+                  doc={postData}
+                  index={idx}
+                  showCategories
+                />
               )
             })}
           </div>
@@ -318,6 +325,95 @@ export default async function HomePage() {
         </GlassCard>
         </ScrollReveal>
       </Section>
+
+      {/* ── Sponsor & Mitra ── */}
+      {sponsors.length > 0 && (
+        <Section className="z-10 pb-24">
+          <ScrollReveal>
+            {/* Section header */}
+            <div className="mb-10 flex flex-col items-center gap-3 text-center">
+              <Eyebrow tone="red">
+                Dukungan &amp; Kolaborasi
+              </Eyebrow>
+              <Heading level={2}>
+                Sponsor &amp; Mitra
+              </Heading>
+              <div className="h-px w-20 bg-linear-to-r from-transparent via-brand-primary/40 to-transparent" />
+            </div>
+
+            {/* Glassmorphism logo grid */}
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              {sponsors.map((sponsor) => {
+                const logo = typeof sponsor.logo === 'object' && sponsor.logo !== null ? sponsor.logo : null
+                const href = sponsor.officialWebsite
+                  ? sponsor.officialWebsite.startsWith('http')
+                    ? sponsor.officialWebsite
+                    : `https://${sponsor.officialWebsite}`
+                  : null
+
+                const tile = (
+                  <div className="sponsor-logo-tile group relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-dark/12 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-dark/10">
+                    {/* Logo */}
+                    <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                      {logo?.url ? (
+                        <Image
+                          src={logo.url}
+                          alt={sponsor.companyName}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width:640px) 45vw, (max-width:1024px) 30vw, 15vw"
+                        />
+                      ) : (
+                        <span className="text-3xl font-bold text-brand-primary/30">
+                          {sponsor.companyName?.charAt(0)}
+                        </span>
+                      )}
+                    </div>
+                    {/* Hover overlay with sponsor name */}
+                    <div className="absolute inset-x-0 bottom-0 translate-y-full bg-brand-dark/80 px-3 py-2.5 text-center backdrop-blur-sm transition-transform duration-300 group-hover:translate-y-0">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-white line-clamp-1">
+                        {sponsor.companyName}
+                      </span>
+                    </div>
+                    {/* Clickable cursor hint */}
+                    {href && (
+                      <div className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand-dark/0 transition-all duration-300 group-hover:bg-brand-dark/20">
+                        <svg className="h-3 w-3 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                )
+
+                return (
+                  <div key={sponsor.id}>
+                    {href ? (
+                      <Link
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                        title={sponsor.companyName}
+                      >
+                        {tile}
+                      </Link>
+                    ) : (
+                      tile
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="mt-10 flex justify-center">
+              <Button href="/sponsor" variant="outline">
+                Lihat Semua Sponsor
+              </Button>
+            </div>
+          </ScrollReveal>
+        </Section>
+      )}
     </main>
   )
 }

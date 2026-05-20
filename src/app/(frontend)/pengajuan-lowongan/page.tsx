@@ -12,17 +12,17 @@ import { Button } from '@/components/ui/button'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
 
-const FORM_TITLE = 'Pengajuan Usaha Alumni'
+const FORM_TITLE = 'Pengajuan Lowongan'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Pengajuan Usaha Alumni',
+    title: 'Pasang Lowongan Kerja',
     description:
-      'Kirim pengajuan agar bisnis Anda ditinjau dan dapat ditampilkan di direktori usaha alumni IAM ITB.',
+      'Kirim pengajuan lowongan kerja agar ditinjau dan dapat ditampilkan di direktori lowongan kerja IAM ITB.',
   }
 }
 
-export default async function PengajuanUsahaAlumniPage() {
+export default async function PasangLowonganPage() {
   const payload = await getPayload({ config: configPromise })
 
   const { docs } = await payload.find({
@@ -44,12 +44,12 @@ export default async function PengajuanUsahaAlumniPage() {
     <PageShell className="pb-24">
       <Section className="z-10 pb-8 pt-3 md:pb-12 md:pt-4">
         <ScrollReveal>
-          <PageHeroHeader title="Daftarkan bisnis Anda" subtitle="Usaha Alumni — IAM ITB" />
+          <PageHeroHeader title="Pasang Lowongan Kerja" subtitle="Lowongan Kerja — IAM ITB" />
           <div className="mx-auto mt-8 max-w-2xl text-center font-sans text-[15px] leading-relaxed text-brand-dark/85">
-            Pengajuan ditinjau oleh pengurus IAM ITB. Setelah disetujui dan diterbitkan, bisnis Anda
+            Pengajuan lowongan akan ditinjau oleh pengurus IAM ITB. Setelah disetujui dan diterbitkan, lowongan kerja Anda
             akan tampil di halaman{' '}
-            <Link href="/usaha-alumni" className="font-semibold text-brand-red underline-offset-4 hover:underline">
-              Profil Usaha Alumni
+            <Link href="/lowongan-kerja" className="font-semibold text-brand-red underline-offset-4 hover:underline">
+              Lowongan Kerja
             </Link>
             .
           </div>
@@ -68,7 +68,7 @@ export default async function PengajuanUsahaAlumniPage() {
               Formulir &ldquo;{FORM_TITLE}&rdquo; belum ditemukan di database. Silakan hubungi
               pengurus IAM ITB atau kirim pesan melalui halaman Kontak.
             </p>
-            <Button href="/contact" variant="primary" className="mt-8 rounded-full">
+            <Button href="/kontak" variant="secondary" className="mt-8 rounded-full">
               Hubungi Kami
             </Button>
           </div>

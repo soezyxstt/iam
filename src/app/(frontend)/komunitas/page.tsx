@@ -12,7 +12,7 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 
 export const metadata: Metadata = {
-  title: 'Komunitas | IAM ITB',
+  title: 'Komunitas',
   description: 'Komunitas di bawah naungan IAM ITB.',
 }
 
@@ -27,54 +27,63 @@ export default async function KomunitasPage() {
 
   return (
     <PageShell>
-      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
         <ScrollReveal>
           <PageHeroHeader title="Komunitas" subtitle="Wadah Penyaluran Hobi & Minat" />
         </ScrollReveal>
       </Section>
 
-      <Section className="z-10 pt-0 pb-12 md:pt-0 md:pb-20" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pt-0 pb-16 md:pt-0 md:pb-24">
         <ScrollReveal>
-          <div className="max-w-prose mb-16 text-center md:text-left">
+          <div className="max-w-2xl mb-12 text-center md:text-left">
             <Eyebrow tone="red">Ekosistem IAM ITB</Eyebrow>
-            <Heading level={2} className="mt-3 mb-7 md:mb-8">
+            <Heading level={2} className="mt-3">
               Satu Mesin, Berbagai Minat
             </Heading>
-            <Text variant="editorial" className="leading-loose">
-              Jelajahi berbagai komunitas di bawah naungan IAM ITB. Bergabunglah dengan alumni lain yang memiliki minat dan hobi yang sama untuk mempererat tali silaturahmi.
+            <Text variant="editorial" className="mt-6 leading-relaxed">
+              Jelajahi berbagai komunitas di bawah naungan IAM ITB. Wadah bagi alumni untuk tetap terhubung melalui hobi dan minat yang sama.
             </Text>
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {communities.docs.map((community) => (
             <ScrollReveal key={community.id}>
-              <Link href={`/komunitas/${community.slug}`} className="block group h-full">
-                <div className="h-full flex flex-col items-center text-center p-8 transition-all duration-500 rounded-3xl bg-white/40 backdrop-blur-md border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-2 hover:shadow-2xl hover:bg-white/60">
-                  <div className="w-28 h-28 relative mb-6 rounded-full overflow-hidden border border-brand-dark/10 shadow-lg bg-white flex items-center justify-center p-4 transition-transform duration-500 group-hover:scale-105">
+              <Link href={`/komunitas/${community.slug}`} className="group relative block h-full overflow-hidden rounded-2xl border border-brand-dark/10 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl">
+                <div className="relative aspect-16/9 w-full overflow-hidden bg-brand-khaki/30 p-8 flex items-center justify-center">
+                  <div className="relative w-24 h-24 transition-transform duration-500 group-hover:scale-110">
                     {typeof community.logo === 'object' && community.logo !== null ? (
-                      <Media resource={community.logo} fill className="object-contain" />
-                    ) : null}
+                      <Media resource={community.logo} fill className="object-contain filter drop-shadow-md" />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-brand-primary/10 flex items-center justify-center">
+                        <span className="text-brand-primary font-bold text-2xl">{community.communityName?.charAt(0)}</span>
+                      </div>
+                    )}
                   </div>
-                  <Heading level={3} tone="default" className="mb-3 group-hover:text-brand-red transition-colors text-xl font-bold text-brand-dark">
+                </div>
+                <div className="p-6 md:p-8 flex flex-col h-full">
+                  <Heading level={3} className="mb-3 text-xl transition-colors group-hover:text-brand-red">
                     {community.communityName}
                   </Heading>
-                  <Text variant="small" tone="muted" className="line-clamp-3">
+                  <Text variant="small" tone="muted" className="line-clamp-2">
                     {community.shortDescription}
                   </Text>
-                  <div className="mt-auto pt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Text variant="small" tone="strong" className="font-display uppercase tracking-widest text-brand-red">
-                      Eksplorasi &rarr;
-                    </Text>
+                  <div className="mt-6 pt-4 border-t border-brand-dark/5 flex items-center justify-between">
+                    <span className="font-display text-[10px] font-bold uppercase tracking-widest text-brand-dark/40 group-hover:text-brand-red transition-colors">
+                      Lihat Detail
+                    </span>
+                    <span className="text-brand-dark/20 group-hover:text-brand-red transition-colors transition-transform group-hover:translate-x-1">
+                      &rarr;
+                    </span>
                   </div>
                 </div>
               </Link>
             </ScrollReveal>
           ))}
           {communities.docs.length === 0 && (
-            <div className="col-span-full py-12 text-center">
+            <div className="col-span-full py-20 text-center border-2 border-dashed border-brand-dark/5 rounded-3xl">
               <Text variant="editorial" tone="muted">
-                Belum ada data komunitas.
+                Belum ada data komunitas yang tersedia saat ini.
               </Text>
             </div>
           )}

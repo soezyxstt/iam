@@ -45,7 +45,7 @@
   --breakpoint-2xl: 86rem;
 
   /* --- NEXT.JS FONT MAPPINGS --- */
-  --font-serif: var(--font-baskerville), ui-serif, Georgia, serif;
+  --font-serif: var(--font-geist), ui-serif, Georgia, serif;
   --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-helvetica), ui-sans-serif, system-ui, sans-serif;
 }
@@ -54,37 +54,13 @@
   .container {
     width: 100%;
     margin-inline: auto;
-    padding-inline: 1rem;
-  }
-
-  @variant sm {
-    .container {
-      max-width: var(--breakpoint-sm);
-    }
+    padding-inline: 1rem; /* px-4 to match navbar mobile content padding */
+    max-width: 72rem; /* Matches max-w-6xl (Navbar width) */
   }
 
   @variant md {
     .container {
-      max-width: var(--breakpoint-md);
-      padding-inline: 2rem;
-    }
-  }
-
-  @variant lg {
-    .container {
-      max-width: var(--breakpoint-lg);
-    }
-  }
-
-  @variant xl {
-    .container {
-      max-width: var(--breakpoint-xl);
-    }
-  }
-
-  @variant 2xl {
-    .container {
-      max-width: var(--breakpoint-2xl);
+      padding-inline: 2rem; /* px-8 to match navbar wrapper md:px-8 */
     }
   }
 }

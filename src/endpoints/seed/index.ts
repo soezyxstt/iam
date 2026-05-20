@@ -1,5 +1,8 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 import { getServerSideURL } from '@/utilities/getURL'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 import type { Activity, JobVacancy } from '@/payload-types'
 import { defaultHeaderNavItems } from '@/config/defaultNav'
@@ -317,7 +320,13 @@ export const seed = async ({
       data: {
         _status: 'published',
         position: 'Mechanical Design Engineer',
+        slug: 'mechanical-design-engineer',
         companyName: 'PT Contoh Industri',
+        companyLogo: image1Doc.id,
+        location: 'Jakarta Selatan',
+        workSetup: 'hybrid',
+        experienceLevel: 'mid',
+        salaryRange: 'IDR 8.000.000 - 12.000.000',
         employmentType: 'full_time',
         jobDescription: plainTextToLexicalRoot(
           'Merancang komponen mekanikal, berkolaborasi dengan tim produksi.',
@@ -333,7 +342,13 @@ export const seed = async ({
       data: {
         _status: 'published',
         position: 'Internship — R&D',
+        slug: 'internship-r-and-d',
         companyName: 'Startup Mekanikal',
+        companyLogo: image2Doc.id,
+        location: 'Bandung',
+        workSetup: 'on_site',
+        experienceLevel: 'entry',
+        salaryRange: 'IDR 2.500.000 - 3.500.000',
         employmentType: 'internship',
         jobDescription: plainTextToLexicalRoot(
           'Program magang 3 bulan di divisi penelitian dan pengembangan.',
@@ -429,6 +444,29 @@ export const seed = async ({
 }
 
 async function fetchFileByURL(url: string): Promise<File> {
+  // If it's a localhost URL, try to read from the filesystem first
+  if (url.includes('localhost')) {
+    try {
+      const __filename = fileURLToPath(import.meta.url)
+      const __dirname = path.dirname(__filename)
+      const fileName = url.split('/').pop() || ''
+      const localPath = path.resolve(__dirname, '../../../public/media', fileName)
+
+      if (fs.existsSync(localPath)) {
+        const data = fs.readFileSync(localPath)
+        const ext = fileName.split('.').pop() || 'jpg'
+        return {
+          name: fileName,
+          data,
+          mimetype: ext === 'webp' ? 'image/webp' : ext === 'png' ? 'image/png' : 'image/jpeg',
+          size: data.length,
+        }
+      }
+    } catch (err) {
+      // Fallback to fetch if filesystem fails
+    }
+  }
+
   const res = await fetch(url)
 
   if (!res.ok) {

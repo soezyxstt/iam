@@ -43,7 +43,7 @@ export function GaleriView({ groups }: GaleriViewProps) {
   const navItems = groups.map((g) => ({ id: g.id, title: g.title }))
 
   return (
-    <div className="mx-auto max-w-6xl px-4 md:px-8">
+    <div className="container">
       <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-0 lg:pt-2">
         <GaleriGroupNav items={navItems} />
 
@@ -81,7 +81,7 @@ export function GaleriView({ groups }: GaleriViewProps) {
 
       {lightbox && (
         <div
-          className="fixed inset-0 z-100 flex items-center justify-center bg-black/88 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/92 p-4 md:p-8 backdrop-blur-md"
           role="dialog"
           aria-modal="true"
           aria-label="Pratinjau gambar"
@@ -89,31 +89,55 @@ export function GaleriView({ groups }: GaleriViewProps) {
         >
           <button
             type="button"
-            className="absolute top-4 right-4 p-2 text-white/90 transition-opacity hover:opacity-70"
+            className="absolute top-4 right-4 z-50 p-2 text-white/80 transition-opacity hover:opacity-100 hover:text-white bg-white/10 rounded-full hover:bg-white/20"
             onClick={() => setLightbox(null)}
             aria-label="Tutup"
           >
-            <X className="h-7 w-7" strokeWidth={1.25} />
+            <X className="h-6 w-6" strokeWidth={1.5} />
           </button>
+          
           <div
-            className="relative max-h-[85vh] w-full max-w-5xl"
+            className="relative w-full max-w-6xl overflow-hidden rounded-2xl border border-white/10 bg-brand-dark/95 shadow-2xl flex flex-col md:grid md:grid-cols-4 max-h-[85vh] md:h-[70vh]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative aspect-video w-full overflow-hidden bg-black/30">
-              <Image
-                src={lightbox.src}
-                alt={lightbox.alt}
-                fill
-                className="object-contain"
-                sizes="100vw"
-                priority
-              />
+            {/* Left: Image (3/4 width on desktop) */}
+            <div className="relative flex-1 md:col-span-3 bg-black/40 flex items-center justify-center min-h-[320px] md:min-h-0 md:h-full">
+              <div className="relative w-full h-full aspect-video md:aspect-auto">
+                <Image
+                  src={lightbox.src}
+                  alt={lightbox.alt}
+                  fill
+                  className="object-contain p-2 md:p-6"
+                  sizes="(max-width: 768px) 100vw, 75vw"
+                  priority
+                />
+              </div>
             </div>
-            {lightbox.caption && (
-              <Text tone="inverse" variant="small" className="mt-4 text-center font-display opacity-90">
-                {lightbox.caption}
-              </Text>
-            )}
+
+            {/* Right: Info/Description (1/4 width on desktop) */}
+            <div className="p-6 md:p-8 md:col-span-1 flex flex-col justify-between border-t border-white/10 md:border-t-0 md:border-l md:border-white/10 bg-brand-primary/40 h-full overflow-y-auto">
+              <div className="flex flex-col gap-4">
+                <Eyebrow tone="gold" className="text-[10px] tracking-[0.25em]">
+                  Detail Galeri
+                </Eyebrow>
+                <Heading level={3} tone="inverse" className="text-xl md:text-2xl font-serif">
+                  {lightbox.alt}
+                </Heading>
+                <div className="h-[2px] w-10 bg-brand-gold/60 my-1" />
+                <Text tone="inverse" variant="body" className="text-sm text-white/80 leading-relaxed">
+                  {lightbox.caption || 'Dokumentasi kegiatan dan momen Ikatan Alumni Mesin ITB.'}
+                </Text>
+              </div>
+              
+              <div className="mt-8 pt-4 border-t border-white/10 flex flex-col gap-2">
+                <span className="font-display text-[9px] font-semibold tracking-wider text-white/40 uppercase">
+                  IAM ITB Gallery
+                </span>
+                <span className="font-sans text-[11px] text-white/60">
+                  Solidarity Forever
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       )}

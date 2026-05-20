@@ -80,7 +80,7 @@ export function AktivitasImageStack({ items, className, ...props }: AktivitasIma
           hovered ? 'opacity-0' : 'opacity-100',
         )}
       >
-        Hover to explore
+        Arahkan kursor untuk menjelajah
       </p>
     </div>
   )

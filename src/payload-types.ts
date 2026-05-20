@@ -892,7 +892,12 @@ export interface JobVacancy {
   id: number;
   position: string;
   companyName: string;
+  companyLogo?: (number | null) | Media;
+  location?: string | null;
+  workSetup?: ('on_site' | 'hybrid' | 'remote') | null;
   employmentType: 'full_time' | 'part_time' | 'internship';
+  experienceLevel?: ('entry' | 'mid' | 'senior' | 'executive') | null;
+  salaryRange?: string | null;
   jobDescription: {
     root: {
       type: string;
@@ -909,6 +914,11 @@ export interface JobVacancy {
     [k: string]: unknown;
   };
   officialLink?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1782,9 +1792,16 @@ export interface UsersSelect<T extends boolean = true> {
 export interface JobVacanciesSelect<T extends boolean = true> {
   position?: T;
   companyName?: T;
+  companyLogo?: T;
+  location?: T;
+  workSetup?: T;
   employmentType?: T;
+  experienceLevel?: T;
+  salaryRange?: T;
   jobDescription?: T;
   officialLink?: T;
+  generateSlug?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

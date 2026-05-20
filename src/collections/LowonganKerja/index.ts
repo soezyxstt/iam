@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { slugField } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 
@@ -38,6 +39,28 @@ export const LowonganKerja: CollectionConfig = {
       required: true,
     },
     {
+      name: 'companyLogo',
+      label: 'Logo Perusahaan',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'location',
+      label: 'Lokasi',
+      type: 'text',
+    },
+    {
+      name: 'workSetup',
+      label: 'Sistem Kerja',
+      type: 'select',
+      options: [
+        { label: 'On-site', value: 'on_site' },
+        { label: 'Hybrid', value: 'hybrid' },
+        { label: 'Remote', value: 'remote' },
+      ],
+      defaultValue: 'on_site',
+    },
+    {
       name: 'employmentType',
       label: 'Jenis Pekerjaan',
       type: 'radio',
@@ -47,6 +70,25 @@ export const LowonganKerja: CollectionConfig = {
         { label: 'Internship', value: 'internship' },
       ],
       required: true,
+    },
+    {
+      name: 'experienceLevel',
+      label: 'Tingkat Pengalaman',
+      type: 'select',
+      options: [
+        { label: 'Entry Level (Fresh Graduate)', value: 'entry' },
+        { label: 'Mid Level (1-3 Tahun)', value: 'mid' },
+        { label: 'Senior Level (3-5+ Tahun)', value: 'senior' },
+        { label: 'Executive/Managerial', value: 'executive' },
+      ],
+    },
+    {
+      name: 'salaryRange',
+      label: 'Rentang Gaji (Opsional)',
+      type: 'text',
+      admin: {
+        placeholder: 'Contoh: IDR 5.000.000 - 10.000.000',
+      },
     },
     {
       name: 'jobDescription',
@@ -59,5 +101,6 @@ export const LowonganKerja: CollectionConfig = {
       label: 'Tautan Resmi',
       type: 'text',
     },
+    slugField({ useAsSlug: 'position' }),
   ],
 }

@@ -5,7 +5,7 @@ import type { Media, Page, Post, Config } from '../payload-types'
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
 
-const BRAND_SUFFIX = ' - IAM ITB'
+
 const BRAND_DEFAULT_TITLE = 'Beranda'
 const BRAND_DEFAULT_DESCRIPTION =
   'Wadah strategis yang menghimpun alumni lintas angkatan Fakultas Teknik Mesin dan Dirgantara ITB untuk menjaga silaturahmi, memperkuat jejaring profesional, dan berkontribusi bagi almamater.'
@@ -31,8 +31,8 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const baseTitle = doc?.meta?.title || BRAND_DEFAULT_TITLE
-  const title = `${baseTitle}${BRAND_SUFFIX}`
+
+  const title = doc?.meta?.title || BRAND_DEFAULT_TITLE
 
   const description = doc?.meta?.description || BRAND_DEFAULT_DESCRIPTION
 

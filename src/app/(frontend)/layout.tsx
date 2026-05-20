@@ -1,5 +1,5 @@
 import { cn } from '@/utilities/ui'
-import { Montserrat } from 'next/font/google'
+import { Montserrat, Geist } from 'next/font/google'
 import localFont from 'next/font/local'
 import React from 'react'
 
@@ -23,21 +23,10 @@ const montserrat = Montserrat({
   display: 'swap',
 })
 
-// 2. Local Font: ITC New Baskerville Std (Bold Roman/Italic for Titles per PDF)
-const baskerville = localFont({
-  src: [
-    {
-      path: '../../fonts/title-sub-itc/NewBaskervilleStd-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
-    {
-      path: '../../fonts/title-sub-itc/NewBaskervilleStd-BoldIt.woff2',
-      weight: '700',
-      style: 'italic',
-    },
-  ],
-  variable: '--font-baskerville',
+// 2. Google Font: Geist (Modern sans-serif for Titles)
+const geist = Geist({
+  subsets: ['latin'],
+  variable: '--font-geist',
   display: 'swap',
 })
 
@@ -53,7 +42,7 @@ const helveticaNeue = localFont({
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      className={cn(montserrat.variable, baskerville.variable, helveticaNeue.variable)}
+      className={cn(montserrat.variable, geist.variable, helveticaNeue.variable)}
       lang="id"
       suppressHydrationWarning
     >

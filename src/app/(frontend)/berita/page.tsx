@@ -1,7 +1,7 @@
 import type { Metadata } from 'next/types'
-
 import { getPayload } from 'payload'
 import React from 'react'
+import Link from 'next/link'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import { PageRange } from '@/components/PageRange'
@@ -11,21 +11,89 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 import { GlassCard } from '@/components/ui/glass-card'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
-import PageClient from './page.client'
+import type { Where } from 'payload'
 
+const PAGE_SIZE = 12
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+function buildBeritaUrl(q?: string, category?: string, page?: number): string {
+  const params = new URLSearchParams()
+  if (q?.trim()) params.set('q', q.trim())
+  if (category) params.set('category', category)
+  if (page && page > 1) params.set('page', String(page))
+  const qs = params.toString()
+  return qs ? `/berita?${qs}` : '/berita'
+}
 
-export default async function Page() {
+type SearchParams = Promise<{
+  q?: string
+  category?: string
+  page?: string
+}>
+
+export default async function Page({
+  searchParams: searchParamsPromise,
+}: {
+  searchParams: SearchParams
+}) {
+  const sp = await searchParamsPromise
+  const qRaw = typeof sp.q === 'string' ? sp.q : ''
+  const qTrim = qRaw.trim()
+  const categoryParam = typeof sp.category === 'string' ? sp.category : ''
+  const pageParsed = Number.parseInt(sp.page ?? '1', 10)
+  const currentPage =
+    Number.isFinite(pageParsed) && pageParsed > 0 ? Math.floor(pageParsed) : 1
+
   const payload = await getPayload({ config: configPromise })
 
-  const posts = await payload.find({
+  // Fetch categories dynamically
+  const categoriesData = await payload.find({
+    collection: 'categories',
+    limit: 100,
+    overrideAccess: false,
+    sort: 'title',
+  })
+
+  const CATEGORY_FILTERS = [
+    { value: '', label: 'Semua' },
+    ...categoriesData.docs.map((cat) => ({
+      value: cat.slug || '',
+      label: cat.title,
+    })),
+  ]
+
+  const whereParts: Where[] = []
+  if (categoryParam) {
+    whereParts.push({ 'categories.slug': { equals: categoryParam } })
+  }
+  if (qTrim) {
+    whereParts.push({
+      or: [
+        { title: { like: qTrim } },
+        { 'meta.description': { like: qTrim } },
+      ],
+    })
+  }
+
+  let where: Where | undefined
+  if (whereParts.length === 1) {
+    where = whereParts[0]
+  } else if (whereParts.length > 1) {
+    where = { and: whereParts }
+  }
+
+  let pageToFetch = currentPage
+  let result = await payload.find({
     collection: 'posts',
     depth: 1,
-    limit: 12,
+    limit: PAGE_SIZE,
+    page: pageToFetch,
     overrideAccess: false,
+    sort: '-publishedAt',
+    ...(where ? { where } : {}),
     select: {
       title: true,
       slug: true,
@@ -35,6 +103,38 @@ export default async function Page() {
       heroImage: true,
     },
   })
+
+  const totalPages = Math.max(1, result.totalPages ?? 1)
+  if (pageToFetch > totalPages) {
+    pageToFetch = totalPages
+    result = await payload.find({
+      collection: 'posts',
+      depth: 1,
+      limit: PAGE_SIZE,
+      page: pageToFetch,
+      overrideAccess: false,
+      sort: '-publishedAt',
+      ...(where ? { where } : {}),
+      select: {
+        title: true,
+        slug: true,
+        categories: true,
+        meta: true,
+        publishedAt: true,
+        heroImage: true,
+      },
+    })
+  }
+
+  const pageForPager = pageToFetch
+  const docs = result.docs
+  const queryLink = {
+    pathname: '/berita' as const,
+    searchParams: {
+      ...(qTrim ? { q: qTrim } : {}),
+      ...(categoryParam ? { category: categoryParam } : {}),
+    },
+  }
 
   return (
     <PageShell className="relative overflow-hidden pb-24">
@@ -47,34 +147,119 @@ export default async function Page() {
         <div className="absolute -bottom-40 -right-40 h-[640px] w-[540px] rounded-full bg-brand-dark/15 blur-[130px]" />
       </div>
 
-      <PageClient />
-      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
         <ScrollReveal>
           <PageHeroHeader title="Berita" subtitle="Ikatan Alumni Mesin ITB" />
         </ScrollReveal>
       </Section>
 
-      <Section className="z-10 pt-0 pb-20 md:pt-0 md:pb-28" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pt-0 pb-20 md:pt-0 md:pb-28">
         <ScrollReveal>
-          <GlassCard variant="stripes" contentClassName="p-8 md:p-10 lg:p-12">
-            <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-6">
-              <PageRange
-                className="text-white/80"
-                collection="posts"
-                currentPage={posts.page}
-                limit={12}
-                totalDocs={posts.totalDocs}
-                collectionLabels={{ plural: 'Berita', singular: 'Berita' }}
-              />
-            </div>
+          <GlassCard
+            id="berita-archive-grid"
+            className="berita-card scroll-mt-14 md:scroll-mt-19"
+            variant="stripes"
+            contentClassName="p-8 md:p-10 lg:p-14"
+          >
+            <div className="relative space-y-8">
+              <h2 className="text-center font-display text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold md:text-sm">
+                Arsip Berita & Opini
+              </h2>
 
-            <CollectionArchive posts={posts.docs} className="px-0 md:px-0" />
-
-            {posts.totalPages > 1 && posts.page && (
-              <div className="mt-16 flex justify-center border-t border-white/10 pt-12">
-                <Pagination page={posts.page} totalPages={posts.totalPages} tone="onDark" />
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+                <form
+                  action="/berita"
+                  method="get"
+                  className="flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:items-center"
+                  role="search"
+                >
+                  <Input
+                    type="search"
+                    name="q"
+                    placeholder="Cari berita..."
+                    defaultValue={qRaw}
+                    className={cn(
+                      'h-11 rounded-xl border-white/15 bg-white/8 font-sans text-sm text-white shadow-inner shadow-black/20 md:text-[15px]',
+                      'placeholder:text-white/45 focus-visible:border-brand-gold/40 focus-visible:ring-brand-gold/25',
+                      'sm:max-w-md sm:flex-1',
+                    )}
+                    aria-label="Cari berita"
+                  />
+                  {categoryParam ? (
+                    <input type="hidden" name="category" value={categoryParam} />
+                  ) : null}
+                  <Button type="submit" variant="secondary" size="sm" className="shrink-0 rounded-full">
+                    Cari
+                  </Button>
+                </form>
               </div>
-            )}
+
+              <div className="flex flex-wrap gap-2">
+                {CATEGORY_FILTERS.map((filt) => {
+                  const active = filt.value === categoryParam
+                  const href = buildBeritaUrl(qTrim, filt.value, 1)
+                  return (
+                    <Link
+                      key={filt.label}
+                      href={href}
+                      scroll={false}
+                      className={cn(
+                        'rounded-full px-4 py-2 font-display text-[11px] font-semibold uppercase tracking-wider transition-colors',
+                        active
+                          ? 'bg-brand-gold text-brand-dark'
+                          : 'border border-white/15 bg-white/6 text-white/85 hover:border-brand-gold/35 hover:bg-white/10 hover:text-white',
+                      )}
+                    >
+                      {filt.label}
+                    </Link>
+                  )
+                })}
+              </div>
+
+              <div className="font-sans text-sm text-white/80 md:text-[15px]">
+                <PageRange
+                  className="text-white/80"
+                  currentPage={pageForPager}
+                  limit={PAGE_SIZE}
+                  totalDocs={result.totalDocs}
+                  collectionLabels={{ plural: 'berita', singular: 'berita' }}
+                />
+              </div>
+
+              {docs.length === 0 ? (
+                <div className="rounded-2xl border border-white/10 bg-white/6 px-6 py-12 text-center backdrop-blur-sm">
+                  <p className="font-serif text-lg font-bold text-white md:text-xl">
+                    Belum ada berita yang ditemukan
+                  </p>
+                  <p className="mt-2 font-sans text-[13px] leading-relaxed text-white/75 md:text-sm">
+                    {qTrim || categoryParam
+                      ? 'Coba ubah kata kunci atau filter kategori, atau hapus penyaring untuk melihat semua.'
+                      : 'Arsip berita kosong.'}
+                  </p>
+                  {(qTrim || categoryParam) && (
+                    <Button href="/berita" variant="secondary" size="sm" className="mt-8">
+                      Tampilkan semua
+                    </Button>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <CollectionArchive posts={docs} />
+
+                  {totalPages > 1 ? (
+                    <div className="mt-16 flex justify-center border-t border-white/10 pt-12">
+                      <Pagination
+                        page={pageForPager}
+                        totalPages={totalPages}
+                        queryLink={queryLink}
+                        tone="onDark"
+                        scrollAlignId="berita-archive-grid"
+                      />
+                    </div>
+                  ) : null}
+                </>
+              )}
+            </div>
           </GlassCard>
         </ScrollReveal>
       </Section>
@@ -84,6 +269,6 @@ export default async function Page() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Berita - IAM ITB`,
+    title: `Berita`,
   }
 }

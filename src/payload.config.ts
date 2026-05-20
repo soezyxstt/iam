@@ -70,8 +70,8 @@ export default buildConfig({
       ],
     },
     meta: {
-      title: 'IAM ITB',
-      titleSuffix: ' - IAM ITB',
+      title: 'Admin',
+      titleSuffix: ' | IAM ITB',
     },
     /** Light theme only — matches IAM admin styling in `app/(payload)/custom.scss`. */
     theme: 'light',

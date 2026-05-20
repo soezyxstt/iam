@@ -2,8 +2,8 @@ export type AktivitasEntry = {
   slug: string
   title: string
   excerpt: string
-  /** Longer body for detail page (plain text paragraphs). */
   bodyParagraphs: string[]
+  category: 'organisasi' | 'profesional' | 'sosial'
 }
 
 export const AKTIVITAS_ENTRIES: AktivitasEntry[] = [
@@ -16,6 +16,7 @@ export const AKTIVITAS_ENTRIES: AktivitasEntry[] = [
       'Kongres IAM ITB menjadi ruang keputusan strategis sekaligus perayaan kebersamaan alumni Teknik Mesin ITB. Peserta membahas program kerja, anggaran, dan kolaborasi dengan fakultas serta industri.',
       'Melalui diskusi panel dan sesi networking, kongres memastikan aspirasi angkatan muda dan senior tercermin dalam kebijakan organisasi untuk periode berikutnya.',
     ],
+    category: 'organisasi',
   },
   {
     slug: 'workshop-teknis',
@@ -26,6 +27,7 @@ export const AKTIVITAS_ENTRIES: AktivitasEntry[] = [
       'Workshop menghadirkan praktisi dan akademisi untuk membahas studi kasus nyata: dari optimasi proses hingga integrasi digital di lantai produksi.',
       'Sesi dirancang interaktif dengan ruang tanya jawab dan kelompok kecil agar peserta dapat membawa solusi konkret ke tempat kerja masing-masing.',
     ],
+    category: 'profesional',
   },
   {
     slug: 'gathering-alumni',
@@ -36,6 +38,7 @@ export const AKTIVITAS_ENTRIES: AktivitasEntry[] = [
       'Gathering diadakan di berbagai kota dengan format santai namun tetap bermakna: ice breaking, permainan yell, dan sesi kenangan kampus.',
       'Acara ini menjadi pintu masuk bagi alumni baru yang ingin mengenal lebih dekat aktivitas IAM dan kontribusi sosialnya.',
     ],
+    category: 'sosial',
   },
   {
     slug: 'bakti-sosial',
@@ -46,6 +49,7 @@ export const AKTIVITAS_ENTRIES: AktivitasEntry[] = [
       'Tim relawan alumni bersama mahasiswa menyelenggarakan donor darah, bantuan pendidikan, dan renovasi fasilitas umum.',
       'Program ini memperkuat identitas IAM sebagai organisasi yang tidak hanya profesional, tetapi juga peduli pada lingkungan sekitar.',
     ],
+    category: 'sosial',
   },
   {
     slug: 'mentoring-karier',
@@ -56,6 +60,7 @@ export const AKTIVITAS_ENTRIES: AktivitasEntry[] = [
       'Mentor dan mentee dipasangkan berdasarkan minat industri dan pengalaman agar diskusi lebih terarah dan berdampak.',
       'Selain sesi one-on-one, tersedia webinar topik umum seperti negosiasi gaji dan transisi ke peran manajerial.',
     ],
+    category: 'profesional',
   },
   {
     slug: 'kolaborasi-kampus',
@@ -66,6 +71,7 @@ export const AKTIVITAS_ENTRIES: AktivitasEntry[] = [
       'IAM memfasilitasi alumni untuk kembali ke kelas tamu, juri kompetisi, dan pendanaan kegiatan riset mahasiswa.',
       'Kolaborasi ini menjaga tali persaudaraan antara dunia kampus dan industri serta memperkaya pengalaman belajar mahasiswa.',
     ],
+    category: 'organisasi',
   },
 ]
 

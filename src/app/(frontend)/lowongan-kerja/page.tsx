@@ -1,79 +1,56 @@
 import type { Metadata } from 'next/types'
-import Image from 'next/image'
-import Link from 'next/link'
-import { User } from 'lucide-react'
-import React from 'react'
-import configPromise from '@payload-config'
-import type { Where } from 'payload'
 import { getPayload } from 'payload'
-
-import type { AlumniBusiness } from '@/payload-types'
-import { PageShell } from '@/components/PageShell'
-import { GlassCard } from '@/components/ui/glass-card'
+import React from 'react'
+import Link from 'next/link'
 import { Card } from '@/components/Card'
-import { Pagination } from '@/components/Pagination'
+
+import { PageShell } from '@/components/PageShell'
 import { PageRange } from '@/components/PageRange'
+import { Pagination } from '@/components/Pagination'
 import { ScrollReveal } from '@/components/ScrollReveal'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { GlassCard } from '@/components/ui/glass-card'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
-import { Text } from '@/components/ui/typography'
+import { Heading, Text, Eyebrow } from '@/components/ui/typography'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/ui'
+import configPromise from '@payload-config'
+import type { Where } from 'payload'
 
-import { labelForCategory } from './constants'
+const PAGE_SIZE = 12
 
-const PAGE_SIZE = 9
-
-const CATEGORY_FILTERS: { value: AlumniBusiness['category'] | ''; label: string }[] = [
+const CATEGORY_FILTERS = [
   { value: '', label: 'Semua' },
-  { value: 'fnb', label: 'Kuliner' },
-  { value: 'manufaktur', label: 'Manufaktur' },
-  { value: 'teknologi', label: 'Teknologi' },
-  { value: 'jasa', label: 'Jasa Konsultasi' },
-  { value: 'lainnya', label: 'Lainnya' },
+  { value: 'full_time', label: 'Full Time' },
+  { value: 'part_time', label: 'Part Time' },
+  { value: 'internship', label: 'Magang' },
 ]
 
-const VALID_CATEGORY_VALUES = new Set(
-  CATEGORY_FILTERS.filter((f) => f.value !== '').map((f) => f.value),
-)
-
-function normalizeCategory(raw: string | undefined): AlumniBusiness['category'] | '' {
-  if (!raw || raw === 'semua') return ''
-  if (VALID_CATEGORY_VALUES.has(raw as AlumniBusiness['category'])) {
-    return raw as AlumniBusiness['category']
-  }
-  return ''
-}
-
-function buildUsahaListUrl(opts: {
-  q?: string
-  category?: AlumniBusiness['category'] | ''
-  page?: number
-}): string {
+function buildLowonganUrl(q?: string, type?: string, page?: number): string {
   const params = new URLSearchParams()
-  const qTrim = opts.q?.trim()
-  if (qTrim) params.set('q', qTrim)
-  if (opts.category) params.set('category', opts.category)
-  if (opts.page && opts.page > 1) params.set('page', String(opts.page))
+  if (q?.trim()) params.set('q', q.trim())
+  if (type) params.set('type', type)
+  if (page && page > 1) params.set('page', String(page))
   const qs = params.toString()
-  return qs ? `/usaha-alumni?${qs}` : '/usaha-alumni'
+  return qs ? `/lowongan-kerja?${qs}` : '/lowongan-kerja'
 }
 
 type SearchParams = Promise<{
   q?: string
-  category?: string
+  type?: string
   page?: string
 }>
 
-export default async function UsahaAlumniPage({
+export default async function Page({
   searchParams: searchParamsPromise,
 }: {
   searchParams: SearchParams
 }) {
   const sp = await searchParamsPromise
   const qRaw = typeof sp.q === 'string' ? sp.q : ''
-  const categoryParam = normalizeCategory(sp.category)
+  const qTrim = qRaw.trim()
+  const typeParam = typeof sp.type === 'string' ? sp.type : ''
   const pageParsed = Number.parseInt(sp.page ?? '1', 10)
   const currentPage =
     Number.isFinite(pageParsed) && pageParsed > 0 ? Math.floor(pageParsed) : 1
@@ -81,17 +58,15 @@ export default async function UsahaAlumniPage({
   const payload = await getPayload({ config: configPromise })
 
   const whereParts: Where[] = []
-  if (categoryParam) {
-    whereParts.push({ category: { equals: categoryParam } })
+  if (typeParam) {
+    whereParts.push({ employmentType: { equals: typeParam } })
   }
-  const qTrim = qRaw.trim()
   if (qTrim) {
     whereParts.push({
       or: [
-        { businessName: { like: qTrim } },
-        { ownerName: { like: qTrim } },
-        { productsOrServices: { like: qTrim } },
-        { description: { like: qTrim } },
+        { position: { like: qTrim } },
+        { companyName: { like: qTrim } },
+        { location: { like: qTrim } },
       ],
     })
   }
@@ -105,44 +80,49 @@ export default async function UsahaAlumniPage({
 
   let pageToFetch = currentPage
   let result = await payload.find({
-    collection: 'alumniBusinesses',
+    collection: 'jobVacancies',
     depth: 1,
     limit: PAGE_SIZE,
     page: pageToFetch,
     overrideAccess: false,
-    sort: 'businessName',
+    sort: '-updatedAt',
     ...(where ? { where } : {}),
     select: {
+      position: true,
+      companyName: true,
+      companyLogo: true,
+      location: true,
+      workSetup: true,
+      experienceLevel: true,
+      salaryRange: true,
+      employmentType: true,
       slug: true,
-      businessName: true,
-      ownerName: true,
-      category: true,
-      description: true,
-      productsOrServices: true,
-      coverImage: true,
+      updatedAt: true,
     },
   })
 
   const totalPages = Math.max(1, result.totalPages ?? 1)
-
   if (pageToFetch > totalPages) {
     pageToFetch = totalPages
     result = await payload.find({
-      collection: 'alumniBusinesses',
+      collection: 'jobVacancies',
       depth: 1,
       limit: PAGE_SIZE,
       page: pageToFetch,
       overrideAccess: false,
-      sort: 'businessName',
+      sort: '-updatedAt',
       ...(where ? { where } : {}),
       select: {
+        position: true,
+        companyName: true,
+        companyLogo: true,
+        location: true,
+        workSetup: true,
+        experienceLevel: true,
+        salaryRange: true,
+        employmentType: true,
         slug: true,
-        businessName: true,
-        ownerName: true,
-        category: true,
-        description: true,
-        productsOrServices: true,
-        coverImage: true,
+        updatedAt: true,
       },
     })
   }
@@ -150,46 +130,44 @@ export default async function UsahaAlumniPage({
   const pageForPager = pageToFetch
   const docs = result.docs
   const queryLink = {
-    pathname: '/usaha-alumni' as const,
+    pathname: '/lowongan-kerja' as const,
     searchParams: {
       ...(qTrim ? { q: qTrim } : {}),
-      ...(categoryParam ? { category: categoryParam } : {}),
+      ...(typeParam ? { type: typeParam } : {}),
     },
   }
 
   return (
-    <PageShell className="pb-24">
+    <PageShell className="relative overflow-hidden pb-24">
+      {/* ── Ambient background geometry ── */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 select-none overflow-hidden">
+        <div className="absolute -top-44 -right-44 h-[640px] w-[580px] rounded-full bg-brand-gold/12 blur-[110px]" />
+        <div className="absolute top-[16%] -left-64 h-[700px] w-[520px] rounded-full bg-brand-primary/15 blur-[110px]" />
+        <div className="absolute top-[45%] left-1/2 h-[450px] w-[500px] -translate-x-1/2 rounded-full bg-brand-red/8 blur-[100px]" />
+      </div>
+
       <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
         <ScrollReveal>
-          <PageHeroHeader
-            title="Profil Usaha Alumni"
-            subtitle="Ikatan Alumni Mesin ITB"
-            description={
-              <Text className="text-[15px] leading-relaxed text-brand-light">
-                Temukan bisnis alumni Teknik Mesin ITB untuk kolaborasi, dukungan lokal, dan jaringan
-                profesional.
-              </Text>
-            }
-          />
+          <PageHeroHeader title="Lowongan Kerja" subtitle="Karier & Peluang Profesional" />
         </ScrollReveal>
       </Section>
 
       <Section className="z-10 pt-0 pb-20 md:pt-0 md:pb-28">
         <ScrollReveal>
           <GlassCard
-            id="direktori-usaha-alumni"
+            id="lowongan-grid"
             className="berita-card scroll-mt-14 md:scroll-mt-19"
             variant="stripes"
             contentClassName="p-8 md:p-10 lg:p-14"
           >
             <div className="relative space-y-8">
               <h2 className="text-center font-display text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold md:text-sm">
-                Direktori usaha alumni
+                Direktori Lowongan Kerja
               </h2>
 
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
                 <form
-                  action="/usaha-alumni"
+                  action="/lowongan-kerja"
                   method="get"
                   className="flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:items-center"
                   role="search"
@@ -197,35 +175,30 @@ export default async function UsahaAlumniPage({
                   <Input
                     type="search"
                     name="q"
-                    placeholder="Cari nama usaha, produk, alumni"
+                    placeholder="Cari posisi, perusahaan..."
                     defaultValue={qRaw}
                     className={cn(
                       'h-11 rounded-xl border-white/15 bg-white/8 font-sans text-sm text-white shadow-inner shadow-black/20 md:text-[15px]',
                       'placeholder:text-white/45 focus-visible:border-brand-gold/40 focus-visible:ring-brand-gold/25',
                       'sm:max-w-md sm:flex-1',
                     )}
-                    aria-label="Cari usaha alumni"
+                    aria-label="Cari lowongan kerja"
                   />
-                  {categoryParam ? (
-                    <input type="hidden" name="category" value={categoryParam} />
-                  ) : null}
+                  {typeParam ? <input type="hidden" name="type" value={typeParam} /> : null}
                   <Button type="submit" variant="secondary" size="sm" className="shrink-0 rounded-full">
                     Cari
                   </Button>
                 </form>
 
-                <Button href="/pengajuan-usaha-alumni" variant="secondary" size="sm" className="shrink-0">
-                  + Daftarkan Bisnis
+                <Button href="/pengajuan-lowongan" variant="secondary" size="sm" className="shrink-0">
+                  + Pasang Lowongan
                 </Button>
               </div>
 
               <div className="flex flex-wrap gap-2">
                 {CATEGORY_FILTERS.map((filt) => {
-                  const active = filt.value === categoryParam
-                  const href = buildUsahaListUrl({
-                    q: qTrim,
-                    category: filt.value === '' ? '' : filt.value,
-                  })
+                  const active = filt.value === typeParam
+                  const href = buildLowonganUrl(qTrim, filt.value, 1)
                   return (
                     <Link
                       key={filt.label}
@@ -246,46 +219,48 @@ export default async function UsahaAlumniPage({
 
               <div className="font-sans text-sm text-white/80 md:text-[15px]">
                 <PageRange
+                  className="text-white/80"
                   currentPage={pageForPager}
                   limit={PAGE_SIZE}
                   totalDocs={result.totalDocs}
-                  collectionLabels={{ plural: 'usaha', singular: 'usaha' }}
+                  collectionLabels={{ plural: 'lowongan', singular: 'lowongan' }}
                 />
               </div>
 
               {docs.length === 0 ? (
                 <div className="rounded-2xl border border-white/10 bg-white/6 px-6 py-12 text-center backdrop-blur-sm">
                   <p className="font-serif text-lg font-bold text-white md:text-xl">
-                    Belum ada usaha yang ditampilkan
+                    Belum ada lowongan kerja yang ditemukan
                   </p>
                   <p className="mt-2 font-sans text-[13px] leading-relaxed text-white/75 md:text-sm">
-                    {qTrim || categoryParam
+                    {qTrim || typeParam
                       ? 'Coba ubah kata kunci atau filter kategori, atau hapus penyaring untuk melihat semua.'
-                      : 'Entri baru akan muncul setelah pengajuan disetujui dan diterbitkan oleh pengurus.'}
+                      : 'Belum ada lowongan kerja yang dipublikasikan.'}
                   </p>
-                  {(qTrim || categoryParam) && (
-                    <Button href="/usaha-alumni" variant="secondary" size="sm" className="mt-8">
+                  {(qTrim || typeParam) && (
+                    <Button href="/lowongan-kerja" variant="secondary" size="sm" className="mt-8">
                       Tampilkan semua
                     </Button>
                   )}
                 </div>
               ) : (
                 <>
-                  <div className="mt-2 grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-                    {docs.map((biz) => (
-                      <Card key={biz.id} type="usaha" doc={biz as AlumniBusiness} />
+                  <div className="flex flex-col gap-4">
+                    {docs.map((job) => (
+                      <Card key={job.id} type="lowongan" doc={job} />
                     ))}
                   </div>
 
                   {totalPages > 1 ? (
-                    <Pagination
-                      page={pageForPager}
-                      totalPages={totalPages}
-                      queryLink={queryLink}
-                      tone="onDark"
-                      scrollAlignId="direktori-usaha-alumni"
-                      className="my-10"
-                    />
+                    <div className="mt-16 flex justify-center border-t border-white/10 pt-12">
+                      <Pagination
+                        page={pageForPager}
+                        totalPages={totalPages}
+                        queryLink={queryLink}
+                        tone="onDark"
+                        scrollAlignId="lowongan-grid"
+                      />
+                    </div>
                   ) : null}
                 </>
               )}
@@ -297,10 +272,8 @@ export default async function UsahaAlumniPage({
   )
 }
 
-export async function generateMetadata(): Promise<Metadata> {
+export function generateMetadata(): Metadata {
   return {
-    title: 'Profil Usaha Alumni',
-    description:
-      'Direktori usaha alumni Ikatan Alumni Mesin ITB — telusuri menurut kategori atau kata kunci.',
+    title: `Lowongan Kerja`,
   }
 }

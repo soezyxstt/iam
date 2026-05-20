@@ -28,7 +28,7 @@ export const PostHero: React.FC<{
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/85 via-black/25 to-black/10" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-8 text-white md:px-8 lg:grid lg:grid-cols-[1fr_48rem_1fr]">
+      <div className="container relative z-10 pb-8 text-white lg:grid lg:grid-cols-[1fr_48rem_1fr]">
         <div className="col-span-1 md:col-span-2 md:col-start-2">
           <div className="mb-6 font-display text-[10px] font-bold uppercase tracking-[0.35em] text-white/75">
             {categories?.map((category, index) => {

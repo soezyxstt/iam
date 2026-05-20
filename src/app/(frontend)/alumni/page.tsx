@@ -5,9 +5,10 @@ import { Section } from '@/components/ui/section'
 import { Heading, Text, Eyebrow } from '@/components/ui/typography'
 import { Media } from '@/components/Media'
 import { Metadata } from 'next'
+import { PageShell } from '@/components/PageShell'
 
 export const metadata: Metadata = {
-  title: 'Direktori Alumni | IAM ITB',
+  title: 'Direktori Alumni',
   description: 'Basis data alumni Teknik Mesin ITB.',
 }
 
@@ -27,7 +28,7 @@ export default async function AlumniPage() {
   })
 
   return (
-    <main className="min-h-screen pt-24 pb-12 bg-brand-primary overflow-hidden">
+    <PageShell>
       {/* Decorative Background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20 z-0">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-brand-red rounded-full blur-3xl mix-blend-multiply" />
@@ -48,7 +49,7 @@ export default async function AlumniPage() {
         </div>
 
         {/* Dynamic Avatar Gallery */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 max-w-6xl mx-auto">
+        <div className="container flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8">
           {alumniData.docs.map((alumni) => {
             const photo = typeof alumni.photo === 'object' && alumni.photo !== null ? alumni.photo : null
             const hasLink = !!alumni.linkedInUrl
@@ -105,6 +106,6 @@ export default async function AlumniPage() {
           )}
         </div>
       </Section>
-    </main>
+    </PageShell>
   )
 }

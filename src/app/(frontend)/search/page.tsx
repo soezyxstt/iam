@@ -11,6 +11,7 @@ import React from 'react'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
+import { GlassCard } from '@/components/ui/glass-card'
 
 type Args = {
   searchParams: Promise<{
@@ -66,19 +67,21 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   return (
     <PageShell className="pb-24">
       <PageClient />
-      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
         <PageHeroHeader title="Pencarian" subtitle="Ikatan Alumni Mesin ITB" />
         <div className="mx-auto mt-6 max-w-2xl">
           <Search />
         </div>
       </Section>
 
-      <Section className="z-10 py-8 md:py-12" containerClassName="max-w-6xl px-4 md:px-8">
-        {posts.totalDocs > 0 ? (
-          <CollectionArchive posts={posts.docs as CardPostData[]} />
-        ) : (
-          <Text className="text-brand-light">Tidak ada hasil ditemukan.</Text>
-        )}
+      <Section className="z-10 py-8 md:py-12">
+        <GlassCard className="berita-card" variant="stripes" contentClassName="p-8 md:p-10 lg:p-14">
+          {posts.docs && posts.docs.length > 0 ? (
+            <CollectionArchive posts={posts.docs as CardPostData[]} />
+          ) : (
+            <Text tone="inverse" className="text-white/60">Tidak ada hasil ditemukan.</Text>
+          )}
+        </GlassCard>
       </Section>
     </PageShell>
   )

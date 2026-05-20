@@ -34,7 +34,7 @@ To maintain the "IAM ITB Premium" look, **never** use raw HTML tags for text or 
 
 ### Typography
 - **Heading**: Use `<Heading level={1-4} tone="default|inverse|accent|muted" />`
-  - Font: ITC New Baskerville Std (Serif)
+  - Font: Geist (Sans)
 - **Text**: Use `<Text variant="body|editorial|lead|small" tone="default|inverse|accent|strong|light" />`
   - Font: Helvetica Neue (Sans)
 - **Eyebrow**: Use `<Eyebrow tone="red|gold|white|muted" />`
@@ -62,7 +62,26 @@ To maintain the "IAM ITB Premium" look, **never** use raw HTML tags for text or 
   - `Usaha Alumni` (Alumni Businesses)
   - `Aktivitas` (Activities)
 
-## 5. Payload CMS Development Rules
+## 5. Professionalism & Standardization
+
+To maintain the official and professional status of the website, **consistency is a priority**. 
+
+### Visual Consistency
+- **Unified Patterns**: All pages should share a similar layout pattern and "style system tone" to ensure the site feels cohesive and professional.
+- **Reference Pages**: Before building or modifying a page, always investigate the patterns and tone used in:
+  - `Organisasi`
+  - `Kepengurusan`
+  - `Galeri`
+  - `Aktivitas`
+- **Exceptions**: The **Direktori Alumni** (`/alumni`) is a permitted exception. It is allowed to have a unique, distinct UI concept as long as it remains senada (harmonious) with the overall brand concept.
+
+### Components for Standardization
+- Use `PageShell` as the main wrapper for all frontend pages.
+- Use `PageHeroHeader` for page titles and introductions.
+- Wrap content in `Section` components for consistent spacing.
+- Use `ScrollReveal` for subtle, professional entrance animations.
+
+## 6. Payload CMS Development Rules
 
 ### TypeScript & Types
 - Run `npm run generate:types` after any schema change.
@@ -103,12 +122,13 @@ hooks: {
 ### Hook Loops
 - Use `context.skipHooks` or similar flags to prevent infinite loops when updating the same document in an `afterChange` hook.
 
-## 6. Development Workflow
+## 7. Development Workflow
 
 1. **Schema Change**: Modify collection -> Run `generate:types` -> Update frontend components.
-2. **UI Component**: Always check `src/components/ui` before creating a new component.
-3. **Admin Panel**: If adding a custom component to the admin panel, define it using the file path in `payload.config.ts` and ensure it's compatible with the Next.js App Router.
-4. **Validation**: Run `tsc --noEmit` to check for type errors before committing.
+2. **Investigation (MANDATORY)**: Before touching pages like `Komunitas`, `Sponsor`, or `Kontak`, first investigate reference pages (`Organisasi`, `Kepengurusan`, etc.) to understand the established layout patterns and design tone.
+3. **UI Component**: Always check `src/components/ui` before creating a new component.
+4. **Admin Panel**: If adding a custom component to the admin panel, define it using the file path in `payload.config.ts` and ensure it's compatible with the Next.js App Router.
+5. **Validation**: Run `tsc --noEmit` to check for type errors before committing.
 
 ---
 *IAM ITB - For Union Machine Strong*

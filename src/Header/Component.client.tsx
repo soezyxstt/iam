@@ -11,7 +11,6 @@ import type { Header, Page, Post } from '@/payload-types'
 import { defaultHeaderNavItems } from '@/config/defaultNav'
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav, linkIsActive } from './Nav'
-import { HeaderAdminIcon } from './HeaderAdminIcon'
 import { CMSLink } from '@/components/Link'
 
 interface NavLink {
@@ -125,37 +124,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <HeaderNav data={headerDataForNav} />
           </div>
 
-          {/* Right: Search, then admin icon (far right before menu on mobile) */}
+          {/* Right: Search icon, then Login button (far right before menu on mobile) */}
           <div className="flex min-w-0 items-center gap-2">
-            {/* Search box desktop */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                const q = (e.currentTarget.elements.namedItem('q') as HTMLInputElement)?.value
-                if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`
-              }}
-              className="hidden md:flex items-center gap-2 rounded-full border border-border/40 bg-background/50 px-4 py-1.5 backdrop-blur-sm transition-colors focus-within:border-border"
-            >
-              <SearchIcon className="w-4 h-4 text-foreground/60 shrink-0" />
-              <input
-                name="q"
-                type="text"
-                placeholder="Search"
-                className="w-28 max-w-40 bg-transparent text-sm font-display text-foreground placeholder:text-muted-foreground outline-none transition-[width] duration-200 focus:w-36"
-                aria-label="Cari konten"
-              />
-            </form>
-
-            {/* Mobile: search icon link */}
+            {/* Search icon button – desktop & mobile */}
             <Link
               href="/search"
-              className="md:hidden rounded-md p-2 text-foreground transition-opacity hover:opacity-70"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-foreground/70 transition-colors hover:bg-foreground/8 hover:text-foreground"
               aria-label="Pencarian"
             >
               <SearchIcon className="w-5 h-5" />
             </Link>
 
-            <HeaderAdminIcon />
+            {/* Login button */}
+            <Link
+              href="/admin"
+              className="hidden md:inline-flex items-center justify-center rounded-full bg-brand-gold px-5 py-1.5 text-sm font-semibold font-display text-brand-dark transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
+              aria-label="Masuk ke panel admin"
+            >
+              Login
+            </Link>
 
             {/* Hamburger */}
             <button

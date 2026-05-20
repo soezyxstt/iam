@@ -85,7 +85,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
   const excerpt = biz.description?.slice(0, 155) ?? ''
   return {
-    title: `${biz.businessName} — Usaha Alumni`,
+    title: biz.businessName,
     description: excerpt.length < (biz.description?.length ?? 0) ? `${excerpt}…` : excerpt,
   }
 }

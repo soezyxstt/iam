@@ -37,12 +37,12 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
 
   if (!community) {
     return {
-      title: 'Not Found | IAM ITB',
+      title: 'Not Found',
     }
   }
 
   return {
-    title: `${community.communityName} | IAM ITB`,
+    title: community.communityName,
     description: community.shortDescription,
   }
 }
@@ -84,7 +84,7 @@ export default async function KomunitasDetail({ params }: Args) {
         )}
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none z-0" />
         
-        <div className="relative z-10 mx-auto max-w-6xl px-4 md:px-8">
+        <div className="container relative z-10">
           <ScrollReveal>
             <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
               {logo && (
@@ -106,7 +106,7 @@ export default async function KomunitasDetail({ params }: Args) {
         </div>
       </section>
 
-      <Section className="z-10 py-16 md:py-24" containerClassName="max-w-6xl px-4 md:px-8">
+      <Section className="z-10 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Main Content */}
           <div className="lg:col-span-8 space-y-16">
@@ -159,7 +159,7 @@ export default async function KomunitasDetail({ params }: Args) {
       {/* Related News Section */}
       {hasRelatedPosts && (
         <section className="relative z-10 border-t border-brand-dark/10 bg-linear-to-b from-brand-dark/3 to-transparent py-16 md:py-24">
-          <div className="mx-auto max-w-6xl px-4 md:px-8">
+          <div className="container">
             <ScrollReveal className="mb-12 text-center lg:text-left">
               <Eyebrow tone="red">Seputar Komunitas</Eyebrow>
               <Heading level={2} className="mt-3">
