@@ -328,6 +328,7 @@ export const seed = async ({
         experienceLevel: 'mid',
         salaryRange: 'IDR 8.000.000 - 12.000.000',
         employmentType: 'full_time',
+        vacancyStatus: 'open',
         jobDescription: plainTextToLexicalRoot(
           'Merancang komponen mekanikal, berkolaborasi dengan tim produksi.',
         ) as NonNullable<JobVacancy['jobDescription']>,
@@ -349,7 +350,8 @@ export const seed = async ({
         workSetup: 'on_site',
         experienceLevel: 'entry',
         salaryRange: 'IDR 2.500.000 - 3.500.000',
-        employmentType: 'internship',
+        employmentType: 'magang',
+        vacancyStatus: 'open',
         jobDescription: plainTextToLexicalRoot(
           'Program magang 3 bulan di divisi penelitian dan pengembangan.',
         ) as NonNullable<JobVacancy['jobDescription']>,

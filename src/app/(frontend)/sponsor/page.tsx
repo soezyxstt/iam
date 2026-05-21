@@ -103,7 +103,7 @@ export default async function SponsorPage() {
                         : null
 
                       const tile = (
-                        <div className="sponsor-logo-tile group relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-dark/10 bg-white/85 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand-dark/20 hover:shadow-xl hover:shadow-brand-dark/10">
+                        <div className="sponsor-logo-tile sponsor-glass-card group relative aspect-[4/3] overflow-hidden rounded-2xl">
                           {/* Logo */}
                           <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                             {logo && (logo as Media).url ? (
@@ -111,7 +111,7 @@ export default async function SponsorPage() {
                                 src={(logo as Media).url!}
                                 alt={sponsor.companyName}
                                 fill
-                                className="object-cover"
+                                className="object-contain p-4 sm:p-5"
                                 sizes="(max-width:640px) 45vw, (max-width:1024px) 30vw, 20vw"
                               />
                             ) : (
@@ -137,7 +137,7 @@ export default async function SponsorPage() {
                           {href && (
                             <div className="absolute top-2.5 right-2.5 flex h-6 w-6 items-center justify-center rounded-full bg-brand-dark/0 opacity-0 transition-all duration-300 group-hover:bg-brand-dark/15 group-hover:opacity-100">
                               <svg
-                                className="h-3 w-3 text-brand-dark"
+                                className="h-3 w-3 text-brand-dark dark:text-brand-khaki"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"

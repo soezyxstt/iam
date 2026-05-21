@@ -75,7 +75,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       </Section>
 
       <Section className="z-10 py-8 md:py-12">
-        <GlassCard className="berita-card" variant="stripes" contentClassName="p-8 md:p-10 lg:p-14">
+        <GlassCard className="berita-card" variant="stripes" contentClassName="p-6 md:p-8 lg:p-10">
           {posts.docs && posts.docs.length > 0 ? (
             <CollectionArchive posts={posts.docs as CardPostData[]} />
           ) : (

@@ -7,15 +7,24 @@ type PageShellProps = {
   className?: string
   /** Softer ambient blobs than the home hero */
   showAmbient?: boolean
+  /** Whether the page uses the dark theme */
+  darkTheme?: boolean
 }
 
-export function PageShell({ children, className, showAmbient = true }: PageShellProps) {
+export function PageShell({
+  children,
+  className,
+  showAmbient = true,
+  darkTheme = false,
+}: PageShellProps) {
   return (
     <main
+      data-theme={darkTheme ? 'dark' : 'light'}
       className={cn(
         /* No overflow-y clip here — it breaks position:sticky in descendants (e.g. Galeri nav). */
         /* Below fixed header: ~56px bar + md:top-4 inset; keep tight without clipping */
-        'page-root relative min-h-screen w-full max-w-[100vw] pt-14 md:pt-[4.75rem]',
+        'relative min-h-screen w-full max-w-[100vw] pt-14 md:pt-[4.75rem]',
+        darkTheme ? 'bg-brand-dark text-white' : 'page-root text-brand-dark',
         className,
       )}
     >

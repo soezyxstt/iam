@@ -66,10 +66,14 @@ export const formSubmissionCreateDrafts: CollectionAfterChangeHook<FormSubmissio
 
   if (form.title === 'Pengajuan Lowongan') {
     const employmentType = pick(doc.submissionData, 'employmentType')
-    const empAllowed = ['full_time', 'part_time', 'internship'] as const
-    const employmentSafe = empAllowed.includes(employmentType as (typeof empAllowed)[number])
-      ? employmentType
-      : 'full_time'
+    let employmentSafe: 'kp' | 'magang' | 'full_time' = 'full_time'
+    if (employmentType === 'kp') {
+      employmentSafe = 'kp'
+    } else if (employmentType === 'magang' || employmentType === 'internship') {
+      employmentSafe = 'magang'
+    } else if (employmentType === 'full_time' || employmentType === 'part_time') {
+      employmentSafe = 'full_time'
+    }
 
     await req.payload.create({
       collection: 'jobVacancies',
@@ -79,10 +83,9 @@ export const formSubmissionCreateDrafts: CollectionAfterChangeHook<FormSubmissio
         _status: 'draft',
         position: pick(doc.submissionData, 'position'),
         companyName: pick(doc.submissionData, 'companyName'),
-        employmentType: employmentSafe as typeof empAllowed[number],
-        jobDescription: plainTextToLexicalRoot(pick(doc.submissionData, 'jobDescription')) as NonNullable<
-          JobVacancy['jobDescription']
-        >,
+        employmentType: employmentSafe,
+        vacancyStatus: 'open',
+        jobDescription: plainTextToLexicalRoot(pick(doc.submissionData, 'jobDescription')) as any,
         officialLink: pick(doc.submissionData, 'officialLink') || undefined,
       },
     })

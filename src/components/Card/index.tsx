@@ -207,11 +207,11 @@ export const Card: React.FC<CardProps> = (props) => {
 
             <div className="flex flex-wrap items-center gap-2 mt-2">
               <span className="inline-flex items-center rounded-sm bg-brand-gold/10 px-2.5 py-0.5 text-xs font-medium text-brand-gold border border-brand-gold/20">
-                {job?.employmentType === 'full_time'
-                  ? 'Full-time'
-                  : job?.employmentType === 'part_time'
-                    ? 'Part-time'
-                    : 'Internship'}
+                {job?.employmentType === 'kp'
+                  ? 'Kerja Praktik (KP)'
+                  : job?.employmentType === 'magang'
+                    ? 'Magang (Internship)'
+                    : 'Full Time'}
               </span>
               {job?.workSetup && (
                 <span className="inline-flex items-center rounded-sm bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-300 border border-blue-500/20">
@@ -278,12 +278,12 @@ export const Card: React.FC<CardProps> = (props) => {
     <a
       href={slug ? href : '#'}
       className={cn(
-        'berita-item-card group relative flex h-full w-full max-w-md mx-auto flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 shadow-xl shadow-black/25 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-gold/25 hover:shadow-2xl hover:shadow-black/35',
+        'berita-item-card group relative flex h-full w-full max-w-sm mx-auto flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/4 shadow-xl shadow-black/25 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-gold/25 hover:shadow-2xl hover:shadow-black/35',
         className,
       )}
     >
       {/* Image */}
-      <div className="relative aspect-4/3 w-full overflow-hidden bg-brand-dark/40">
+      <div className="relative aspect-16/10 w-full overflow-hidden bg-brand-dark/40">
         {imageToUse && typeof imageToUse === 'object' && 'url' in imageToUse && imageToUse.url ? (
           <Image
             src={imageToUse.url}

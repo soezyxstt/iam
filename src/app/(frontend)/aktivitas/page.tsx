@@ -1,253 +1,113 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
+import { Calendar, Clock, Wrench } from 'lucide-react'
 
 import { PageShell } from '@/components/PageShell'
-import { Card } from '@/components/Card'
 import { ScrollReveal } from '@/components/ScrollReveal'
-import { Button } from '@/components/ui/button'
-import { GlassCard } from '@/components/ui/glass-card'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
-import { Heading, Text } from '@/components/ui/typography'
-import { Input } from '@/components/ui/input'
-import { Pagination } from '@/components/Pagination'
-import { PageRange } from '@/components/PageRange'
-import { cn } from '@/utilities/ui'
-
-import { AKTIVITAS_ENTRIES } from './aktivitas-data'
-import { AktivitasScrollToGridButton } from './AktivitasScrollToGridButton'
+import { Eyebrow, Heading, Text } from '@/components/ui/typography'
+import { GlassCard } from '@/components/ui/glass-card'
+import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
-  title: 'Aktivitas',
-  description:
-    'Aktivitas dan program kerja Ikatan Alumni Mesin ITB — silaturahmi, pengembangan profesional, dan kontribusi bagi almamater.',
+  title: 'Aktivitas — IAM ITB',
+  description: 'Halaman Aktivitas Ikatan Alumni Mesin ITB sedang dalam pengembangan.',
 }
 
-const PAGE_SIZE = 6
-
-const CATEGORY_FILTERS = [
-  { value: '', label: 'Semua' },
-  { value: 'organisasi', label: 'Organisasi' },
-  { value: 'profesional', label: 'Profesional' },
-  { value: 'sosial', label: 'Sosial' },
-]
-
-function buildAktivitasUrl(q?: string, category?: string, page?: number): string {
-  const params = new URLSearchParams()
-  if (q?.trim()) params.set('q', q.trim())
-  if (category) params.set('category', category)
-  if (page && page > 1) params.set('page', String(page))
-  const qs = params.toString()
-  return qs ? `/aktivitas?${qs}` : '/aktivitas'
-}
-
-const INTRO_HERO =
-  'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1200&q=80'
-
-const OVERVIEW_TEXT =
-  'Aktivitas IAM ITB menjadi wadah nyata untuk mempererat silaturahmi, berkolaborasi secara profesional, serta berkontribusi bagi almamater dan masyarakat melalui berbagai workshop teknis, diskusi panel, hingga aksi sosial.'
-
-type SearchParams = Promise<{
-  q?: string
-  category?: string
-  page?: string
-}>
-
-export default async function AktivitasPage({
-  searchParams: searchParamsPromise,
-}: {
-  searchParams: SearchParams
-}) {
-  const sp = await searchParamsPromise
-  const qRaw = typeof sp.q === 'string' ? sp.q : ''
-  const qTrim = qRaw.trim().toLowerCase()
-  const categoryParam = typeof sp.category === 'string' ? sp.category : ''
-  const pageParsed = Number.parseInt(sp.page ?? '1', 10)
-  const currentPage =
-    Number.isFinite(pageParsed) && pageParsed > 0 ? Math.floor(pageParsed) : 1
-
-  // Filter local data
-  let filtered = AKTIVITAS_ENTRIES
-  if (categoryParam) {
-    filtered = filtered.filter((item) => item.category === categoryParam)
-  }
-  if (qTrim) {
-    filtered = filtered.filter(
-      (item) =>
-        item.title.toLowerCase().includes(qTrim) ||
-        item.excerpt.toLowerCase().includes(qTrim),
-    )
-  }
-
-  const totalDocs = filtered.length
-  const totalPages = Math.max(1, Math.ceil(totalDocs / PAGE_SIZE))
-  const pageForPager = Math.min(currentPage, totalPages)
-
-  const startIdx = (pageForPager - 1) * PAGE_SIZE
-  const endIdx = startIdx + PAGE_SIZE
-  const docs = filtered.slice(startIdx, endIdx)
-
-  const queryLink = {
-    pathname: '/aktivitas' as const,
-    searchParams: {
-      ...(qTrim ? { q: qTrim } : {}),
-      ...(categoryParam ? { category: categoryParam } : {}),
-    },
-  }
-
+export default function AktivitasPage() {
   return (
     <PageShell>
-      <Section className="z-10 pb-10 pt-3 md:pb-14 md:pt-4">
+      {/* Hero Header Section */}
+      <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
         <ScrollReveal>
-          <PageHeroHeader title="Aktivitas" subtitle="Ikatan Alumni Mesin ITB" />
-
-          <div className="mt-6 text-left lg:mt-8">
-            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16">
-              <div className="flex flex-col gap-6 lg:col-span-6">
-                <div className="text-justify">
-                  <Text variant="editorial" className="leading-relaxed">
-                    {OVERVIEW_TEXT}
-                  </Text>
-                </div>
-                <div className="pt-1">
-                  <AktivitasScrollToGridButton />
-                </div>
-              </div>
-
-              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-brand-dark/10 bg-muted shadow-lg shadow-brand-dark/15 lg:col-span-6 lg:max-h-[300px]">
-                <Image
-                  src={INTRO_HERO}
-                  alt="Ilustrasi kegiatan IAM ITB"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
+          <PageHeroHeader
+            title="Aktivitas"
+            subtitle="Kegiatan & Agenda Alumni Mesin ITB"
+          />
         </ScrollReveal>
       </Section>
 
-      <Section className="z-10 pt-0 pb-20 md:pt-0 md:pb-28">
+      {/* Main Content Area */}
+      <Section className="z-10 pt-0 pb-20 md:pt-0 md:pb-24">
         <ScrollReveal>
           <GlassCard
-            id="aktivitas-grid"
-            className="berita-card scroll-mt-14 md:scroll-mt-[4.75rem]"
             variant="stripes"
-            contentClassName="p-8 md:p-10 lg:p-14"
+            className="border-white/10"
+            contentClassName="p-8 md:p-10 text-center flex flex-col items-center"
           >
-            <div className="relative space-y-8">
-              <h2 className="text-center font-display text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold md:text-sm">
-                Direktori Aktivitas
-              </h2>
+            {/* Status Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full bg-brand-gold/10 border border-brand-gold/30 px-3.5 py-1 text-xs font-semibold text-brand-gold mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-gold"></span>
+              </span>
+              Dalam Pengembangan
+            </div>
 
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-                <form
-                  action="/aktivitas"
-                  method="get"
-                  className="flex w-full min-w-0 flex-col gap-3 sm:flex-row sm:items-center"
-                  role="search"
-                >
-                  <Input
-                    type="search"
-                    name="q"
-                    placeholder="Cari aktivitas..."
-                    defaultValue={qRaw}
-                    className={cn(
-                      'h-11 rounded-xl border-white/15 bg-white/8 font-sans text-sm text-white shadow-inner shadow-black/20 md:text-[15px]',
-                      'placeholder:text-white/45 focus-visible:border-brand-gold/40 focus-visible:ring-brand-gold/25',
-                      'sm:max-w-md sm:flex-1',
-                    )}
-                    aria-label="Cari aktivitas"
-                  />
-                  {categoryParam ? (
-                    <input type="hidden" name="category" value={categoryParam} />
-                  ) : null}
-                  <Button type="submit" variant="secondary" size="sm" className="shrink-0 rounded-full">
-                    Cari
-                  </Button>
-                </form>
-              </div>
+            <Heading level={2} tone="inverse" className="text-2xl md:text-3xl font-bold tracking-tight">
+              Halaman Aktivitas Sedang dalam Pengembangan
+            </Heading>
 
-              <div className="flex flex-wrap gap-2">
-                {CATEGORY_FILTERS.map((filt) => {
-                  const active = filt.value === categoryParam
-                  const href = buildAktivitasUrl(qTrim, filt.value, 1)
-                  return (
-                    <Link
-                      key={filt.label}
-                      href={href}
-                      scroll={false}
-                      className={cn(
-                        'rounded-full px-4 py-2 font-display text-[11px] font-semibold uppercase tracking-wider transition-colors',
-                        active
-                          ? 'bg-brand-gold text-brand-dark'
-                          : 'border border-white/15 bg-white/6 text-white/85 hover:border-brand-gold/35 hover:bg-white/10 hover:text-white',
-                      )}
-                    >
-                      {filt.label}
-                    </Link>
-                  )
-                })}
-              </div>
+            <Text variant="body" tone="inverse" className="mt-4 max-w-lg text-white/80 text-center leading-relaxed">
+              Kami sedang menyiapkan ruang interaktif bagi alumni Mesin ITB untuk memantau, mendaftar, dan berpartisipasi dalam berbagai agenda mendatang.
+            </Text>
 
-              <div className="font-sans text-sm text-white/80 md:text-[15px]">
-                <PageRange
-                  currentPage={pageForPager}
-                  limit={PAGE_SIZE}
-                  totalDocs={totalDocs}
-                  collectionLabels={{ plural: 'aktivitas', singular: 'aktivitas' }}
-                />
-              </div>
+            {/* Divider line */}
+            <div className="w-full mt-10 border-t border-white/10" />
 
-              {docs.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-white/6 px-6 py-12 text-center backdrop-blur-sm">
-                  <p className="font-serif text-lg font-bold text-white md:text-xl">
-                    Belum ada aktivitas yang ditemukan
-                  </p>
-                  <p className="mt-2 font-sans text-[13px] leading-relaxed text-white/75 md:text-sm">
-                    {qTrim || categoryParam
-                      ? 'Coba ubah kata kunci atau filter kategori, atau hapus penyaring untuk melihat semua.'
-                      : 'Belum ada program kerja yang diterbitkan.'}
-                  </p>
-                  {(qTrim || categoryParam) && (
-                    <Button href="/aktivitas" variant="secondary" size="sm" className="mt-8">
-                      Tampilkan semua
-                    </Button>
-                  )}
-                </div>
-              ) : (
-                <>
-                  <div className="mt-2 grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-                    {docs.map((item) => (
-                      <Card
-                        key={item.slug}
-                        type="aktivitas"
-                        doc={{
-                          title: item.title,
-                          slug: item.slug,
-                          excerpt: item.excerpt,
-                          image: '/media/tangga.jpg',
-                        }}
-                      />
-                    ))}
+            {/* Feature Teasers */}
+            <div className="w-full mt-8 text-center">
+              <Text variant="small" tone="accent" className="font-display font-bold uppercase tracking-wider block mb-8">
+                Rencana Fitur yang Sedang Disiapkan:
+              </Text>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mx-auto">
+                <div className="flex flex-col items-center p-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-gold/10 border border-brand-gold/20 mb-4">
+                    <Calendar className="w-6 h-6 text-brand-gold" />
                   </div>
+                  <Text variant="body" tone="inverse" className="font-semibold text-base">Kalender Agenda</Text>
+                  <Text variant="small" tone="inverse" className="text-white/60 mt-2 max-w-xs mx-auto">
+                    Jadwal lengkap temu alumni, reuni, seminar, dan agenda sosial.
+                  </Text>
+                </div>
 
-                  {totalPages > 1 ? (
-                    <Pagination
-                      page={pageForPager}
-                      totalPages={totalPages}
-                      queryLink={queryLink}
-                      tone="onDark"
-                      scrollAlignId="aktivitas-grid"
-                      className="my-10"
-                    />
-                  ) : null}
-                </>
-              )}
+                <div className="flex flex-col items-center p-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-gold/10 border border-brand-gold/20 mb-4">
+                    <Clock className="w-6 h-6 text-brand-gold" />
+                  </div>
+                  <Text variant="body" tone="inverse" className="font-semibold text-base">Registrasi Terintegrasi</Text>
+                  <Text variant="small" tone="inverse" className="text-white/60 mt-2 max-w-xs mx-auto">
+                    Pendaftaran mudah untuk setiap kegiatan langsung melalui situs ini.
+                  </Text>
+                </div>
+
+                <div className="flex flex-col items-center p-4">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-gold/10 border border-brand-gold/20 mb-4">
+                    <Wrench className="w-6 h-6 text-brand-gold" />
+                  </div>
+                  <Text variant="body" tone="inverse" className="font-semibold text-base">Dokumentasi & Laporan</Text>
+                  <Text variant="small" tone="inverse" className="text-white/60 mt-2 max-w-xs mx-auto">
+                    Arsip dokumentasi, materi pembicara, dan rangkuman kegiatan sebelumnya.
+                  </Text>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Actions */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-10 w-full justify-center">
+              <Button variant="secondary" size="md" href="/">
+                Kembali ke Beranda
+              </Button>
+              <Button
+                variant="outline"
+                size="md"
+                href="/berita"
+                className="border-white/20 text-white hover:bg-white/10"
+              >
+                Lihat Berita Terbaru
+              </Button>
             </div>
           </GlassCard>
         </ScrollReveal>
@@ -255,3 +115,4 @@ export default async function AktivitasPage({
     </PageShell>
   )
 }
+

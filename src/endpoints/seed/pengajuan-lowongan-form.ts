@@ -55,9 +55,9 @@ export const pengajuanLowonganForm: RequiredDataFromCollectionSlug<'forms'> = {
       label: 'Jenis pekerjaan',
       required: true,
       options: [
-        { label: 'Full-time', value: 'full_time' },
-        { label: 'Part-time', value: 'part_time' },
-        { label: 'Magang', value: 'internship' },
+        { label: 'Kerja Praktik (KP)', value: 'kp' },
+        { label: 'Magang (Internship)', value: 'magang' },
+        { label: 'Full Time', value: 'full_time' },
       ],
       width: 100,
     },

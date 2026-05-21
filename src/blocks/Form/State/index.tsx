@@ -24,10 +24,13 @@ export const State: React.FC<
 > = ({ name, control, errors, label, required, width }) => {
   return (
     <Width width={width}>
-      <Label htmlFor={name}>
+      <Label
+        className="text-white/80 font-display text-[11px] uppercase tracking-wider font-bold mb-2 block"
+        htmlFor={name}
+      >
         {label}
         {required && (
-          <span className="required">
+          <span className="text-brand-gold ml-1">
             * <span className="sr-only">(wajib)</span>
           </span>
         )}
@@ -41,7 +44,10 @@ export const State: React.FC<
 
           return (
             <Select onValueChange={(val) => onChange(val)} value={controlledValue?.value}>
-              <SelectTrigger className="w-full" id={name}>
+              <SelectTrigger
+                className="h-12 bg-white/5 border-white/10 focus:ring-brand-gold/30 focus:border-brand-gold/50 text-white data-[placeholder]:text-white/30 w-full rounded-xl"
+                id={name}
+              >
                 <SelectValue placeholder={label} />
               </SelectTrigger>
               <SelectContent>

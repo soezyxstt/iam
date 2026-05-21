@@ -75,10 +75,10 @@ function formatDate(dateStr?: string | null): string {
 }
 
 const IAM_MOMENTS = [
-  'Yellboys dan\nSolidarity Forever',
-  'Genggam\nMesin',
-  'September M',
-  'Lagu HMM\nJerusalem',
+  { label: 'Yellboys dan\nSolidarity Forever', slug: 'yellboys-solidarity-forever' },
+  { label: 'Genggam\nMesin', slug: 'genggam-mesin' },
+  { label: 'September M', slug: 'september-m' },
+  { label: 'Lagu HMM\nJerusalem', slug: null },
 ]
 
 const PROGRAM_STACK_IMAGES = [
@@ -164,7 +164,7 @@ export default async function HomePage() {
           </Text>
 
           <div className="pt-3 motion-reduce:animate-none motion-reduce:opacity-100 motion-reduce:translate-y-0 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
-            <Button href="/tentang-kami">Jelajahi</Button>
+            <Button href="/organisasi">Jelajahi</Button>
           </div>
         </div>
 
@@ -203,33 +203,41 @@ export default async function HomePage() {
                 Ikatan Alumni Mesin ITB
               </Heading>
               <Text tone="inverse" variant="editorial">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Ikatan Alumni Mesin ITB adalah organisasi resmi yang menyatukan seluruh lulusan Teknik Mesin ITB lintas angkatan dan generasi. Lebih dari sekadar forum silaturahmi, IAM ITB adalah ekosistem profesional yang hidup, berlandaskan nilai kekeluargaan korps yang terangkum dalam semboyan &ldquo;Solidarity Forever&rdquo;. Para anggotanya aktif berkontribusi di berbagai sektor, mulai dari manufaktur, energi, dan migas, hingga pemerintahan dan akademis, menjadikan jaringan ini salah satu yang paling solid di antara alumni perguruan tinggi teknik di Indonesia.
               </Text>
             </div>
           </div>
 
           <div className="mt-8 border-t border-white/8 pt-6">
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {IAM_MOMENTS.map((moment, idx) => (
-                <div
-                  key={idx}
-                  className="glass-tag flex items-center justify-center rounded-lg border border-white/15 bg-white/6 px-4 py-4 text-center shadow-sm shadow-black/10 backdrop-blur-md transition-colors duration-300 hover:border-white/25"
-                >
-                  <span className="font-display text-xs font-semibold tracking-wider whitespace-pre-line text-white/90 capitalize leading-relaxed">
-                    {moment}
-                  </span>
-                </div>
-              ))}
+              {IAM_MOMENTS.map((moment, idx) =>
+                moment.slug ? (
+                  <Link
+                    key={idx}
+                    href={`/seputar-kami/${moment.slug}`}
+                    className="group glass-tag relative flex h-20 flex-col items-center justify-center gap-0 overflow-hidden rounded-lg border border-white/15 bg-white/6 px-4 text-center shadow-sm shadow-black/10 backdrop-blur-md transition-all duration-300 hover:border-brand-gold/40 hover:bg-brand-gold/8 cursor-pointer"
+                  >
+                    <span className="font-display text-xs font-semibold tracking-wider whitespace-pre-line text-white/90 capitalize leading-relaxed transition-all duration-300 group-hover:text-brand-gold group-hover:-translate-y-2">
+                      {moment.label}
+                    </span>
+                    <span className="absolute bottom-2.5 left-0 right-0 text-center font-display text-[9px] tracking-widest uppercase text-brand-gold/70 opacity-0 translate-y-1.5 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                      Baca &#8594;
+                    </span>
+                  </Link>
+                ) : (
+                  <div
+                    key={idx}
+                    className="glass-tag relative flex h-20 flex-col items-center justify-center rounded-lg border border-white/10 bg-white/4 px-4 text-center shadow-sm shadow-black/10 backdrop-blur-md opacity-50"
+                  >
+                    <span className="font-display text-xs font-semibold tracking-wider whitespace-pre-line text-white/60 capitalize leading-relaxed">
+                      {moment.label}
+                    </span>
+                    <span className="mt-1 font-display text-[9px] tracking-widest uppercase text-white/25">
+                      Segera
+                    </span>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </GlassCard>
@@ -274,7 +282,7 @@ export default async function HomePage() {
       {/* ── Berita ── */}
       <Section className="z-10 py-16 md:pb-24">
         <ScrollReveal>
-        <GlassCard className="berita-card" variant="stripes" contentClassName="p-8 md:p-10 lg:p-14">
+        <GlassCard className="berita-card" variant="stripes" contentClassName="p-6 md:p-8 lg:p-10">
           {/* Section header */}
           <div className="mb-10 flex flex-col items-center gap-3 text-center">
             <Eyebrow tone="gold" className="text-brand-gold/60 tracking-[0.25em]">
@@ -352,7 +360,7 @@ export default async function HomePage() {
                   : null
 
                 const tile = (
-                  <div className="sponsor-logo-tile group relative aspect-[4/3] overflow-hidden rounded-2xl border border-brand-dark/12 bg-white/80 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-dark/10">
+                  <div className="sponsor-logo-tile sponsor-glass-card group relative aspect-[4/3] overflow-hidden rounded-2xl">
                     {/* Logo */}
                     <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                       {logo?.url ? (
@@ -360,7 +368,7 @@ export default async function HomePage() {
                           src={logo.url}
                           alt={sponsor.companyName}
                           fill
-                          className="object-cover"
+                          className="object-contain p-4 sm:p-5"
                           sizes="(max-width:640px) 45vw, (max-width:1024px) 30vw, 15vw"
                         />
                       ) : (

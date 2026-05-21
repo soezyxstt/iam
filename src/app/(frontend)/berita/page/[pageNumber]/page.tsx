@@ -58,7 +58,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       <Section className="z-10 py-8 md:py-12" containerClassName="max-w-6xl px-4 md:px-8">
         <ScrollReveal>
-          <GlassCard className="berita-card" variant="stripes" contentClassName="p-8 md:p-10 lg:p-14">
+          <GlassCard className="berita-card" variant="stripes" contentClassName="p-6 md:p-8 lg:p-10">
             <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-6">
               <PageRange
                 className="text-white/80"

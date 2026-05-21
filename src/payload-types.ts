@@ -895,7 +895,46 @@ export interface JobVacancy {
   companyLogo?: (number | null) | Media;
   location?: string | null;
   workSetup?: ('on_site' | 'hybrid' | 'remote') | null;
-  employmentType: 'full_time' | 'part_time' | 'internship';
+  employmentType: 'kp' | 'magang' | 'full_time';
+  vacancyStatus: 'open' | 'closed';
+  /**
+   * Biarkan kosong jika tidak ada kuota spesifik
+   */
+  quota?: number | null;
+  requirements?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  benefits?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Digunakan jika Tautan Resmi kosong. Gunakan kode negara, misal 62812...
+   */
+  contactWhatsApp?: string | null;
   experienceLevel?: ('entry' | 'mid' | 'senior' | 'executive') | null;
   salaryRange?: string | null;
   jobDescription: {
@@ -1796,6 +1835,11 @@ export interface JobVacanciesSelect<T extends boolean = true> {
   location?: T;
   workSetup?: T;
   employmentType?: T;
+  vacancyStatus?: T;
+  quota?: T;
+  requirements?: T;
+  benefits?: T;
+  contactWhatsApp?: T;
   experienceLevel?: T;
   salaryRange?: T;
   jobDescription?: T;

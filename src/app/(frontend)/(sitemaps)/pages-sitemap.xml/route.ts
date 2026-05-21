@@ -72,7 +72,6 @@ const getPagesSitemap = unstable_cache(
     const defaultSitemap = [
       { loc: `${SITE_URL}/`, lastmod: dateFallback },
       { loc: `${SITE_URL}/organisasi`, lastmod: dateFallback },
-      { loc: `${SITE_URL}/kepengurusan`, lastmod: dateFallback },
       { loc: `${SITE_URL}/aktivitas`, lastmod: dateFallback },
       { loc: `${SITE_URL}/berita`, lastmod: dateFallback },
       { loc: `${SITE_URL}/alumni`, lastmod: dateFallback },

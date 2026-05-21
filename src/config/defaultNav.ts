@@ -21,13 +21,6 @@ export const defaultHeaderNavItems: NonNullable<Header['navItems']> = [
   {
     link: {
       type: 'custom',
-      label: 'Kepengurusan',
-      url: '/kepengurusan',
-    },
-  },
-  {
-    link: {
-      type: 'custom',
       label: 'Galeri',
       url: '/galeri',
     },

@@ -8,9 +8,9 @@ import { Section } from '@/components/ui/section'
 import { Heading, Text } from '@/components/ui/typography'
 
 const employmentLabel: Record<string, string> = {
-  full_time: 'Full-time',
-  part_time: 'Part-time',
-  internship: 'Magang',
+  kp: 'Kerja Praktik (KP)',
+  magang: 'Magang (Internship)',
+  full_time: 'Full Time',
 }
 
 export type HighlightLowonganBlockProps = {
@@ -39,11 +39,15 @@ export const HighlightLowonganBlock: React.FC<HighlightLowonganBlockProps> = ({
         </header>
         <ul className="grid gap-6 md:grid-cols-2">
           {list.map((job, i) => {
-            const href =
-              job.officialLink && job.officialLink.length > 0
-                ? job.officialLink.startsWith('http')
-                  ? job.officialLink
-                  : `https://${job.officialLink}`
+            const hasOfficialLink = job.officialLink && job.officialLink.trim().length > 0
+            const waNumber = job.contactWhatsApp
+            const typeText = job.employmentType === 'kp' ? 'Kerja Praktik (KP)' : job.employmentType === 'magang' ? 'Magang (Internship)' : 'Kerja Full Time'
+            const greetingText = `Halo, saya berminat untuk apply ${typeText} sebagai ${job.position} di ${job.companyName} dari info di laman IAM ITB. Apakah lowongan ini masih tersedia?`
+            const cleanNumber = waNumber ? waNumber.replace(/[^0-9]/g, '') : ''
+            const href = hasOfficialLink 
+              ? (job.officialLink!.startsWith('http') ? job.officialLink! : `https://${job.officialLink!}`)
+              : cleanNumber 
+                ? `https://wa.me/${cleanNumber}?text=${encodeURIComponent(greetingText)}`
                 : null
 
             return (
@@ -64,11 +68,11 @@ export const HighlightLowonganBlock: React.FC<HighlightLowonganBlockProps> = ({
                   {href ? (
                     <a
                       href={href}
-                      className="mt-4 text-sm font-semibold text-brand-red hover:underline"
+                      className="mt-4 text-sm font-semibold text-brand-red hover:underline inline-flex items-center gap-1"
                       target="_blank"
                       rel="noreferrer noopener"
                     >
-                      Tautan resmi lowongan
+                      {hasOfficialLink ? 'Lamar Melalui Tautan Resmi' : 'Lamar Lewat WhatsApp'} &rarr;
                     </a>
                   ) : null}
                 </article>

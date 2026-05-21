@@ -65,11 +65,50 @@ export const LowonganKerja: CollectionConfig = {
       label: 'Jenis Pekerjaan',
       type: 'radio',
       options: [
-        { label: 'Full-time', value: 'full_time' },
-        { label: 'Part-time', value: 'part_time' },
-        { label: 'Internship', value: 'internship' },
+        { label: 'Kerja Praktik (KP)', value: 'kp' },
+        { label: 'Magang (Internship)', value: 'magang' },
+        { label: 'Full Time', value: 'full_time' },
       ],
       required: true,
+    },
+    {
+      name: 'vacancyStatus',
+      label: 'Status Lowongan',
+      type: 'select',
+      options: [
+        { label: 'Buka (Open)', value: 'open' },
+        { label: 'Tutup (Closed)', value: 'closed' },
+      ],
+      defaultValue: 'open',
+      required: true,
+    },
+    {
+      name: 'quota',
+      label: 'Kuota (Opsional)',
+      type: 'number',
+      admin: {
+        placeholder: 'Contoh: 5',
+        description: 'Biarkan kosong jika tidak ada kuota spesifik',
+      },
+    },
+    {
+      name: 'requirements',
+      label: 'Persyaratan',
+      type: 'richText',
+    },
+    {
+      name: 'benefits',
+      label: 'Manfaat & Keuntungan (Opsional)',
+      type: 'richText',
+    },
+    {
+      name: 'contactWhatsApp',
+      label: 'Nomor WhatsApp Kontak (Opsional)',
+      type: 'text',
+      admin: {
+        placeholder: 'Contoh: 628123456789 (tanpa spasi atau +)',
+        description: 'Digunakan jika Tautan Resmi kosong. Gunakan kode negara, misal 62812...',
+      },
     },
     {
       name: 'experienceLevel',

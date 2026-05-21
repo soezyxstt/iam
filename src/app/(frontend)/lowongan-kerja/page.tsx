@@ -2,7 +2,6 @@ import type { Metadata } from 'next/types'
 import { getPayload } from 'payload'
 import React from 'react'
 import Link from 'next/link'
-import { Card } from '@/components/Card'
 
 import { PageShell } from '@/components/PageShell'
 import { PageRange } from '@/components/PageRange'
@@ -11,20 +10,21 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 import { GlassCard } from '@/components/ui/glass-card'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
-import { Heading, Text, Eyebrow } from '@/components/ui/typography'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/ui'
 import configPromise from '@payload-config'
 import type { Where } from 'payload'
+import { LowonganPageClient } from './LowonganPageClient'
+import type { JobVacancy } from '@/payload-types'
 
 const PAGE_SIZE = 12
 
 const CATEGORY_FILTERS = [
   { value: '', label: 'Semua' },
+  { value: 'kp', label: 'Kerja Praktik (KP)' },
+  { value: 'magang', label: 'Magang (Internship)' },
   { value: 'full_time', label: 'Full Time' },
-  { value: 'part_time', label: 'Part Time' },
-  { value: 'internship', label: 'Magang' },
 ]
 
 function buildLowonganUrl(q?: string, type?: string, page?: number): string {
@@ -87,18 +87,6 @@ export default async function Page({
     overrideAccess: false,
     sort: '-updatedAt',
     ...(where ? { where } : {}),
-    select: {
-      position: true,
-      companyName: true,
-      companyLogo: true,
-      location: true,
-      workSetup: true,
-      experienceLevel: true,
-      salaryRange: true,
-      employmentType: true,
-      slug: true,
-      updatedAt: true,
-    },
   })
 
   const totalPages = Math.max(1, result.totalPages ?? 1)
@@ -112,23 +100,11 @@ export default async function Page({
       overrideAccess: false,
       sort: '-updatedAt',
       ...(where ? { where } : {}),
-      select: {
-        position: true,
-        companyName: true,
-        companyLogo: true,
-        location: true,
-        workSetup: true,
-        experienceLevel: true,
-        salaryRange: true,
-        employmentType: true,
-        slug: true,
-        updatedAt: true,
-      },
     })
   }
 
   const pageForPager = pageToFetch
-  const docs = result.docs
+  const docs = result.docs as unknown as JobVacancy[]
   const queryLink = {
     pathname: '/lowongan-kerja' as const,
     searchParams: {
@@ -158,7 +134,7 @@ export default async function Page({
             id="lowongan-grid"
             className="berita-card scroll-mt-14 md:scroll-mt-19"
             variant="stripes"
-            contentClassName="p-8 md:p-10 lg:p-14"
+            contentClassName="p-8 md:p-10 lg:p-12"
           >
             <div className="relative space-y-8">
               <h2 className="text-center font-display text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold md:text-sm">
@@ -227,43 +203,19 @@ export default async function Page({
                 />
               </div>
 
-              {docs.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-white/6 px-6 py-12 text-center backdrop-blur-sm">
-                  <p className="font-serif text-lg font-bold text-white md:text-xl">
-                    Belum ada lowongan kerja yang ditemukan
-                  </p>
-                  <p className="mt-2 font-sans text-[13px] leading-relaxed text-white/75 md:text-sm">
-                    {qTrim || typeParam
-                      ? 'Coba ubah kata kunci atau filter kategori, atau hapus penyaring untuk melihat semua.'
-                      : 'Belum ada lowongan kerja yang dipublikasikan.'}
-                  </p>
-                  {(qTrim || typeParam) && (
-                    <Button href="/lowongan-kerja" variant="secondary" size="sm" className="mt-8">
-                      Tampilkan semua
-                    </Button>
-                  )}
-                </div>
-              ) : (
-                <>
-                  <div className="flex flex-col gap-4">
-                    {docs.map((job) => (
-                      <Card key={job.id} type="lowongan" doc={job} />
-                    ))}
-                  </div>
+              <LowonganPageClient initialDocs={docs} />
 
-                  {totalPages > 1 ? (
-                    <div className="mt-16 flex justify-center border-t border-white/10 pt-12">
-                      <Pagination
-                        page={pageForPager}
-                        totalPages={totalPages}
-                        queryLink={queryLink}
-                        tone="onDark"
-                        scrollAlignId="lowongan-grid"
-                      />
-                    </div>
-                  ) : null}
-                </>
-              )}
+              {totalPages > 1 && docs.length > 0 ? (
+                <div className="mt-16 flex justify-center border-t border-white/10 pt-12">
+                  <Pagination
+                    page={pageForPager}
+                    totalPages={totalPages}
+                    queryLink={queryLink}
+                    tone="onDark"
+                    scrollAlignId="lowongan-grid"
+                  />
+                </div>
+              ) : null}
             </div>
           </GlassCard>
         </ScrollReveal>

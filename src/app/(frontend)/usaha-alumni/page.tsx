@@ -180,7 +180,7 @@ export default async function UsahaAlumniPage({
             id="direktori-usaha-alumni"
             className="berita-card scroll-mt-14 md:scroll-mt-19"
             variant="stripes"
-            contentClassName="p-8 md:p-10 lg:p-14"
+            contentClassName="p-6 md:p-8 lg:p-10"
           >
             <div className="relative space-y-8">
               <h2 className="text-center font-display text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold md:text-sm">

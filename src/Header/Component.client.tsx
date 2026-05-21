@@ -3,9 +3,10 @@
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { SearchIcon, MenuIcon, XIcon, ChevronDown } from 'lucide-react'
+import React, { useEffect, useState, useRef } from 'react'
+import { SearchIcon, MenuIcon, XIcon, ChevronDown, User as UserIcon, LogOut, Shield } from 'lucide-react'
 import { cn } from '@/utilities/ui'
+import { getClientSideURL } from '@/utilities/getURL'
 
 import type { Header, Page, Post } from '@/payload-types'
 import { defaultHeaderNavItems } from '@/config/defaultNav'
@@ -44,40 +45,76 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   
   // Scroll states
   const [scrolled, setScrolled] = useState(false)
-  const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+
+  // Auth states
+  const [user, setUser] = useState<{ id: string; email: string; name?: string | null } | null | undefined>(undefined)
+  const [profileOpen, setProfileOpen] = useState(false)
+  const profileDropdownRef = useRef<HTMLDivElement>(null)
 
   // Reset states on route change
   useEffect(() => {
     setHeaderTheme(null)
     setMobileOpen(false)
+    setProfileOpen(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
+
+  // Fetch logged in user
+  useEffect(() => {
+    let cancelled = false
+    void fetch(`${getClientSideURL()}/api/users/me`, { credentials: 'include' })
+      .then((r) => {
+        if (r.ok) return r.json()
+        throw new Error('Not authenticated')
+      })
+      .then((data: { user?: { id: string; email: string; name?: string | null } | null }) => {
+        if (!cancelled) setUser(data?.user ?? null)
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  // Close profile dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target as Node)) {
+        setProfileOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${getClientSideURL()}/api/users/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+    } catch (err) {
+      console.error('Logout failed:', err)
+    }
+    setUser(null)
+    setProfileOpen(false)
+    window.location.reload()
+  }
 
   // Smart Scroll Logic
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
 
-      // 1. Handle background glass effect (scrolled past 20px)
+      // Handle background glass effect (scrolled past 20px)
       setScrolled(currentScrollY > 20)
-
-      // 2. Handle Hide/Show behavior
-      // Show if scrolling up OR near the very top (hero section)
-      if (currentScrollY < lastScrollY || currentScrollY < 80) {
-        setIsVisible(true)
-      } 
-      // Hide if scrolling down AND past the hero section threshold
-      else if (currentScrollY > lastScrollY && currentScrollY > 80) {
-        setIsVisible(false)
-      }
-
-      setLastScrollY(currentScrollY)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+  }, [])
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -92,28 +129,33 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   ) as NavItemWithDropdown[]
 
   const headerDataForNav = { ...data, navItems } as Header
+  const activeTheme = scrolled ? 'dark' : (headerTheme || 'light')
 
   return (
     <>
       <header
         className={cn(
-          'fixed inset-x-0 top-0 md:top-4 z-50 transition-all duration-300 ease-in-out md:px-8',
-          // Apply transform to hide/show
-          isVisible ? 'md:translate-y-0' : 'md:-translate-y-[150%]'
+          'fixed inset-x-0 z-50 transition-all duration-300 ease-in-out translate-y-0',
+          scrolled 
+            ? 'top-0 md:top-4 px-0 md:px-8' 
+            : 'top-0 px-0 md:px-0'
         )}
-        {...(headerTheme ? { 'data-theme': headerTheme } : {})}
+        {...(activeTheme ? { 'data-theme': activeTheme } : {})}
       >
         <div className={cn(
-          'max-w-6xl mx-auto flex items-center justify-between gap-4 transition-all duration-300',
-          'relative',
-          'bg-background/85 backdrop-blur-xl',
-          'border-b border-border/40 md:border md:border-white/12 md:rounded-full px-4 md:px-6 py-2.5',
-          'shadow-sm shadow-black/5',
-          scrolled && 'shadow-md shadow-black/10 md:bg-background/95'
+          'w-full flex items-center justify-between gap-4 transition-all duration-300 relative mx-auto',
+          scrolled ? (
+            'max-w-6xl bg-background/85 backdrop-blur-xl border-b border-border/40 md:border md:border-white/12 md:rounded-full px-4 md:px-6 py-2.5 shadow-md shadow-black/10 md:bg-background/95'
+          ) : (
+            'max-w-6xl bg-transparent border-b border-transparent md:border md:border-transparent md:rounded-none px-4 md:px-6 py-3 shadow-none'
+          )
         )}>
 
           {/* Shimmer highlight line — mirrors GlassCard top-edge treatment */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/30 to-transparent" />
+          <div className={cn(
+            'pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/30 to-transparent transition-opacity duration-300',
+            scrolled ? 'opacity-100' : 'opacity-0'
+          )} />
           {/* Logo */}
           <Link href="/" className="shrink-0" aria-label="IAM ITB – Beranda">
             <Logo size={36} showText className="text-foreground" />
@@ -121,10 +163,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
           {/* Desktop Nav – centered */}
           <div className="flex-1 flex justify-center">
-            <HeaderNav data={headerDataForNav} />
+            <HeaderNav data={headerDataForNav} scrolled={scrolled} />
           </div>
 
-          {/* Right: Search icon, then Login button (far right before menu on mobile) */}
+          {/* Right: Search icon, then Login button / Profile Avatar */}
           <div className="flex min-w-0 items-center gap-2">
             {/* Search icon button – desktop & mobile */}
             <Link
@@ -135,14 +177,75 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               <SearchIcon className="w-5 h-5" />
             </Link>
 
-            {/* Login button */}
-            <Link
-              href="/admin"
-              className="hidden md:inline-flex items-center justify-center rounded-full bg-brand-gold px-5 py-1.5 text-sm font-semibold font-display text-brand-dark transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
-              aria-label="Masuk ke panel admin"
-            >
-              Login
-            </Link>
+            {/* Profile Avatar / Login Button */}
+            {user === undefined ? (
+              // Loading skeleton
+              <div className="hidden md:inline-flex h-8 w-16 animate-pulse rounded-full bg-foreground/10" />
+            ) : user ? (
+              // Authenticated user avatar with dropdown
+              <div className="relative" ref={profileDropdownRef}>
+                <button
+                  onClick={() => setProfileOpen((prev) => !prev)}
+                  className="flex h-9 w-9 items-center justify-center rounded-full transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
+                  aria-label="Menu profil"
+                >
+                  <img
+                    src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email)}&background=06162F&color=F0D637&size=100&bold=true`}
+                    alt={user.name || 'User'}
+                    className="h-9 w-9 rounded-full ring-2 ring-brand-gold ring-offset-2 ring-offset-background object-cover"
+                  />
+                </button>
+
+                {profileOpen && (
+                  <div className="absolute right-0 top-full mt-2.5 w-60 rounded-xl border border-white/10 bg-brand-dark/95 backdrop-blur-xl p-2.5 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    {/* Shimmer top line */}
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                    
+                    {/* User Info */}
+                    <div className="px-3 py-2 flex flex-col gap-0.5 select-none">
+                      <span className="text-sm font-semibold font-display text-white line-clamp-1">
+                        {user.name || 'Pengguna'}
+                      </span>
+                      <span className="text-xs text-white/55 line-clamp-1">
+                        {user.email}
+                      </span>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="h-px bg-white/10 my-2" />
+
+                    {/* Links */}
+                    <div className="flex flex-col gap-0.5">
+                      <Link
+                        href="/admin"
+                        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-white/75 hover:text-white hover:bg-white/8 transition-colors"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        <Shield className="w-4 h-4 text-brand-gold" />
+                        Buka Panel Admin
+                      </Link>
+                      
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Keluar
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // Login button
+              <Link
+                href="/admin"
+                className="hidden md:inline-flex items-center justify-center rounded-full bg-brand-gold px-5 py-1.5 text-sm font-semibold font-display text-brand-dark transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
+                aria-label="Masuk ke panel admin"
+              >
+                Login
+              </Link>
+            )}
 
             {/* Hamburger */}
             <button

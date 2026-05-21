@@ -33,7 +33,7 @@ export function linkIsActive(pathname: string, url?: string | null): boolean {
   return pathname === url || pathname.startsWith(`${url}/`)
 }
 
-export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
+export const HeaderNav: React.FC<{ data: HeaderType; scrolled?: boolean }> = ({ data, scrolled = false }) => {
   const navItems = (data?.navItems || []) as NavItemWithDropdown[]
   const pathname = usePathname()
 
@@ -49,6 +49,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
               link={link}
               dropdownItems={dropdownItems}
               pathname={pathname}
+              scrolled={scrolled}
             />
           )
         }
@@ -63,7 +64,9 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
               'rounded-md px-3 py-2 text-sm font-display transition-all duration-200 relative',
               isActive
                 ? 'font-bold text-foreground after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1/2 after:h-[2px] after:bg-brand-gold'
-                : 'font-medium text-muted-foreground hover:text-foreground',
+                : scrolled
+                  ? 'font-medium text-muted-foreground hover:text-foreground'
+                  : 'font-bold text-foreground hover:text-foreground/80',
             )}
             appearance="inline"
           />
@@ -77,9 +80,10 @@ interface DropdownItemProps {
   link: NavItemWithDropdown['link']
   dropdownItems: Array<{ link: NavItemWithDropdown['link'] }>
   pathname: string
+  scrolled?: boolean
 }
 
-const DropdownItem: React.FC<DropdownItemProps> = ({ link, dropdownItems, pathname }) => {
+const DropdownItem: React.FC<DropdownItemProps> = ({ link, dropdownItems, pathname, scrolled = false }) => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -109,7 +113,9 @@ const DropdownItem: React.FC<DropdownItemProps> = ({ link, dropdownItems, pathna
           'flex items-center gap-1 rounded-md px-3 py-2 text-sm font-display transition-all duration-200 relative',
           isActive || open
             ? 'font-bold text-foreground after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1/2 after:h-[2px] after:bg-brand-gold'
-            : 'font-medium text-muted-foreground hover:text-foreground',
+            : scrolled
+              ? 'font-medium text-muted-foreground hover:text-foreground'
+              : 'font-bold text-foreground hover:text-foreground/80',
         )}
         aria-expanded={open}
         aria-haspopup="true"
