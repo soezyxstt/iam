@@ -7,7 +7,7 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --turbopack",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
@@ -20,10 +20,16 @@
     "test": "pnpm run test:int && pnpm run test:e2e",
     "test:e2e": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test --config=playwright.config.ts",
     "test:visual": "cross-env NODE_OPTIONS=\"--no-deprecation --import=tsx/esm\" playwright test tests/e2e/visual.e2e.spec.ts --config=playwright.config.ts",
-    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
+    "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
+    "migrate:turso:schema": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_CONFIG_PATH=src/payload.config.turso.ts payload migrate",
+    "migrate:export-neon": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/export-from-neon.ts",
+    "migrate:import-turso": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_CONFIG_PATH=src/payload.config.turso.ts tsx scripts/import-to-turso.ts",
+    "migrate:validate": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_CONFIG_PATH=src/payload.config.turso.ts tsx scripts/validate-migration.ts",
+    "migrate:upload-r2": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/upload-to-r2.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.76.1",
+    "@payloadcms/db-sqlite": "3.76.1",
     "@payloadcms/email-resend": "3.76.1",
     "@payloadcms/live-preview-react": "3.76.1",
     "@payloadcms/next": "3.76.1",
@@ -40,6 +46,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@types/mime": "^4.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
@@ -47,6 +54,7 @@
     "geist": "^1.3.0",
     "graphql": "^16.8.2",
     "lucide-react": "0.563.0",
+    "mime": "^4.1.0",
     "next": "15.4.11",
     "next-sitemap": "^4.2.3",
     "nodemailer": "^8.0.7",

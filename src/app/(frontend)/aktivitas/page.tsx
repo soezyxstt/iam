@@ -1,118 +1,141 @@
 import type { Metadata } from 'next'
 import React from 'react'
-import { Calendar, Clock, Wrench } from 'lucide-react'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import Link from 'next/link'
+import Image from 'next/image'
 
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
 import { Eyebrow, Heading, Text } from '@/components/ui/typography'
-import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
   title: 'Aktivitas — IAM ITB',
-  description: 'Halaman Aktivitas Ikatan Alumni Mesin ITB sedang dalam pengembangan.',
+  description: 'Kegiatan dan agenda Ikatan Alumni Mesin ITB.',
 }
 
-export default function AktivitasPage() {
+export const revalidate = 600
+
+const ACTIVITY_TYPE_LABELS: Record<string, string> = {
+  pulang_kampus: 'Pulang Kampus',
+  beasiswa: 'Beasiswa IAM ITB',
+  reuni: 'Reuni Akbar',
+  kongres: 'Kongres IAM ITB',
+  agenda_rutin: 'Agenda Rutin',
+  lainnya: 'Lainnya',
+}
+
+export default async function AktivitasPage() {
+  const payload = await getPayload({ config: configPromise })
+
+  const result = await payload.find({
+    collection: 'activities',
+    overrideAccess: false,
+    limit: 100,
+    sort: '-date',
+    depth: 1,
+  })
+
+  const activities = result.docs
+
   return (
     <PageShell>
-      {/* Hero Header Section */}
       <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
         <ScrollReveal>
-          <PageHeroHeader
-            title="Aktivitas"
-            subtitle="Kegiatan & Agenda Alumni Mesin ITB"
-          />
+          <PageHeroHeader title="Aktivitas" subtitle="Kegiatan & Agenda Alumni Mesin ITB" />
         </ScrollReveal>
       </Section>
 
-      {/* Main Content Area */}
       <Section className="z-10 pt-0 pb-20 md:pt-0 md:pb-24">
-        <ScrollReveal>
-          <GlassCard
-            variant="stripes"
-            className="border-white/10"
-            contentClassName="p-8 md:p-10 text-center flex flex-col items-center"
-          >
-            {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full bg-brand-gold/10 border border-brand-gold/30 px-3.5 py-1 text-xs font-semibold text-brand-gold mb-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-gold"></span>
-              </span>
-              Dalam Pengembangan
-            </div>
-
-            <Heading level={2} tone="inverse" className="text-2xl md:text-3xl font-bold tracking-tight">
-              Halaman Aktivitas Sedang dalam Pengembangan
-            </Heading>
-
-            <Text variant="body" tone="inverse" className="mt-4 max-w-lg text-white/80 text-center leading-relaxed">
-              Kami sedang menyiapkan ruang interaktif bagi alumni Mesin ITB untuk memantau, mendaftar, dan berpartisipasi dalam berbagai agenda mendatang.
-            </Text>
-
-            {/* Divider line */}
-            <div className="w-full mt-10 border-t border-white/10" />
-
-            {/* Feature Teasers */}
-            <div className="w-full mt-8 text-center">
-              <Text variant="small" tone="accent" className="font-display font-bold uppercase tracking-wider block mb-8">
-                Rencana Fitur yang Sedang Disiapkan:
+        {activities.length === 0 ? (
+          <ScrollReveal>
+            <div className="py-20 text-center border-2 border-dashed border-brand-dark/5 rounded-3xl">
+              <Text variant="editorial" tone="muted">
+                Belum ada aktivitas yang tersedia saat ini.
               </Text>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl mx-auto">
-                <div className="flex flex-col items-center p-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-gold/10 border border-brand-gold/20 mb-4">
-                    <Calendar className="w-6 h-6 text-brand-gold" />
-                  </div>
-                  <Text variant="body" tone="inverse" className="font-semibold text-base">Kalender Agenda</Text>
-                  <Text variant="small" tone="inverse" className="text-white/60 mt-2 max-w-xs mx-auto">
-                    Jadwal lengkap temu alumni, reuni, seminar, dan agenda sosial.
-                  </Text>
-                </div>
-
-                <div className="flex flex-col items-center p-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-gold/10 border border-brand-gold/20 mb-4">
-                    <Clock className="w-6 h-6 text-brand-gold" />
-                  </div>
-                  <Text variant="body" tone="inverse" className="font-semibold text-base">Registrasi Terintegrasi</Text>
-                  <Text variant="small" tone="inverse" className="text-white/60 mt-2 max-w-xs mx-auto">
-                    Pendaftaran mudah untuk setiap kegiatan langsung melalui situs ini.
-                  </Text>
-                </div>
-
-                <div className="flex flex-col items-center p-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-brand-gold/10 border border-brand-gold/20 mb-4">
-                    <Wrench className="w-6 h-6 text-brand-gold" />
-                  </div>
-                  <Text variant="body" tone="inverse" className="font-semibold text-base">Dokumentasi & Laporan</Text>
-                  <Text variant="small" tone="inverse" className="text-white/60 mt-2 max-w-xs mx-auto">
-                    Arsip dokumentasi, materi pembicara, dan rangkuman kegiatan sebelumnya.
-                  </Text>
-                </div>
-              </div>
             </div>
+          </ScrollReveal>
+        ) : (
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {activities.map((activity) => {
+              const hero =
+                typeof activity.heroImage === 'object' && activity.heroImage !== null
+                  ? (activity.heroImage as { url?: string; alt?: string })
+                  : null
+              const typeLabel =
+                ACTIVITY_TYPE_LABELS[activity.activityType ?? 'lainnya'] ?? 'Lainnya'
+              const dateStr = activity.date
+                ? new Date(activity.date).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })
+                : null
 
-            {/* Call to Actions */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-10 w-full justify-center">
-              <Button variant="secondary" size="md" href="/">
-                Kembali ke Beranda
-              </Button>
-              <Button
-                variant="outline"
-                size="md"
-                href="/berita"
-                className="border-white/20 text-white hover:bg-white/10"
-              >
-                Lihat Berita Terbaru
-              </Button>
-            </div>
-          </GlassCard>
-        </ScrollReveal>
+              return (
+                <ScrollReveal key={activity.id}>
+                  <Link
+                    href={`/aktivitas/${activity.slug}`}
+                    className="group block h-full overflow-hidden rounded-2xl border border-brand-dark/10 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl"
+                  >
+                    <div className="relative aspect-video overflow-hidden bg-brand-khaki/30">
+                      {hero?.url ? (
+                        <Image
+                          src={hero.url}
+                          alt={hero.alt ?? activity.activityName}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-brand-primary/10">
+                          <span className="font-display text-4xl font-bold text-brand-primary/20">
+                            IAM
+                          </span>
+                        </div>
+                      )}
+                      <div className="absolute top-3 left-3">
+                        <span className="inline-flex items-center rounded-full bg-brand-dark/80 px-2.5 py-1 font-display text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm">
+                          {typeLabel}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-6 flex flex-col gap-2">
+                      {dateStr && (
+                        <Eyebrow tone="red" className="text-[10px]">
+                          {dateStr}
+                        </Eyebrow>
+                      )}
+                      <Heading
+                        level={3}
+                        className="text-lg leading-snug transition-colors group-hover:text-brand-red"
+                      >
+                        {activity.activityName}
+                      </Heading>
+                      {activity.excerpt && (
+                        <Text variant="small" tone="muted" className="line-clamp-2 mt-1">
+                          {activity.excerpt}
+                        </Text>
+                      )}
+                      <div className="mt-4 pt-4 border-t border-brand-dark/5 flex items-center justify-between">
+                        <span className="font-display text-[10px] font-bold uppercase tracking-widest text-brand-dark/40 group-hover:text-brand-red transition-colors">
+                          Selengkapnya
+                        </span>
+                        <span className="text-brand-dark/20 transition-all group-hover:text-brand-red group-hover:translate-x-1">
+                          &rarr;
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </ScrollReveal>
+              )
+            })}
+          </div>
+        )}
       </Section>
     </PageShell>
   )
 }
-

@@ -351,6 +351,62 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               />
             </div>
           </form>
+
+          {/* User profile / Login button */}
+          {user === undefined ? (
+            // Loading skeleton
+            <div className="mt-6 px-4 border-t border-white/10 pt-6 animate-pulse">
+              <div className="h-10 rounded-lg bg-white/10" />
+            </div>
+          ) : user ? (
+            // Authenticated user profile and action buttons
+            <div className="mt-6 px-4 border-t border-white/10 pt-6">
+              <div className="flex items-center gap-3 mb-4">
+                <img
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email)}&background=06162F&color=F0D637&size=100&bold=true`}
+                  alt={user.name || 'User'}
+                  className="h-10 w-10 rounded-full ring-2 ring-brand-gold ring-offset-2 ring-offset-brand-dark object-cover"
+                />
+                <div className="flex flex-col min-w-0">
+                  <span className="text-sm font-semibold font-display text-white truncate">
+                    {user.name || 'Pengguna'}
+                  </span>
+                  <span className="text-xs text-white/55 truncate">
+                    {user.email}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <Link
+                  href="/admin"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-white/75 hover:text-white hover:bg-white/8 transition-colors"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <Shield className="w-4 h-4 text-brand-gold" />
+                  Buka Panel Admin
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Keluar
+                </button>
+              </div>
+            </div>
+          ) : (
+            // Login button for unauthenticated user
+            <div className="mt-6 px-4 border-t border-white/10 pt-6">
+              <Link
+                href="/admin"
+                className="flex w-full items-center justify-center rounded-full bg-brand-gold px-5 py-2.5 text-sm font-semibold font-display text-brand-dark transition-opacity hover:opacity-85"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Masuk ke panel admin"
+              >
+                Login
+              </Link>
+            </div>
+          )}
         </div>
       </>
     </>

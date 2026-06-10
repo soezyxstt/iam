@@ -1,0 +1,108 @@
+{
+  "slug": "categories",
+  "count": 6,
+  "docs": [
+    {
+      "id": 36,
+      "title": "Engineering",
+      "generateSlug": false,
+      "slug": "engineering",
+      "parent": null,
+      "breadcrumbs": [
+        {
+          "id": "6a02359174a66324a416a8fd",
+          "doc": 36,
+          "url": "/engineering",
+          "label": "Engineering"
+        }
+      ],
+      "updatedAt": "2026-05-11T20:01:21.486Z",
+      "createdAt": "2026-05-11T20:01:21.216Z"
+    },
+    {
+      "id": 35,
+      "title": "Software",
+      "generateSlug": false,
+      "slug": "software",
+      "parent": null,
+      "breadcrumbs": [
+        {
+          "id": "6a02359074a66324a416a8fc",
+          "doc": 35,
+          "url": "/software",
+          "label": "Software"
+        }
+      ],
+      "updatedAt": "2026-05-11T20:01:21.332Z",
+      "createdAt": "2026-05-11T20:01:20.889Z"
+    },
+    {
+      "id": 34,
+      "title": "Design",
+      "generateSlug": false,
+      "slug": "design",
+      "parent": null,
+      "breadcrumbs": [
+        {
+          "id": "6a02359074a66324a416a8fb",
+          "doc": 34,
+          "url": "/design",
+          "label": "Design"
+        }
+      ],
+      "updatedAt": "2026-05-11T20:01:21.282Z",
+      "createdAt": "2026-05-11T20:01:20.862Z"
+    },
+    {
+      "id": 33,
+      "title": "Finance",
+      "generateSlug": false,
+      "slug": "finance",
+      "parent": null,
+      "breadcrumbs": [
+        {
+          "id": "6a02359074a66324a416a8fa",
+          "doc": 33,
+          "url": "/finance",
+          "label": "Finance"
+        }
+      ],
+      "updatedAt": "2026-05-11T20:01:20.825Z",
+      "createdAt": "2026-05-11T20:01:20.484Z"
+    },
+    {
+      "id": 32,
+      "title": "Technology",
+      "generateSlug": false,
+      "slug": "technology",
+      "parent": null,
+      "breadcrumbs": [
+        {
+          "id": "6a02359074a66324a416a8f9",
+          "doc": 32,
+          "url": "/technology",
+          "label": "Technology"
+        }
+      ],
+      "updatedAt": "2026-05-11T20:01:20.536Z",
+      "createdAt": "2026-05-11T20:01:20.291Z"
+    },
+    {
+      "id": 31,
+      "title": "News",
+      "generateSlug": false,
+      "slug": "news",
+      "parent": null,
+      "breadcrumbs": [
+        {
+          "id": "6a02359074a66324a416a8f8",
+          "doc": 31,
+          "url": "/news",
+          "label": "News"
+        }
+      ],
+      "updatedAt": "2026-05-11T20:01:20.532Z",
+      "createdAt": "2026-05-11T20:01:20.287Z"
+    }
+  ]
+}

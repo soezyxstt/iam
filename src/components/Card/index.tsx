@@ -61,7 +61,7 @@ export const Card: React.FC<CardProps> = (props) => {
       >
         <div className="relative aspect-16/10 w-full shrink-0 overflow-hidden bg-brand-dark/40">
           <Image
-            src={act?.image || '/media/tangga.jpg'}
+            src={act?.image || '/assets/tangga.jpg'}
             alt={act?.title ?? ''}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
@@ -98,7 +98,7 @@ export const Card: React.FC<CardProps> = (props) => {
       biz?.coverImage.url
         ? biz?.coverImage
         : null
-    const coverSrc = cover?.url ?? '/media/tangga.jpg'
+    const coverSrc = cover?.url ?? '/assets/tangga.jpg'
     const href = `/usaha-alumni/${encodeURIComponent(biz?.slug || '')}`
 
     return (

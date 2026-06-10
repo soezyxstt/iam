@@ -1,0 +1,412 @@
+{
+  "slug": "forms",
+  "count": 3,
+  "docs": [
+    {
+      "id": 15,
+      "title": "Pengajuan Usaha Alumni",
+      "fields": [
+        {
+          "id": "6a02359674a66324a416a932",
+          "name": "ownerName",
+          "label": "Pemilik usaha",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "text"
+        },
+        {
+          "id": "6a02359674a66324a416a933",
+          "name": "businessName",
+          "label": "Nama usaha",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "text"
+        },
+        {
+          "id": "6a02359674a66324a416a939",
+          "name": "category",
+          "label": "Kategori",
+          "width": 100,
+          "defaultValue": null,
+          "placeholder": null,
+          "required": true,
+          "blockName": null,
+          "options": [
+            {
+              "id": "6a02359674a66324a416a934",
+              "label": "Manufaktur",
+              "value": "manufaktur"
+            },
+            {
+              "id": "6a02359674a66324a416a935",
+              "label": "Jasa",
+              "value": "jasa"
+            },
+            {
+              "id": "6a02359674a66324a416a936",
+              "label": "F&B",
+              "value": "fnb"
+            },
+            {
+              "id": "6a02359674a66324a416a937",
+              "label": "Teknologi",
+              "value": "teknologi"
+            },
+            {
+              "id": "6a02359674a66324a416a938",
+              "label": "Lainnya",
+              "value": "lainnya"
+            }
+          ],
+          "blockType": "select"
+        },
+        {
+          "id": "6a02359674a66324a416a93a",
+          "name": "description",
+          "label": "Narasi / deskripsi",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "textarea"
+        },
+        {
+          "id": "6a02359674a66324a416a93b",
+          "name": "productsOrServices",
+          "label": "Produk / jasa",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "text"
+        },
+        {
+          "id": "6a02359674a66324a416a93c",
+          "name": "address",
+          "label": "Alamat",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "textarea"
+        },
+        {
+          "id": "6a02359674a66324a416a93d",
+          "name": "phoneNumber",
+          "label": "Nomor telepon",
+          "width": 50,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "text"
+        },
+        {
+          "id": "6a02359674a66324a416a93e",
+          "name": "email",
+          "label": "Email",
+          "width": 50,
+          "required": false,
+          "blockName": null,
+          "blockType": "email"
+        },
+        {
+          "id": "6a02359674a66324a416a93f",
+          "name": "website",
+          "label": "Website",
+          "width": 50,
+          "defaultValue": null,
+          "required": false,
+          "blockName": null,
+          "blockType": "text"
+        },
+        {
+          "id": "6a02359674a66324a416a940",
+          "name": "instagram",
+          "label": "Instagram",
+          "width": 50,
+          "defaultValue": null,
+          "required": false,
+          "blockName": null,
+          "blockType": "text"
+        }
+      ],
+      "submitButtonLabel": "Kirim pengajuan",
+      "confirmationType": "message",
+      "confirmationMessage": {
+        "root": {
+          "type": "root",
+          "format": "",
+          "indent": 0,
+          "version": 1,
+          "children": [
+            {
+              "type": "paragraph",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "mode": "normal",
+                  "text": "Terima kasih. Pengajuan akan ditinjau admin sebelum ditampilkan di situs.",
+                  "type": "text",
+                  "style": "",
+                  "detail": 0,
+                  "format": 0,
+                  "version": 1
+                }
+              ],
+              "direction": "ltr",
+              "textFormat": 0
+            }
+          ],
+          "direction": "ltr"
+        }
+      },
+      "redirect": {
+        "url": null
+      },
+      "emails": [],
+      "updatedAt": "2026-05-11T20:01:26.669Z",
+      "createdAt": "2026-05-11T20:01:26.669Z"
+    },
+    {
+      "id": 13,
+      "title": "Pengajuan Lowongan",
+      "fields": [
+        {
+          "id": "6a02359674a66324a416a925",
+          "name": "position",
+          "label": "Posisi",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "text"
+        },
+        {
+          "id": "6a02359674a66324a416a926",
+          "name": "companyName",
+          "label": "Nama perusahaan",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "text"
+        },
+        {
+          "id": "6a02359674a66324a416a92a",
+          "name": "employmentType",
+          "label": "Jenis pekerjaan",
+          "width": 100,
+          "defaultValue": null,
+          "placeholder": null,
+          "required": true,
+          "blockName": null,
+          "options": [
+            {
+              "id": "6a02359674a66324a416a927",
+              "label": "Full-time",
+              "value": "full_time"
+            },
+            {
+              "id": "6a02359674a66324a416a928",
+              "label": "Part-time",
+              "value": "part_time"
+            },
+            {
+              "id": "6a02359674a66324a416a929",
+              "label": "Magang",
+              "value": "internship"
+            }
+          ],
+          "blockType": "select"
+        },
+        {
+          "id": "6a02359674a66324a416a92b",
+          "name": "jobDescription",
+          "label": "Deskripsi pekerjaan",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": null,
+          "blockType": "textarea"
+        },
+        {
+          "id": "6a02359674a66324a416a92c",
+          "name": "officialLink",
+          "label": "Tautan resmi lowongan",
+          "width": 100,
+          "defaultValue": null,
+          "required": false,
+          "blockName": null,
+          "blockType": "text"
+        }
+      ],
+      "submitButtonLabel": "Kirim pengajuan",
+      "confirmationType": "message",
+      "confirmationMessage": {
+        "root": {
+          "type": "root",
+          "format": "",
+          "indent": 0,
+          "version": 1,
+          "children": [
+            {
+              "type": "paragraph",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "mode": "normal",
+                  "text": "Terima kasih. Lowongan akan ditinjau admin sebelum ditampilkan di situs.",
+                  "type": "text",
+                  "style": "",
+                  "detail": 0,
+                  "format": 0,
+                  "version": 1
+                }
+              ],
+              "direction": "ltr",
+              "textFormat": 0
+            }
+          ],
+          "direction": "ltr"
+        }
+      },
+      "redirect": {
+        "url": null
+      },
+      "emails": [],
+      "updatedAt": "2026-05-11T20:01:26.664Z",
+      "createdAt": "2026-05-11T20:01:26.664Z"
+    },
+    {
+      "id": 14,
+      "title": "Contact Form",
+      "fields": [
+        {
+          "id": "6a02359674a66324a416a92d",
+          "name": "full-name",
+          "label": "Full Name",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": "full-name",
+          "blockType": "text"
+        },
+        {
+          "id": "6a02359674a66324a416a92e",
+          "name": "email",
+          "label": "Email",
+          "width": 100,
+          "required": true,
+          "blockName": "email",
+          "blockType": "email"
+        },
+        {
+          "id": "6a02359674a66324a416a92f",
+          "name": "phone",
+          "label": "Phone",
+          "width": 100,
+          "defaultValue": null,
+          "required": false,
+          "blockName": "phone",
+          "blockType": "number"
+        },
+        {
+          "id": "6a02359674a66324a416a930",
+          "name": "message",
+          "label": "Message",
+          "width": 100,
+          "defaultValue": null,
+          "required": true,
+          "blockName": "message",
+          "blockType": "textarea"
+        }
+      ],
+      "submitButtonLabel": "Submit",
+      "confirmationType": "message",
+      "confirmationMessage": {
+        "root": {
+          "type": "root",
+          "format": "",
+          "indent": 0,
+          "version": 1,
+          "children": [
+            {
+              "tag": "h2",
+              "type": "heading",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "mode": "normal",
+                  "text": "The contact form has been submitted successfully.",
+                  "type": "text",
+                  "style": "",
+                  "detail": 0,
+                  "format": 0,
+                  "version": 1
+                }
+              ],
+              "direction": "ltr"
+            }
+          ],
+          "direction": "ltr"
+        }
+      },
+      "redirect": {
+        "url": null
+      },
+      "emails": [
+        {
+          "id": "6a02359674a66324a416a931",
+          "emailTo": "{{email}}",
+          "cc": null,
+          "bcc": null,
+          "replyTo": null,
+          "emailFrom": "\"Payload\" <demo@payloadcms.com>",
+          "subject": "You've received a new message.",
+          "message": {
+            "root": {
+              "type": "root",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "type": "paragraph",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "mode": "normal",
+                      "text": "Your contact form submission was successfully received.",
+                      "type": "text",
+                      "style": "",
+                      "detail": 0,
+                      "format": 0,
+                      "version": 1
+                    }
+                  ],
+                  "direction": "ltr",
+                  "textFormat": 0
+                }
+              ],
+              "direction": "ltr"
+            }
+          }
+        }
+      ],
+      "updatedAt": "2023-01-12T21:47:41.374Z",
+      "createdAt": "2023-01-12T21:47:41.374Z"
+    }
+  ]
+}

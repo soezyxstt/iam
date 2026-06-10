@@ -1,6 +1,13 @@
+/**
+ * TEMPORARY CONFIG — Turso/SQLite adapter.
+ * Used ONLY during migration. Do NOT deploy this file.
+ * After migration is validated, update payload.config.ts instead.
+ *
+ * Usage:
+ *   PAYLOAD_CONFIG_PATH=src/payload.config.turso.ts bun run <script>
+ */
+
 import { resendAdapter } from '@payloadcms/email-resend'
-// ROLLBACK: uncomment postgresAdapter and comment out sqliteAdapter below
-// import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import sharp from 'sharp'
 import path from 'path'
@@ -28,7 +35,6 @@ import { Galeri } from './collections/Galeri'
 import { GaleriKategori } from './collections/GaleriKategori'
 import { Komunitas } from './collections/Komunitas'
 import { AlumniMembers } from './collections/AlumniMembers'
-import { OrgAnggota } from './collections/OrgAnggota'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -36,11 +42,7 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeDashboard: ['@/components/BeforeDashboard'],
       graphics: {
         Logo: '@/components/Admin/Logo',
@@ -52,47 +54,27 @@ export default buildConfig({
     user: Users.slug,
     livePreview: {
       breakpoints: [
-        {
-          label: 'Mobile',
-          name: 'mobile',
-          width: 375,
-          height: 667,
-        },
-        {
-          label: 'Tablet',
-          name: 'tablet',
-          width: 768,
-          height: 1024,
-        },
-        {
-          label: 'Desktop',
-          name: 'desktop',
-          width: 1440,
-          height: 900,
-        },
+        { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
+        { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
+        { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
       ],
     },
     meta: {
       title: 'Admin',
       titleSuffix: ' | IAM ITB',
     },
-    /** Light theme only — matches IAM admin styling in `app/(payload)/custom.scss`. */
     theme: 'light',
   },
-  // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
-  // ROLLBACK: restore the postgresAdapter block below and remove sqliteAdapter
-  // db: postgresAdapter({
-  //   pool: {
-  //     connectionString: process.env.DATABASE_URL || '',
-  //   },
-  // }),
+  // TURSO — SQLite/LibSQL adapter
   db: sqliteAdapter({
     client: {
       url: process.env.TURSO_DATABASE_URL || '',
       authToken: process.env.TURSO_AUTH_TOKEN || '',
     },
+    // Keep migration files separate from Postgres migrations
     migrationDir: path.resolve(dirname, '../migrations-turso'),
+    // Allow explicit IDs during import (preserves Neon IDs in Turso)
     allowIDOnCreate: true,
   }),
   collections: [
@@ -111,7 +93,6 @@ export default buildConfig({
     GaleriKategori,
     Komunitas,
     AlumniMembers,
-    OrgAnggota,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, ProfilOrganisasi],
@@ -129,15 +110,9 @@ export default buildConfig({
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {
-        // Allow logged in users to execute this endpoint (default)
         if (req.user) return true
-
         const secret = process.env.CRON_SECRET
         if (!secret) return false
-
-        // If there is no logged in user, then check
-        // for the Vercel Cron secret to be present as an
-        // Authorization header:
         const authHeader = req.headers.get('authorization')
         return authHeader === `Bearer ${secret}`
       },

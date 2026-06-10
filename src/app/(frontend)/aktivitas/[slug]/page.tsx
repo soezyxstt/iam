@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import React from 'react'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import Image from 'next/image'
 
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
@@ -9,33 +12,72 @@ import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
 import { Text } from '@/components/ui/typography'
 import { GlassCard } from '@/components/ui/glass-card'
-
-import { getAktivitasBySlug, AKTIVITAS_ENTRIES } from '../aktivitas-data'
+import RichText from '@/components/RichText'
 
 type PageProps = {
   params: Promise<{ slug: string }>
 }
 
-export function generateStaticParams() {
-  return AKTIVITAS_ENTRIES.map((p) => ({ slug: p.slug }))
+const ACTIVITY_TYPE_LABELS: Record<string, string> = {
+  pulang_kampus: 'Pulang Kampus',
+  beasiswa: 'Beasiswa IAM ITB',
+  reuni: 'Reuni Akbar',
+  kongres: 'Kongres IAM ITB',
+  agenda_rutin: 'Agenda Rutin',
+  lainnya: 'Lainnya',
+}
+
+async function getActivity(slug: string) {
+  const payload = await getPayload({ config: configPromise })
+  const result = await payload.find({
+    collection: 'activities',
+    overrideAccess: false,
+    where: { slug: { equals: slug } },
+    limit: 1,
+    depth: 1,
+  })
+  return result.docs[0] ?? null
+}
+
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  const result = await payload.find({
+    collection: 'activities',
+    overrideAccess: false,
+    limit: 1000,
+  })
+  return result.docs.map((a) => ({ slug: a.slug }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const aktivitas = getAktivitasBySlug(slug)
-  if (!aktivitas) {
-    return { title: 'Aktivitas' }
-  }
+  const activity = await getActivity(slug)
+  if (!activity) return { title: 'Aktivitas' }
   return {
-    title: aktivitas.title,
-    description: aktivitas.excerpt,
+    title: activity.activityName,
+    description: activity.excerpt ?? undefined,
   }
 }
 
 export default async function AktivitasDetailPage({ params }: PageProps) {
   const { slug } = await params
-  const aktivitas = getAktivitasBySlug(slug)
-  if (!aktivitas) notFound()
+  const activity = await getActivity(slug)
+  if (!activity) notFound()
+
+  const hero =
+    typeof activity.heroImage === 'object' && activity.heroImage !== null
+      ? (activity.heroImage as { url?: string; alt?: string })
+      : null
+
+  const dateStr = activity.date
+    ? new Date(activity.date).toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
+    : null
+
+  const typeLabel = ACTIVITY_TYPE_LABELS[activity.activityType ?? 'lainnya'] ?? 'Lainnya'
 
   return (
     <PageShell>
@@ -47,31 +89,44 @@ export default async function AktivitasDetailPage({ params }: PageProps) {
             </Button>
           </div>
           <PageHeroHeader
-            title={aktivitas.title}
+            title={activity.activityName}
             subtitle="Ikatan Alumni Mesin ITB"
-            description={<Text className="text-brand-dark/80">{aktivitas.excerpt}</Text>}
+            description={
+              activity.excerpt ? (
+                <Text className="text-brand-dark/80">{activity.excerpt}</Text>
+              ) : undefined
+            }
           />
         </ScrollReveal>
       </Section>
+
+      {hero?.url && (
+        <Section className="z-10 pt-0 pb-8 md:pb-12">
+          <ScrollReveal>
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-xl">
+              <Image
+                src={hero.url}
+                alt={hero.alt ?? activity.activityName}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 80vw"
+                priority
+              />
+            </div>
+          </ScrollReveal>
+        </Section>
+      )}
 
       <Section className="relative z-10 pt-6 pb-16 md:pt-8 md:pb-24">
         <div className="absolute inset-0 bg-linear-to-br from-brand-dark via-brand-primary to-brand-dark -z-10" />
         <ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            {/* Left: Content Body wrapped in GlassCard */}
             <div className="md:col-span-8">
               <GlassCard className="p-8 md:p-10 border-white/10 bg-white/5 backdrop-blur-md rounded-2xl shadow-xl">
-                <div className="space-y-6">
-                  {aktivitas.bodyParagraphs.map((para, i) => (
-                    <Text key={i} tone="inverse" className="text-[16px] leading-[1.85] text-white/80">
-                      {para}
-                    </Text>
-                  ))}
-                </div>
+                <RichText data={activity.description} enableGutter={false} />
               </GlassCard>
             </div>
 
-            {/* Right: Info panel/Sidebar wrapped in GlassCard */}
             <div className="md:col-span-4">
               <GlassCard className="p-6 border-white/10 bg-white/5 backdrop-blur-md rounded-2xl shadow-xl space-y-6">
                 <div>
@@ -86,10 +141,21 @@ export default async function AktivitasDetailPage({ params }: PageProps) {
                     <span className="block font-display text-[10px] font-medium uppercase tracking-wider text-white/40">
                       Kategori
                     </span>
-                    <span className="mt-1 block font-sans text-sm font-semibold text-white capitalize">
-                      {aktivitas.category}
+                    <span className="mt-1 block font-sans text-sm font-semibold text-white">
+                      {typeLabel}
                     </span>
                   </div>
+
+                  {dateStr && (
+                    <div className="pt-4">
+                      <span className="block font-display text-[10px] font-medium uppercase tracking-wider text-white/40">
+                        Tanggal
+                      </span>
+                      <span className="mt-1 block font-sans text-sm font-semibold text-white">
+                        {dateStr}
+                      </span>
+                    </div>
+                  )}
 
                   <div className="pt-4">
                     <span className="block font-display text-[10px] font-medium uppercase tracking-wider text-white/40">
@@ -97,16 +163,6 @@ export default async function AktivitasDetailPage({ params }: PageProps) {
                     </span>
                     <span className="mt-1 block font-sans text-sm font-semibold text-white">
                       Ikatan Alumni Mesin ITB
-                    </span>
-                  </div>
-
-                  <div className="pt-4">
-                    <span className="block font-display text-[10px] font-medium uppercase tracking-wider text-white/40">
-                      Status Program
-                    </span>
-                    <span className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-brand-gold/15 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
-                      <span className="h-1.5 w-1.5 rounded-full bg-brand-gold animate-pulse" />
-                      Terlaksana / Rutin
                     </span>
                   </div>
                 </div>

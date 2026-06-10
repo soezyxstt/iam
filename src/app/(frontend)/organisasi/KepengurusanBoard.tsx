@@ -3,78 +3,40 @@
 import { cn } from '@/utilities/ui'
 import React, { useMemo, useState } from 'react'
 
-type BoardMember = {
-  role?: string
+export type OrgMember = {
+  id: number | string
   name: string
+  position?: string | null
+  photo?: { url?: string } | null | unknown
+  memberType: 'main' | 'advisory' | 'expert'
+  treeLevel?: number | null
+  order?: number | null
 }
 
-type BoardSection = {
-  title: string
-  members: BoardMember[]
+type Props = {
+  members: OrgMember[]
 }
 
-const BOARD_DATA: Record<'penasihat' | 'pakar' | 'pengurus', BoardSection> = {
-  penasihat: {
-    title: 'Dewan Penasihat',
-    members: [
-      { name: 'Prof. Dr. Ir. Hermawan Judawisastra, M.Eng. (M88)' },
-      { name: 'Ekotomo (M71)' },
-      { name: 'Ari Surhendro (M76)' },
-      { name: 'Joseph Pangalila (M82)' },
-      { name: 'Gaya Sinaga (M85)' },
-      { name: 'Arif Haendra (M90)' },
-      { name: 'Ari Indarto Sutjiatmo (M95)' },
-      { name: 'Donny Novanda (M95)' },
-      { name: 'Rilly Christian Hutabarat (M98)' },
-      { name: 'Abdan Satria (M03)' },
-    ],
-  },
-  pakar: {
-    title: 'Dewan Pakar',
-    members: [
-      { name: 'Muhammad Fauzan Adziman (M99)' },
-      { name: 'Ir. Satrio Wicaksono, S.T, M.Eng., Ph.D. (M03)' },
-      { name: 'Sigit Santoso (M86)' },
-      { name: 'Taufik Adityawarman (M86)' },
-      { name: 'Gembong Primadjaja (M86)' },
-      { name: 'Vernon Sapalatua (M97)' },
-      { name: 'Rudolf Aritonang (M04)' },
-      { name: 'Hamdhani Dzulkarnaen Salim (M83)' },
-      { name: 'Arief Abidin (M89)' },
-      { name: 'Ony Arifianto (M90)' },
-      { name: 'Roland Wala (M05)' },
-      { name: 'Irham Nusaly (M95)' },
-      { name: 'Adrian Tisna (M86)' },
-      { name: 'Rudy Andriyana (M94)' },
-      { name: 'Jero Wacik (M70)' },
-      { name: 'Susilo Siswoutomo (M70)' },
-      { name: 'Archandra Tahar (M89)' },
-      { name: 'Budhi Suyitno (M72)' },
-    ],
-  },
-  pengurus: {
-    title: 'Pengurus Inti & Ketua Bidang',
-    members: [
-      { role: 'Ketua Umum', name: 'Farhan Muhammad (M99)' },
-      { role: 'Wakil Ketua Umum I', name: 'Anggi Firman (M14)' },
-      { role: 'Wakil Ketua Umum II', name: 'Tri Harjanto Puspoasmoro (M99)' },
-      { role: 'Wakil Ketua Umum III', name: 'R. Ryan Aditya S.W. (M01)' },
-      { role: 'Sekretaris Jenderal', name: 'Tri Aghna Satriya (M08)' },
-      { role: 'Bendahara', name: 'Andini Aritonang (M99)' },
-      { role: 'Ketua Bidang Keanggotaan dan Wirausaha', name: 'Gumilang Dewananta (M05)' },
-      { role: 'Ketua Bidang Komunitas dan Hobi', name: 'M. Faiz Habibi (M19)' },
-      { role: 'Ketua Bidang Produk Identitas', name: 'Ridho Fidiantowi (M11)' },
-      { role: 'Ketua Bidang Beasiswa dan Kampus', name: 'Ilman Nuran Zaini (M08)' },
-    ],
-  },
-}
-
-export function KepengurusanBoard() {
+export function KepengurusanBoard({ members }: Props) {
   const [activeTab, setActiveTab] = useState<'penasihat' | 'pakar' | 'pengurus'>('penasihat')
 
-  const panel = useMemo(() => {
-    return BOARD_DATA[activeTab]
-  }, [activeTab])
+  const advisory = useMemo(
+    () => members.filter((m) => m.memberType === 'advisory').sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+    [members],
+  )
+  const expert = useMemo(
+    () => members.filter((m) => m.memberType === 'expert').sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+    [members],
+  )
+  const main = useMemo(
+    () => members.filter((m) => m.memberType === 'main').sort((a, b) => {
+      const lvlDiff = (a.treeLevel ?? 99) - (b.treeLevel ?? 99)
+      return lvlDiff !== 0 ? lvlDiff : (a.order ?? 0) - (b.order ?? 0)
+    }),
+    [members],
+  )
+
+  const currentList = activeTab === 'penasihat' ? advisory : activeTab === 'pakar' ? expert : main
 
   return (
     <div className="flex flex-col gap-12 lg:flex-row lg:items-stretch lg:gap-0">
@@ -94,7 +56,7 @@ export function KepengurusanBoard() {
                 <button
                   key={tab.key}
                   type="button"
-                  onClick={() => setActiveTab(tab.key as any)}
+                  onClick={() => setActiveTab(tab.key as 'penasihat' | 'pakar' | 'pengurus')}
                   className={cn(
                     'relative px-3 py-2.5 font-display text-sm transition-colors duration-200 text-left w-full rounded-md hover:bg-brand-dark/5',
                     active
@@ -121,10 +83,10 @@ export function KepengurusanBoard() {
           <dl className="flex flex-col gap-10 font-sans text-sm md:text-[15px]">
             {activeTab === 'pengurus' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                {panel.members.map((member, i) => (
-                  <div key={i} className="flex flex-col gap-1.5">
+                {main.map((member) => (
+                  <div key={member.id} className="flex flex-col gap-1.5">
                     <dt className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-red">
-                      {member.role}
+                      {member.position}
                     </dt>
                     <dd className="text-brand-dark font-medium">{member.name}</dd>
                   </div>
@@ -136,8 +98,8 @@ export function KepengurusanBoard() {
                   Daftar Anggota
                 </dt>
                 <dd className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3">
-                  {panel.members.map((member, i) => (
-                    <span key={i} className="font-medium text-brand-dark">{member.name}</span>
+                  {currentList.map((member) => (
+                    <span key={member.id} className="font-medium text-brand-dark">{member.name}</span>
                   ))}
                 </dd>
               </div>

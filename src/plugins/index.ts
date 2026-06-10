@@ -105,7 +105,8 @@ export const plugins: Plugin[] = [
           collections: {
             media: {
               generateFileURL: ({ filename }) => {
-                return `https://${process.env.S3_BUCKET}.06d62d8a9335fed189a6a59fda0a4f48.r2.cloudflarestorage.com/${filename}`
+                const base = (process.env.S3_PUBLIC_URL || '').replace(/\/$/, '')
+                return `${base}/${filename}`
               },
             },
           },

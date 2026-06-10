@@ -1,0 +1,53 @@
+{
+  "slug": "payload-folders",
+  "count": 1,
+  "docs": [
+    {
+      "id": 1,
+      "name": "Sponsor Logo",
+      "folder": null,
+      "documentsAndFolders": {
+        "docs": [
+          {
+            "relationTo": "media",
+            "value": 37
+          },
+          {
+            "relationTo": "media",
+            "value": 36
+          },
+          {
+            "relationTo": "media",
+            "value": 35
+          },
+          {
+            "relationTo": "media",
+            "value": 34
+          },
+          {
+            "relationTo": "media",
+            "value": 33
+          },
+          {
+            "relationTo": "media",
+            "value": 32
+          },
+          {
+            "relationTo": "media",
+            "value": 31
+          },
+          {
+            "relationTo": "media",
+            "value": 30
+          }
+        ],
+        "hasNextPage": false
+      },
+      "folderType": [
+        "media"
+      ],
+      "updatedAt": "2026-05-21T15:03:02.428Z",
+      "createdAt": "2026-05-21T15:03:02.427Z"
+    }
+  ]
+}

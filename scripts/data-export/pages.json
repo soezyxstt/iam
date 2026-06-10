@@ -1,0 +1,852 @@
+{
+  "slug": "pages",
+  "count": 3,
+  "docs": [
+    {
+      "id": 15,
+      "title": "Formulir",
+      "hero": {
+        "type": "highImpact",
+        "richText": null,
+        "links": [],
+        "media": 24
+      },
+      "layout": [
+        {
+          "id": "6a0587f2fc0456f5176e2be4",
+          "form": 15,
+          "enableIntro": true,
+          "introContent": null,
+          "blockName": null,
+          "blockType": "formBlock"
+        }
+      ],
+      "meta": {
+        "title": null,
+        "image": null,
+        "description": null
+      },
+      "publishedAt": "2026-05-14T08:29:26.926Z",
+      "generateSlug": false,
+      "slug": "formulir/pengajuan-usaha",
+      "updatedAt": "2026-05-14T08:31:12.822Z",
+      "createdAt": "2026-05-14T08:29:15.823Z",
+      "_status": "published"
+    },
+    {
+      "id": 14,
+      "title": "Contact",
+      "hero": {
+        "type": "none",
+        "richText": null,
+        "links": [],
+        "media": null
+      },
+      "layout": [
+        {
+          "id": "6a02359874a66324a416a951",
+          "form": 14,
+          "enableIntro": true,
+          "introContent": {
+            "root": {
+              "type": "root",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "tag": "h3",
+                  "type": "heading",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "mode": "normal",
+                      "text": "Example contact form:",
+                      "type": "text",
+                      "style": "",
+                      "detail": 0,
+                      "format": 0,
+                      "version": 1
+                    }
+                  ],
+                  "direction": "ltr"
+                }
+              ],
+              "direction": "ltr"
+            }
+          },
+          "blockName": null,
+          "blockType": "formBlock"
+        }
+      ],
+      "meta": {
+        "title": null,
+        "image": null,
+        "description": null
+      },
+      "publishedAt": null,
+      "generateSlug": false,
+      "slug": "contact",
+      "updatedAt": "2026-05-11T20:01:28.007Z",
+      "createdAt": "2026-05-11T20:01:28.006Z",
+      "_status": "published"
+    },
+    {
+      "id": 13,
+      "title": "Beranda",
+      "hero": {
+        "type": "highImpact",
+        "richText": {
+          "root": {
+            "type": "root",
+            "format": "",
+            "indent": 0,
+            "version": 1,
+            "children": [
+              {
+                "tag": "h1",
+                "type": "heading",
+                "format": "",
+                "indent": 0,
+                "version": 1,
+                "children": [
+                  {
+                    "mode": "normal",
+                    "text": "IAM ITB",
+                    "type": "text",
+                    "style": "",
+                    "detail": 0,
+                    "format": 0,
+                    "version": 1
+                  }
+                ],
+                "direction": "ltr"
+              },
+              {
+                "type": "paragraph",
+                "format": "",
+                "indent": 0,
+                "version": 1,
+                "children": [
+                  {
+                    "type": "link",
+                    "fields": {
+                      "url": "/admin",
+                      "newTab": false,
+                      "linkType": "custom"
+                    },
+                    "format": "",
+                    "indent": 0,
+                    "version": 3,
+                    "children": [
+                      {
+                        "mode": "normal",
+                        "text": "Masuk ke dasbor admin",
+                        "type": "text",
+                        "style": "",
+                        "detail": 0,
+                        "format": 0,
+                        "version": 1
+                      }
+                    ],
+                    "direction": "ltr"
+                  },
+                  {
+                    "mode": "normal",
+                    "text": " untuk mulai mengelola konten situs ini. Kode untuk templat ini sepenuhnya sumber terbuka dan dapat ditemukan ",
+                    "type": "text",
+                    "style": "",
+                    "detail": 0,
+                    "format": 0,
+                    "version": 1
+                  },
+                  {
+                    "type": "link",
+                    "fields": {
+                      "url": "https://github.com/payloadcms/payload/tree/main/templates/website",
+                      "newTab": true,
+                      "linkType": "custom"
+                    },
+                    "format": "",
+                    "indent": 0,
+                    "version": 3,
+                    "children": [
+                      {
+                        "mode": "normal",
+                        "text": "di GitHub kami",
+                        "type": "text",
+                        "style": "",
+                        "detail": 0,
+                        "format": 0,
+                        "version": 1
+                      }
+                    ],
+                    "direction": "ltr"
+                  },
+                  {
+                    "mode": "normal",
+                    "text": ". ",
+                    "type": "text",
+                    "style": "",
+                    "detail": 0,
+                    "format": 0,
+                    "version": 1
+                  }
+                ],
+                "direction": "ltr",
+                "textFormat": 0
+              }
+            ],
+            "direction": "ltr"
+          }
+        },
+        "links": [
+          {
+            "id": "6a02359874a66324a416a941",
+            "link": {
+              "type": "custom",
+              "newTab": null,
+              "url": "/berita",
+              "label": "Semua berita",
+              "appearance": "default"
+            }
+          },
+          {
+            "id": "6a02359874a66324a416a942",
+            "link": {
+              "type": "custom",
+              "newTab": null,
+              "url": "/contact",
+              "label": "Contact",
+              "appearance": "outline"
+            }
+          }
+        ],
+        "media": 29
+      },
+      "layout": [
+        {
+          "id": "6a02359874a66324a416a943",
+          "sectionTitle": "Aktivitas terbaru",
+          "blockName": "Highlight Aktivitas",
+          "blockType": "highlightActivities",
+          "activities": [
+            9,
+            10
+          ]
+        },
+        {
+          "id": "6a02359874a66324a416a944",
+          "sectionTitle": "Sponsor & mitra",
+          "blockName": "Highlight Sponsor",
+          "blockType": "highlightSponsors",
+          "sponsors": []
+        },
+        {
+          "id": "6a02359874a66324a416a945",
+          "sectionTitle": "Lowongan & magang",
+          "blockName": "Highlight Lowongan",
+          "blockType": "highlightJobVacancies",
+          "vacancies": [
+            10,
+            9
+          ]
+        },
+        {
+          "id": "6a02359874a66324a416a94c",
+          "blockName": "Content Block",
+          "columns": [
+            {
+              "id": "6a02359874a66324a416a946",
+              "size": "full",
+              "richText": {
+                "root": {
+                  "type": "root",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "tag": "h2",
+                      "type": "heading",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Fitur utama",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr"
+                    }
+                  ],
+                  "direction": "ltr"
+                }
+              },
+              "enableLink": null,
+              "link": {
+                "type": "reference",
+                "newTab": null,
+                "url": null,
+                "label": null,
+                "appearance": "default"
+              }
+            },
+            {
+              "id": "6a02359874a66324a416a947",
+              "size": "oneThird",
+              "richText": {
+                "root": {
+                  "type": "root",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "tag": "h3",
+                      "type": "heading",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Dasbor Admin",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr"
+                    },
+                    {
+                      "type": "paragraph",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Kelola halaman dan berita di situs ini dari ",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        },
+                        {
+                          "type": "link",
+                          "fields": {
+                            "url": "/admin",
+                            "newTab": false,
+                            "linkType": "custom"
+                          },
+                          "format": "",
+                          "indent": 0,
+                          "version": 2,
+                          "children": [
+                            {
+                              "mode": "normal",
+                              "text": "dasbor admin",
+                              "type": "text",
+                              "style": "",
+                              "detail": 0,
+                              "format": 0,
+                              "version": 1
+                            }
+                          ],
+                          "direction": "ltr"
+                        },
+                        {
+                          "mode": "normal",
+                          "text": ".",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr",
+                      "textFormat": 0
+                    }
+                  ],
+                  "direction": "ltr"
+                }
+              },
+              "enableLink": false,
+              "link": {
+                "type": "reference",
+                "newTab": null,
+                "url": null,
+                "label": null,
+                "appearance": "default"
+              }
+            },
+            {
+              "id": "6a02359874a66324a416a948",
+              "size": "oneThird",
+              "richText": {
+                "root": {
+                  "type": "root",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "tag": "h3",
+                      "type": "heading",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Pratinjau",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr"
+                    },
+                    {
+                      "type": "paragraph",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Dengan versi, draf, dan pratinjau, editor dapat meninjau dan membagikan perubahan sebelum diterbitkan.",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr",
+                      "textFormat": 0
+                    }
+                  ],
+                  "direction": "ltr"
+                }
+              },
+              "enableLink": false,
+              "link": {
+                "type": "reference",
+                "newTab": null,
+                "url": null,
+                "label": null,
+                "appearance": "default"
+              }
+            },
+            {
+              "id": "6a02359874a66324a416a949",
+              "size": "oneThird",
+              "richText": {
+                "root": {
+                  "type": "root",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "tag": "h3",
+                      "type": "heading",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Penyusun Halaman",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr"
+                    },
+                    {
+                      "type": "paragraph",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Penyusun halaman kustom memungkinkan Anda membuat tata letak halaman, berita, dan proyek yang unik untuk berbagai jenis konten.",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr",
+                      "textFormat": 0
+                    }
+                  ],
+                  "direction": "ltr"
+                }
+              },
+              "enableLink": false,
+              "link": {
+                "type": "reference",
+                "newTab": null,
+                "url": null,
+                "label": null,
+                "appearance": "default"
+              }
+            },
+            {
+              "id": "6a02359874a66324a416a94a",
+              "size": "oneThird",
+              "richText": {
+                "root": {
+                  "type": "root",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "tag": "h3",
+                      "type": "heading",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "SEO",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr"
+                    },
+                    {
+                      "type": "paragraph",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Editor memiliki kendali penuh atas data SEO dan konten situs langsung dari ",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        },
+                        {
+                          "type": "link",
+                          "fields": {
+                            "url": "/admin",
+                            "newTab": false,
+                            "linkType": "custom"
+                          },
+                          "format": "",
+                          "indent": 0,
+                          "version": 2,
+                          "children": [
+                            {
+                              "mode": "normal",
+                              "text": "dasbor admin",
+                              "type": "text",
+                              "style": "",
+                              "detail": 0,
+                              "format": 0,
+                              "version": 1
+                            }
+                          ],
+                          "direction": "ltr"
+                        },
+                        {
+                          "mode": "normal",
+                          "text": ".",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr",
+                      "textFormat": 0
+                    }
+                  ],
+                  "direction": "ltr"
+                }
+              },
+              "enableLink": false,
+              "link": {
+                "type": "reference",
+                "newTab": null,
+                "url": null,
+                "label": null,
+                "appearance": "default"
+              }
+            },
+            {
+              "id": "6a02359874a66324a416a94b",
+              "size": "oneThird",
+              "richText": {
+                "root": {
+                  "type": "root",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "tag": "h3",
+                      "type": "heading",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Mode Gelap",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr"
+                    },
+                    {
+                      "type": "paragraph",
+                      "format": "",
+                      "indent": 0,
+                      "version": 1,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "Pengguna akan merasakan situs ini dalam skema warna pilihan mereka dan setiap blok dapat dibalik warnanya.",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr",
+                      "textFormat": 0
+                    }
+                  ],
+                  "direction": "ltr"
+                }
+              },
+              "enableLink": false,
+              "link": {
+                "type": "reference",
+                "newTab": null,
+                "url": null,
+                "label": null,
+                "appearance": "default"
+              }
+            }
+          ],
+          "blockType": "content"
+        },
+        {
+          "id": "6a02359874a66324a416a94d",
+          "media": 28,
+          "blockName": "Media Block",
+          "blockType": "mediaBlock"
+        },
+        {
+          "id": "6a02359874a66324a416a94e",
+          "introContent": {
+            "root": {
+              "type": "root",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "tag": "h3",
+                  "type": "heading",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "mode": "normal",
+                      "text": "Berita terbaru",
+                      "type": "text",
+                      "style": "",
+                      "detail": 0,
+                      "format": 0,
+                      "version": 1
+                    }
+                  ],
+                  "direction": "ltr"
+                },
+                {
+                  "type": "paragraph",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "mode": "normal",
+                      "text": "Berita di bawah ini ditampilkan dalam blok tata letak \"Arsip\" yang merupakan cara sangat fleksibel untuk menampilkan dokumen di sebuah halaman. Blok ini dapat diisi otomatis berdasarkan koleksi atau kategori, atau berita dapat dipilih satu per satu. Kontrol paginasi akan muncul otomatis jika jumlah hasil melebihi jumlah item per halaman.",
+                      "type": "text",
+                      "style": "",
+                      "detail": 0,
+                      "format": 0,
+                      "version": 1
+                    }
+                  ],
+                  "direction": "ltr",
+                  "textFormat": 0
+                }
+              ],
+              "direction": "ltr"
+            }
+          },
+          "populateBy": "collection",
+          "relationTo": "posts",
+          "limit": 10,
+          "blockName": "Archive Block",
+          "blockType": "archive",
+          "categories": [],
+          "selectedDocs": []
+        },
+        {
+          "id": "6a02359874a66324a416a950",
+          "richText": {
+            "root": {
+              "type": "root",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "tag": "h3",
+                  "type": "heading",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "mode": "normal",
+                      "text": "Ini adalah ajakan bertindak",
+                      "type": "text",
+                      "style": "",
+                      "detail": 0,
+                      "format": 0,
+                      "version": 1
+                    }
+                  ],
+                  "direction": "ltr"
+                },
+                {
+                  "type": "paragraph",
+                  "format": "",
+                  "indent": 0,
+                  "version": 1,
+                  "children": [
+                    {
+                      "mode": "normal",
+                      "text": "Ini adalah blok tata letak kustom ",
+                      "type": "text",
+                      "style": "",
+                      "detail": 0,
+                      "format": 0,
+                      "version": 1
+                    },
+                    {
+                      "type": "link",
+                      "fields": {
+                        "url": "/admin",
+                        "newTab": false,
+                        "linkType": "custom"
+                      },
+                      "format": "",
+                      "indent": 0,
+                      "version": 2,
+                      "children": [
+                        {
+                          "mode": "normal",
+                          "text": "yang dikonfigurasi di dasbor admin",
+                          "type": "text",
+                          "style": "",
+                          "detail": 0,
+                          "format": 0,
+                          "version": 1
+                        }
+                      ],
+                      "direction": "ltr"
+                    },
+                    {
+                      "mode": "normal",
+                      "text": ".",
+                      "type": "text",
+                      "style": "",
+                      "detail": 0,
+                      "format": 0,
+                      "version": 1
+                    }
+                  ],
+                  "direction": "ltr",
+                  "textFormat": 0
+                }
+              ],
+              "direction": "ltr"
+            }
+          },
+          "blockName": "CTA",
+          "links": [
+            {
+              "id": "6a02359874a66324a416a94f",
+              "link": {
+                "type": "custom",
+                "newTab": null,
+                "url": "/berita",
+                "label": "Semua berita",
+                "appearance": "default"
+              }
+            }
+          ],
+          "blockType": "cta"
+        }
+      ],
+      "meta": {
+        "title": "Beranda - IAM ITB",
+        "image": 29,
+        "description": "Situs web sumber terbuka yang dibangun dengan Payload dan Next.js untuk komunitas Ikatan Alumni Mahasiswa Teknik Mesin ITB."
+      },
+      "publishedAt": null,
+      "generateSlug": false,
+      "slug": "home",
+      "updatedAt": "2026-05-11T20:01:28.005Z",
+      "createdAt": "2026-05-11T20:01:28.004Z",
+      "_status": "published"
+    }
+  ]
+}

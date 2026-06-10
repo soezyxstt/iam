@@ -1,0 +1,20 @@
+{
+  "slug": "payload-migrations",
+  "count": 2,
+  "docs": [
+    {
+      "id": 2,
+      "name": "20260521_174128_add_lowongan_fields",
+      "batch": 1,
+      "updatedAt": "2026-05-21T17:42:22.804Z",
+      "createdAt": "2026-05-21T17:42:22.802Z"
+    },
+    {
+      "id": 1,
+      "name": "dev",
+      "batch": -1,
+      "updatedAt": "2026-06-09T16:58:45.310Z",
+      "createdAt": "2026-02-15T11:36:17.270Z"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ import { cn } from '@/utilities/ui'
 
 export const revalidate = 600
 
-const FALLBACK_COVER = '/media/tangga.jpg'
+const FALLBACK_COVER = '/assets/tangga.jpg'
 
 /** Badge & sidebar accent green (mock: program tersedia) */
 const HIGHLIGHT_GREEN = '#2d5a27'

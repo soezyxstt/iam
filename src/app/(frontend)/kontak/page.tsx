@@ -11,14 +11,28 @@ import { sendEmail } from './actions'
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
-
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 
 export const metadata: Metadata = {
   title: 'Hubungi Kami',
   description: 'Hubungi pengurus IAM ITB.',
 }
 
-export default function KontakPage() {
+export const revalidate = 600
+
+export default async function KontakPage() {
+  const payload = await getPayload({ config: configPromise })
+  const orgProfile = await payload.findGlobal({
+    slug: 'organizationProfile',
+    overrideAccess: false,
+    depth: 0,
+  })
+
+  const op = orgProfile as unknown as Record<string, unknown>
+  const email = op.contactEmail as string | null | undefined
+  const whatsapp = op.contactWhatsapp as string | null | undefined
+  const instagram = op.contactInstagram as string | null | undefined
   return (
     <PageShell>
       <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
@@ -41,24 +55,30 @@ export default function KontakPage() {
               </Text>
 
               <div className="space-y-8">
-                <div className="group">
-                  <Text variant="small" tone="muted" className="mb-2 font-display uppercase tracking-wider text-[10px] font-bold">Email Resmi</Text>
-                  <a href="mailto:info@iamitb.org" className="block text-brand-dark font-serif font-bold text-xl hover:text-brand-red transition-colors">
-                    info@iamitb.org
-                  </a>
-                </div>
-                <div className="group">
-                  <Text variant="small" tone="muted" className="mb-2 font-display uppercase tracking-wider text-[10px] font-bold">WhatsApp Hotline</Text>
-                  <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="block text-brand-dark font-serif font-bold text-xl hover:text-brand-red transition-colors">
-                    +62 812 3456 7890
-                  </a>
-                </div>
-                <div className="group">
-                  <Text variant="small" tone="muted" className="mb-2 font-display uppercase tracking-wider text-[10px] font-bold">Media Sosial</Text>
-                  <a href="https://instagram.com/iamitb" target="_blank" rel="noopener noreferrer" className="block text-brand-dark font-serif font-bold text-xl hover:text-brand-red transition-colors">
-                    @iamitb
-                  </a>
-                </div>
+                {email && (
+                  <div className="group">
+                    <Text variant="small" tone="muted" className="mb-2 font-display uppercase tracking-wider text-[10px] font-bold">Email Resmi</Text>
+                    <a href={`mailto:${email}`} className="block text-brand-dark font-serif font-bold text-xl hover:text-brand-red transition-colors">
+                      {email}
+                    </a>
+                  </div>
+                )}
+                {whatsapp && (
+                  <div className="group">
+                    <Text variant="small" tone="muted" className="mb-2 font-display uppercase tracking-wider text-[10px] font-bold">WhatsApp Hotline</Text>
+                    <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="block text-brand-dark font-serif font-bold text-xl hover:text-brand-red transition-colors">
+                      +{whatsapp.replace(/^62/, '62 ').replace(/(\d{3})(\d{4})(\d{4})$/, '$1 $2 $3')}
+                    </a>
+                  </div>
+                )}
+                {instagram && (
+                  <div className="group">
+                    <Text variant="small" tone="muted" className="mb-2 font-display uppercase tracking-wider text-[10px] font-bold">Media Sosial</Text>
+                    <a href={`https://instagram.com/${instagram}`} target="_blank" rel="noopener noreferrer" className="block text-brand-dark font-serif font-bold text-xl hover:text-brand-red transition-colors">
+                      @{instagram}
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
 

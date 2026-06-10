@@ -1,0 +1,60 @@
+{
+  "slug": "search",
+  "count": 3,
+  "docs": [
+    {
+      "id": 19,
+      "title": "Dollar and Sense: The Financial Forecast",
+      "priority": 0,
+      "doc": {
+        "relationTo": "posts",
+        "value": 22
+      },
+      "slug": "dollar-and-sense-the-financial-forecast",
+      "meta": {
+        "title": "Dollar and Sense: The Financial Forecast",
+        "description": "Money isn't just currency; it's a language. Dive deep into its nuances, where strategy meets intuition in the vast sea of finance.",
+        "image": 27
+      },
+      "categories": [],
+      "updatedAt": "2026-05-11T20:01:26.479Z",
+      "createdAt": "2026-05-11T20:01:24.146Z"
+    },
+    {
+      "id": 18,
+      "title": "Global Gaze: Beyond the Headlines",
+      "priority": 0,
+      "doc": {
+        "relationTo": "posts",
+        "value": 21
+      },
+      "slug": "global-gaze",
+      "meta": {
+        "title": "Global Gaze: Beyond the Headlines",
+        "description": "Explore the untold and overlooked. A magnified view into the corners of the world, where every story deserves its spotlight.",
+        "image": 28
+      },
+      "categories": [],
+      "updatedAt": "2026-05-11T20:01:25.704Z",
+      "createdAt": "2026-05-11T20:01:23.839Z"
+    },
+    {
+      "id": 17,
+      "title": "Digital Horizons: A Glimpse into Tomorrow",
+      "priority": 0,
+      "doc": {
+        "relationTo": "posts",
+        "value": 20
+      },
+      "slug": "digital-horizons",
+      "meta": {
+        "title": "Digital Horizons: A Glimpse into Tomorrow",
+        "description": "Dive into the marvels of modern innovation, where the only constant is change. A journey where pixels and data converge to craft the future.",
+        "image": 26
+      },
+      "categories": [],
+      "updatedAt": "2026-05-11T20:01:24.926Z",
+      "createdAt": "2026-05-11T20:01:23.534Z"
+    }
+  ]
+}

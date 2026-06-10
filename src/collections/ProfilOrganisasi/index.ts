@@ -97,5 +97,29 @@ export const ProfilOrganisasi: GlobalConfig = {
         },
       ],
     },
+    {
+      name: 'contactEmail',
+      label: 'Email Resmi',
+      type: 'text',
+      admin: {
+        description: 'Contoh: info@iamitb.org',
+      },
+    },
+    {
+      name: 'contactWhatsapp',
+      label: 'Nomor WhatsApp',
+      type: 'text',
+      admin: {
+        description: 'Format internasional tanpa tanda +. Contoh: 6281234567890',
+      },
+    },
+    {
+      name: 'contactInstagram',
+      label: 'Instagram Handle',
+      type: 'text',
+      admin: {
+        description: 'Tanpa tanda @. Contoh: iamitb',
+      },
+    },
   ],
 }

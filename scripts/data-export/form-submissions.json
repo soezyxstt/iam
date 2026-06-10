@@ -1,0 +1,64 @@
+{
+  "slug": "form-submissions",
+  "count": 1,
+  "docs": [
+    {
+      "id": 1,
+      "form": 15,
+      "submissionData": [
+        {
+          "id": "6a0589107bdfc5000411b51d",
+          "field": "ownerName",
+          "value": "dadads"
+        },
+        {
+          "id": "6a0589107bdfc5000411b51e",
+          "field": "businessName",
+          "value": "hjgjhgjgh"
+        },
+        {
+          "id": "6a0589107bdfc5000411b51f",
+          "field": "category",
+          "value": "jasa"
+        },
+        {
+          "id": "6a0589107bdfc5000411b520",
+          "field": "description",
+          "value": "jhhjgjjjhv"
+        },
+        {
+          "id": "6a0589107bdfc5000411b521",
+          "field": "productsOrServices",
+          "value": "ghjjgjhgdjhjh"
+        },
+        {
+          "id": "6a0589107bdfc5000411b522",
+          "field": "address",
+          "value": "jhgjhdghsjjhdshj"
+        },
+        {
+          "id": "6a0589107bdfc5000411b523",
+          "field": "phoneNumber",
+          "value": "jhsgdghsgsjdg"
+        },
+        {
+          "id": "6a0589107bdfc5000411b524",
+          "field": "email",
+          "value": "adihadit@gmail.comghj"
+        },
+        {
+          "id": "6a0589107bdfc5000411b525",
+          "field": "website",
+          "value": "djashdgsasgdah"
+        },
+        {
+          "id": "6a0589107bdfc5000411b526",
+          "field": "instagram",
+          "value": "jhdgashgdajdjagdha"
+        }
+      ],
+      "updatedAt": "2026-05-14T08:34:24.410Z",
+      "createdAt": "2026-05-14T08:34:24.410Z"
+    }
+  ]
+}

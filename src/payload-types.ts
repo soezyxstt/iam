@@ -82,6 +82,7 @@ export interface Config {
     galleryCategories: GalleryCategory;
     communities: Community;
     alumniMembers: AlumniMember;
+    orgMembers: OrgMember;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -114,6 +115,7 @@ export interface Config {
     galleryCategories: GalleryCategoriesSelect<false> | GalleryCategoriesSelect<true>;
     communities: CommunitiesSelect<false> | CommunitiesSelect<true>;
     alumniMembers: AlumniMembersSelect<false> | AlumniMembersSelect<true>;
+    orgMembers: OrgMembersSelect<false> | OrgMembersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1187,6 +1189,33 @@ export interface AlumniMember {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orgMembers".
+ */
+export interface OrgMember {
+  id: number;
+  name: string;
+  /**
+   * Kosongkan untuk Dewan Penasihat / Dewan Pakar yang tidak punya jabatan spesifik.
+   */
+  position?: string | null;
+  photo?: (number | null) | Media;
+  /**
+   * Menentukan posisi di organogram dan tab di halaman Organisasi.
+   */
+  memberType: 'main' | 'advisory' | 'expert';
+  /**
+   * Hanya untuk tipe "Pengurus Inti". 1 = Ketua Umum, 2 = SekJen/Bendahara, 3 = Wakil KU, 4 = Ketua Bidang.
+   */
+  treeLevel?: number | null;
+  /**
+   * Urutan tampil dalam level/tipe yang sama. Angka lebih kecil = lebih kiri/atas.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1434,6 +1463,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'alumniMembers';
         value: number | AlumniMember;
+      } | null)
+    | ({
+        relationTo: 'orgMembers';
+        value: number | OrgMember;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -2004,6 +2037,20 @@ export interface AlumniMembersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orgMembers_select".
+ */
+export interface OrgMembersSelect<T extends boolean = true> {
+  name?: T;
+  position?: T;
+  photo?: T;
+  memberType?: T;
+  treeLevel?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -2524,6 +2571,18 @@ export interface OrganizationProfile {
       [k: string]: unknown;
     } | null;
   };
+  /**
+   * Contoh: info@iamitb.org
+   */
+  contactEmail?: string | null;
+  /**
+   * Format internasional tanpa tanda +. Contoh: 6281234567890
+   */
+  contactWhatsapp?: string | null;
+  /**
+   * Tanpa tanda @. Contoh: iamitb
+   */
+  contactInstagram?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2611,6 +2670,9 @@ export interface OrganizationProfileSelect<T extends boolean = true> {
         solidarityForever?: T;
         septemberM?: T;
       };
+  contactEmail?: T;
+  contactWhatsapp?: T;
+  contactInstagram?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

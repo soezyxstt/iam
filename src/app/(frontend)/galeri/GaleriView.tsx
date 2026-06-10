@@ -8,9 +8,15 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 import { Eyebrow, Heading, Text } from '@/components/ui/typography'
 import { cn } from '@/utilities/ui'
 
-import type { GalleryGroup } from './galeri-data'
 import { GaleriGroupNav } from './GaleriGroupNav'
 import { GalleryImageGrid, type GalleryImage } from './GalleryImageGrid'
+
+export type GalleryGroup = {
+  id: string
+  title: string
+  subtitle?: string
+  images: GalleryImage[]
+}
 
 type GaleriViewProps = {
   groups: GalleryGroup[]

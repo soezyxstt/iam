@@ -1,0 +1,83 @@
+{
+  "slug": "sponsors",
+  "count": 7,
+  "docs": [
+    {
+      "id": 17,
+      "companyName": "Shell",
+      "category": "silver",
+      "logo": 33,
+      "shortDescription": "Shell Energy",
+      "supportPeriod": null,
+      "officialWebsite": null,
+      "updatedAt": "2026-05-21T15:15:18.476Z",
+      "createdAt": "2026-05-21T15:15:18.476Z"
+    },
+    {
+      "id": 16,
+      "companyName": "Hyundai",
+      "category": "platinum",
+      "logo": 32,
+      "shortDescription": "Hyundai",
+      "supportPeriod": null,
+      "officialWebsite": null,
+      "updatedAt": "2026-05-21T15:14:23.398Z",
+      "createdAt": "2026-05-21T15:14:17.840Z"
+    },
+    {
+      "id": 15,
+      "companyName": "Unilever",
+      "category": "platinum",
+      "logo": 34,
+      "shortDescription": "Unilever Indonesia",
+      "supportPeriod": null,
+      "officialWebsite": null,
+      "updatedAt": "2026-05-21T15:10:31.233Z",
+      "createdAt": "2026-05-21T15:10:31.233Z"
+    },
+    {
+      "id": 14,
+      "companyName": "Figma",
+      "category": "gold",
+      "logo": 35,
+      "shortDescription": "Figma Design",
+      "supportPeriod": null,
+      "officialWebsite": null,
+      "updatedAt": "2026-05-21T15:09:19.393Z",
+      "createdAt": "2026-05-21T15:09:19.393Z"
+    },
+    {
+      "id": 13,
+      "companyName": "Disney",
+      "category": "other",
+      "logo": 37,
+      "shortDescription": "Disney Indonesia",
+      "supportPeriod": null,
+      "officialWebsite": null,
+      "updatedAt": "2026-05-21T15:08:50.003Z",
+      "createdAt": "2026-05-21T15:08:50.003Z"
+    },
+    {
+      "id": 12,
+      "companyName": "AUTOCAD",
+      "category": "gold",
+      "logo": 31,
+      "shortDescription": "AUTOCAD",
+      "supportPeriod": null,
+      "officialWebsite": null,
+      "updatedAt": "2026-05-21T15:07:11.387Z",
+      "createdAt": "2026-05-21T15:07:11.387Z"
+    },
+    {
+      "id": 11,
+      "companyName": "BUMN",
+      "category": "gold",
+      "logo": 30,
+      "shortDescription": "BUMN",
+      "supportPeriod": null,
+      "officialWebsite": null,
+      "updatedAt": "2026-05-21T15:02:15.109Z",
+      "createdAt": "2026-05-21T15:02:15.109Z"
+    }
+  ]
+}

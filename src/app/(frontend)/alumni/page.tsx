@@ -6,6 +6,7 @@ import { Heading, Text, Eyebrow } from '@/components/ui/typography'
 import { Media } from '@/components/Media'
 import { Metadata } from 'next'
 import { PageShell } from '@/components/PageShell'
+import { PageClient } from './page.client'
 
 export const metadata: Metadata = {
   title: 'Direktori Alumni',
@@ -28,11 +29,26 @@ export default async function AlumniPage() {
   })
 
   return (
-    <PageShell>
-      {/* Decorative Background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20 z-0">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-brand-red rounded-full blur-3xl mix-blend-multiply" />
-        <div className="absolute top-40 -left-40 w-96 h-96 bg-brand-gold rounded-full blur-3xl mix-blend-multiply" />
+    <PageShell
+      className="bg-linear-to-b from-[#06162F] via-[#253041] to-[#03060c] min-h-screen relative z-0"
+      showAmbient={false}
+      darkTheme={true}
+    >
+      <PageClient />
+
+      {/* Background Ambient Glow Blobs - Premium Blue, Gold, and Red styling */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 select-none overflow-hidden"
+        aria-hidden="true"
+      >
+        {/* Top left deep blue */}
+        <div className="absolute top-[5%] left-[5%] h-[400px] w-[400px] rounded-full bg-brand-primary/20 blur-[120px]" />
+        {/* Top right gold */}
+        <div className="absolute top-[15%] right-[10%] h-[350px] w-[350px] rounded-full bg-brand-gold/12 blur-[100px]" />
+        {/* Mid left brand red */}
+        <div className="absolute top-[40%] left-[-5%] h-[380px] w-[380px] rounded-full bg-brand-red-light/15 blur-[110px]" />
+        {/* Bottom right gold */}
+        <div className="absolute bottom-[20%] right-[5%] h-[450px] w-[400px] rounded-full bg-brand-gold/10 blur-[130px]" />
       </div>
 
       <Section className="py-12 md:py-24 relative z-10">
@@ -56,28 +72,28 @@ export default async function AlumniPage() {
 
             const cardContent = (
               <div className="group relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full cursor-pointer transition-transform duration-500 hover:scale-110 hover:z-20">
-                <div className="w-full h-full rounded-full overflow-hidden border-4 border-brand-primary/50 shadow-lg bg-brand-khaki flex items-center justify-center">
+                <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/10 group-hover:border-brand-gold/60 shadow-lg bg-brand-dark/40 flex items-center justify-center transition-all duration-300">
                   {photo ? (
                     <Media resource={photo} fill className="object-cover" />
                   ) : (
-                    <span className="text-4xl font-bold text-brand-primary/20">
+                    <span className="text-4xl font-bold text-brand-gold/70 group-hover:text-brand-gold transition-colors">
                       {alumni.fullName.charAt(0)}
                     </span>
                   )}
                 </div>
                 
-                {/* Hover Tooltip / Info Card */}
+                {/* Hover Tooltip / Info Card - Premium Dark Glass Card */}
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-48 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-30 scale-95 group-hover:scale-100">
-                  <div className="bg-white text-brand-primary p-4 rounded-xl shadow-2xl relative">
-                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45" />
-                    <Heading level={4} tone="default" className="text-sm mb-1 relative z-10 text-center">
+                  <div className="bg-brand-dark/95 border border-white/10 text-white p-4 rounded-xl shadow-2xl relative backdrop-blur-md">
+                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#06162F] border-t border-l border-white/10 rotate-45" />
+                    <Heading level={4} tone="inverse" className="text-sm mb-1 relative z-10 text-center text-white">
                       {alumni.fullName}
                     </Heading>
-                    <Text variant="small" tone="muted" className="text-center block mb-1">
+                    <Text variant="small" className="text-center block mb-1 text-white/60">
                       M {alumni.graduationYear}
                     </Text>
                     {(alumni.headline || alumni.employer) && (
-                      <Text variant="small" tone="default" className="text-center font-semibold border-t pt-2 mt-2">
+                      <Text variant="small" className="text-center font-semibold border-t border-white/10 pt-2 mt-2 text-brand-gold">
                         {alumni.headline} {alumni.employer ? `@ ${alumni.employer}` : ''}
                       </Text>
                     )}

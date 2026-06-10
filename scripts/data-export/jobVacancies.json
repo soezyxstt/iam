@@ -1,0 +1,110 @@
+{
+  "slug": "jobVacancies",
+  "count": 2,
+  "docs": [
+    {
+      "id": 10,
+      "position": "Mechanical Design Engineer",
+      "companyName": "PT Contoh Industri",
+      "companyLogo": null,
+      "location": null,
+      "workSetup": "on_site",
+      "employmentType": "full_time",
+      "vacancyStatus": "open",
+      "quota": null,
+      "requirements": null,
+      "benefits": null,
+      "contactWhatsApp": null,
+      "experienceLevel": null,
+      "salaryRange": null,
+      "jobDescription": {
+        "root": {
+          "type": "root",
+          "format": "",
+          "indent": 0,
+          "version": 1,
+          "children": [
+            {
+              "type": "paragraph",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "mode": "normal",
+                  "text": "Merancang komponen mekanikal, berkolaborasi dengan tim produksi.",
+                  "type": "text",
+                  "style": "",
+                  "detail": 0,
+                  "format": 0,
+                  "version": 1
+                }
+              ],
+              "direction": "ltr",
+              "textFormat": 0
+            }
+          ],
+          "direction": "ltr"
+        }
+      },
+      "officialLink": "https://example.com/karier",
+      "generateSlug": true,
+      "slug": null,
+      "updatedAt": "2026-05-11T20:01:27.347Z",
+      "createdAt": "2026-05-11T20:01:27.347Z",
+      "_status": "published"
+    },
+    {
+      "id": 9,
+      "position": "Internship — R&D",
+      "companyName": "Startup Mekanikal",
+      "companyLogo": null,
+      "location": null,
+      "workSetup": "on_site",
+      "employmentType": "magang",
+      "vacancyStatus": "open",
+      "quota": null,
+      "requirements": null,
+      "benefits": null,
+      "contactWhatsApp": null,
+      "experienceLevel": null,
+      "salaryRange": null,
+      "jobDescription": {
+        "root": {
+          "type": "root",
+          "format": "",
+          "indent": 0,
+          "version": 1,
+          "children": [
+            {
+              "type": "paragraph",
+              "format": "",
+              "indent": 0,
+              "version": 1,
+              "children": [
+                {
+                  "mode": "normal",
+                  "text": "Program magang 3 bulan di divisi penelitian dan pengembangan.",
+                  "type": "text",
+                  "style": "",
+                  "detail": 0,
+                  "format": 0,
+                  "version": 1
+                }
+              ],
+              "direction": "ltr",
+              "textFormat": 0
+            }
+          ],
+          "direction": "ltr"
+        }
+      },
+      "officialLink": "https://example.com/intern",
+      "generateSlug": true,
+      "slug": null,
+      "updatedAt": "2026-05-11T20:01:27.344Z",
+      "createdAt": "2026-05-11T20:01:27.344Z",
+      "_status": "published"
+    }
+  ]
+}

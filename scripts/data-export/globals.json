@@ -1,0 +1,149 @@
+{
+  "header": {
+    "id": 1,
+    "navItems": [
+      {
+        "id": "6a02359974a66324a416a952",
+        "hasDropdown": false,
+        "dropdownItems": [],
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "url": "/organisasi",
+          "label": "Organisasi"
+        }
+      },
+      {
+        "id": "6a02359974a66324a416a954",
+        "hasDropdown": false,
+        "dropdownItems": [],
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "url": "/galeri",
+          "label": "Galeri"
+        }
+      },
+      {
+        "id": "6a02359974a66324a416a955",
+        "hasDropdown": false,
+        "dropdownItems": [],
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "url": "/berita",
+          "label": "Berita"
+        }
+      },
+      {
+        "id": "6a0c096afc1c521c51ae54af",
+        "hasDropdown": false,
+        "dropdownItems": [],
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "url": "/sponsor",
+          "label": "Sponsor"
+        }
+      },
+      {
+        "id": "6a02359974a66324a416a958",
+        "hasDropdown": true,
+        "dropdownItems": [
+          {
+            "id": "6a02359974a66324a416a956",
+            "link": {
+              "type": "custom",
+              "newTab": null,
+              "url": "/aktivitas",
+              "label": "Aktivitas"
+            }
+          },
+          {
+            "id": "6a02359974a66324a416a957",
+            "link": {
+              "type": "custom",
+              "newTab": null,
+              "url": "/komunitas",
+              "label": "Komunitas"
+            }
+          },
+          {
+            "id": "6a02371c0bddfd3956b3312f",
+            "link": {
+              "type": "custom",
+              "newTab": null,
+              "url": "/alumni",
+              "label": "Direktori Alumni"
+            }
+          },
+          {
+            "id": "6a02372b0bddfd3956b33130",
+            "link": {
+              "type": "custom",
+              "newTab": null,
+              "url": "/usaha-alumni",
+              "label": "Usaha Alumni"
+            }
+          },
+          {
+            "id": "6a0237360bddfd3956b33131",
+            "link": {
+              "type": "custom",
+              "newTab": null,
+              "url": "/kontak",
+              "label": "Hubungi Kami"
+            }
+          }
+        ],
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "url": "/berita",
+          "label": "Seputar Kami"
+        }
+      }
+    ],
+    "updatedAt": "2026-05-07T19:26:57.205Z",
+    "createdAt": "2026-05-07T19:26:57.205Z",
+    "globalType": "header"
+  },
+  "footer": {
+    "id": 1,
+    "navItems": [
+      {
+        "id": "6a02359974a66324a416a959",
+        "link": {
+          "type": "custom",
+          "newTab": null,
+          "url": "/admin",
+          "label": "Admin"
+        }
+      },
+      {
+        "id": "6a02359974a66324a416a95a",
+        "link": {
+          "type": "custom",
+          "newTab": true,
+          "url": "https://github.com/payloadcms/payload/tree/main/templates/website",
+          "label": "Source Code"
+        }
+      },
+      {
+        "id": "6a02359974a66324a416a95b",
+        "link": {
+          "type": "custom",
+          "newTab": true,
+          "url": "https://payloadcms.com/",
+          "label": "Payload"
+        }
+      }
+    ],
+    "updatedAt": "2026-05-07T19:26:57.203Z",
+    "createdAt": "2026-05-07T19:26:57.203Z",
+    "globalType": "footer"
+  },
+  "organizationProfile": {
+    "valuesAndPhilosophy": {}
+  }
+}

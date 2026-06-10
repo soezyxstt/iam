@@ -46,6 +46,27 @@ async function getLatestBerita(): Promise<BeritaDoc[]> {
   }
 }
 
+interface AktivitasDoc {
+  title?: string | null
+  heroImage?: { url?: string | null } | null
+}
+
+async function getLatestAktivitas(): Promise<AktivitasDoc[]> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'activities',
+      limit: 3,
+      sort: '-date',
+      depth: 1,
+      overrideAccess: false,
+    })
+    return result.docs as AktivitasDoc[]
+  } catch {
+    return []
+  }
+}
+
 async function getSponsors(): Promise<Sponsor[]> {
   try {
     const payload = await getPayload({ config: configPromise })
@@ -81,7 +102,7 @@ const IAM_MOMENTS = [
   { label: 'Lagu HMM\nJerusalem', slug: null },
 ]
 
-const PROGRAM_STACK_IMAGES = [
+const AKTIVITAS_FALLBACK = [
   {
     src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
     alt: 'Kongres IAM ITB',
@@ -109,7 +130,21 @@ const BERITA_PLACEHOLDER = [
 
 
 export default async function HomePage() {
-  const [beritaList, sponsors] = await Promise.all([getLatestBerita(), getSponsors()])
+  const [beritaList, sponsors, aktivitasList] = await Promise.all([
+    getLatestBerita(),
+    getSponsors(),
+    getLatestAktivitas(),
+  ])
+
+  const programStackImages = aktivitasList
+    .filter((a) => a.heroImage?.url)
+    .slice(0, 3)
+    .map((a) => ({
+      src: a.heroImage!.url as string,
+      alt: a.title ?? 'Aktivitas IAM ITB',
+      title: a.title ?? 'Aktivitas IAM ITB',
+    }))
+  const stackImages = programStackImages.length >= 2 ? programStackImages : AKTIVITAS_FALLBACK
 
   return (
     <main className="page-root relative min-h-screen overflow-hidden">
@@ -274,7 +309,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <AktivitasImageStack items={PROGRAM_STACK_IMAGES} className="lg:col-span-7" />
+          <AktivitasImageStack items={stackImages} className="lg:col-span-7" />
         </div>
         </ScrollReveal>
       </Section>

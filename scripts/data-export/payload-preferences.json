@@ -1,0 +1,605 @@
+{
+  "slug": "payload-preferences",
+  "count": 46,
+  "docs": [
+    {
+      "id": 48,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-payload-folders",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-21T15:02:49.756Z",
+      "createdAt": "2026-05-21T15:02:51.586Z"
+    },
+    {
+      "id": 47,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "media-collection-folder",
+      "value": {},
+      "updatedAt": "2026-05-21T15:02:47.977Z",
+      "createdAt": "2026-05-21T15:02:47.977Z"
+    },
+    {
+      "id": 46,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-pages-15",
+      "value": {
+        "fields": {
+          "layout": {
+            "collapsed": []
+          },
+          "_index-1": {
+            "tabIndex": 0
+          }
+        }
+      },
+      "updatedAt": "2026-05-14T08:31:09.530Z",
+      "createdAt": "2026-05-14T08:29:36.253Z"
+    },
+    {
+      "id": 44,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-galleryCategories",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-11T14:03:26.970Z",
+      "createdAt": "2026-05-11T14:03:22.876Z"
+    },
+    {
+      "id": 43,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-alumniMembers",
+      "value": {},
+      "updatedAt": "2026-05-11T14:02:56.764Z",
+      "createdAt": "2026-05-11T14:02:56.763Z"
+    },
+    {
+      "id": 42,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-communities",
+      "value": {},
+      "updatedAt": "2026-05-11T14:02:53.477Z",
+      "createdAt": "2026-05-11T14:02:53.477Z"
+    },
+    {
+      "id": 41,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "global-footer",
+      "value": {
+        "fields": {
+          "navItems": {
+            "collapsed": [
+              "69fceeab33d76c0a4541f16f",
+              "69fceeab33d76c0a4541f170",
+              "69fceeab33d76c0a4541f171"
+            ]
+          }
+        },
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-11T14:11:11.142Z",
+      "createdAt": "2026-05-11T14:02:21.879Z"
+    },
+    {
+      "id": 40,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "global-organizationProfile",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-04-21T04:19:51.161Z",
+      "createdAt": "2026-04-21T04:19:52.684Z"
+    },
+    {
+      "id": 39,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-galleries",
+      "value": {},
+      "updatedAt": "2026-04-21T04:19:45.974Z",
+      "createdAt": "2026-04-21T04:19:45.974Z"
+    },
+    {
+      "id": 38,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-iamPresidents",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-21T15:24:50.305Z",
+      "createdAt": "2026-04-21T04:19:44.558Z"
+    },
+    {
+      "id": 37,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-sponsors",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-21T15:01:12.163Z",
+      "createdAt": "2026-04-21T04:19:42.745Z"
+    },
+    {
+      "id": 36,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-alumniBusinesses",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-11T14:02:42.836Z",
+      "createdAt": "2026-04-21T04:19:40.135Z"
+    },
+    {
+      "id": 35,
+      "user": {
+        "relationTo": "users",
+        "value": 3
+      },
+      "key": "collection-pages-4",
+      "value": {
+        "fields": {
+          "_index-1": {
+            "tabIndex": 1
+          }
+        }
+      },
+      "updatedAt": "2026-03-17T08:21:37.665Z",
+      "createdAt": "2026-03-17T08:21:38.870Z"
+    },
+    {
+      "id": 34,
+      "user": {
+        "relationTo": "users",
+        "value": 3
+      },
+      "key": "collection-pages",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-03-17T08:21:21.252Z",
+      "createdAt": "2026-03-17T08:21:10.229Z"
+    },
+    {
+      "id": 33,
+      "user": {
+        "relationTo": "users",
+        "value": 3
+      },
+      "key": "collection-sponsors",
+      "value": {},
+      "updatedAt": "2026-03-17T08:17:24.001Z",
+      "createdAt": "2026-03-17T08:17:24.000Z"
+    },
+    {
+      "id": 32,
+      "user": {
+        "relationTo": "users",
+        "value": 3
+      },
+      "key": "collection-posts",
+      "value": {
+        "limit": 10
+      },
+      "updatedAt": "2026-03-17T08:17:17.917Z",
+      "createdAt": "2026-03-17T08:06:33.291Z"
+    },
+    {
+      "id": 31,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-managements",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-11T14:03:15.458Z",
+      "createdAt": "2026-03-16T19:30:27.750Z"
+    },
+    {
+      "id": 30,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-activities",
+      "value": {},
+      "updatedAt": "2026-03-16T19:30:25.140Z",
+      "createdAt": "2026-03-16T19:30:25.139Z"
+    },
+    {
+      "id": 29,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-jobVacancies",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-11T14:04:08.979Z",
+      "createdAt": "2026-03-16T19:22:17.271Z"
+    },
+    {
+      "id": 28,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-posts-4",
+      "value": {
+        "fields": {
+          "content": {
+            "hello": "hi",
+            "collapsed": []
+          }
+        }
+      },
+      "updatedAt": "2026-03-16T17:16:01.280Z",
+      "createdAt": "2026-03-16T17:15:56.962Z"
+    },
+    {
+      "id": 26,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "nav",
+      "value": {
+        "groups": {
+          "Koneksi Alumni": {
+            "open": true
+          }
+        }
+      },
+      "updatedAt": "2026-03-13T14:47:17.545Z",
+      "createdAt": "2026-03-13T14:47:19.447Z"
+    },
+    {
+      "id": 25,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "nav",
+      "value": {
+        "groups": {
+          "Collections": {
+            "open": false
+          },
+          "Koneksi Alumni": {
+            "open": true
+          },
+          "Konten & halaman": {
+            "open": true
+          }
+        }
+      },
+      "updatedAt": "2026-05-14T08:38:06.737Z",
+      "createdAt": "2026-03-13T14:47:19.418Z"
+    },
+    {
+      "id": 27,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-usaha-alumni",
+      "value": {
+        "limit": 10
+      },
+      "updatedAt": "2026-03-13T14:51:27.530Z",
+      "createdAt": "2026-03-13T14:47:18.973Z"
+    },
+    {
+      "id": 24,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-categories",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-11T14:01:18.287Z",
+      "createdAt": "2026-03-13T14:31:39.851Z"
+    },
+    {
+      "id": 23,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-media",
+      "value": {
+        "listViewType": "folders"
+      },
+      "updatedAt": "2026-05-21T15:06:32.529Z",
+      "createdAt": "2026-03-13T14:31:02.561Z"
+    },
+    {
+      "id": 22,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "browse-by-folder",
+      "value": {},
+      "updatedAt": "2026-03-13T14:28:27.421Z",
+      "createdAt": "2026-03-13T14:28:27.421Z"
+    },
+    {
+      "id": 21,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-posts",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-03-16T17:12:27.734Z",
+      "createdAt": "2026-03-13T14:27:24.742Z"
+    },
+    {
+      "id": 20,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-pages",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-11T14:00:48.417Z",
+      "createdAt": "2026-03-13T14:27:06.846Z"
+    },
+    {
+      "id": 19,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "global-header",
+      "value": {
+        "fields": {
+          "navItems": {
+            "collapsed": []
+          },
+          "navItems.4.dropdownItems": {
+            "collapsed": []
+          },
+          "navItems.5.dropdownItems": {
+            "collapsed": [
+              "6a01e3f6a2999c1b1c7c021d"
+            ]
+          }
+        },
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-11T20:09:19.416Z",
+      "createdAt": "2026-03-13T14:26:41.070Z"
+    },
+    {
+      "id": 18,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-search",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-04-21T04:19:22.586Z",
+      "createdAt": "2026-03-13T14:26:27.133Z"
+    },
+    {
+      "id": 17,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-form-submissions",
+      "value": {
+        "sort": "-id",
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-14T08:35:53.468Z",
+      "createdAt": "2026-03-13T14:26:06.967Z"
+    },
+    {
+      "id": 16,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-forms",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-05-14T08:28:40.977Z",
+      "createdAt": "2026-03-13T14:26:04.487Z"
+    },
+    {
+      "id": 15,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-redirects",
+      "value": {
+        "limit": 10
+      },
+      "updatedAt": "2026-04-21T04:43:07.339Z",
+      "createdAt": "2026-03-13T14:25:31.625Z"
+    },
+    {
+      "id": 14,
+      "user": {
+        "relationTo": "users",
+        "value": 2
+      },
+      "key": "collection-users",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-03-13T14:23:04.862Z",
+      "createdAt": "2026-03-13T14:23:01.105Z"
+    },
+    {
+      "id": 13,
+      "key": "collection-pages",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-02-16T11:38:03.784Z",
+      "createdAt": "2026-02-16T04:18:51.690Z"
+    },
+    {
+      "id": 12,
+      "key": "nav",
+      "value": {
+        "groups": {
+          "Globals": {
+            "open": false
+          },
+          "Collections": {
+            "open": true
+          }
+        }
+      },
+      "updatedAt": "2026-02-16T04:18:34.885Z",
+      "createdAt": "2026-02-16T04:18:34.936Z"
+    },
+    {
+      "id": 11,
+      "key": "global-footer",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-02-16T04:18:28.006Z",
+      "createdAt": "2026-02-16T04:18:29.944Z"
+    },
+    {
+      "id": 10,
+      "key": "global-header",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-02-16T04:18:24.805Z",
+      "createdAt": "2026-02-16T04:18:26.757Z"
+    },
+    {
+      "id": 9,
+      "key": "collection-search",
+      "value": {},
+      "updatedAt": "2026-02-16T04:18:19.689Z",
+      "createdAt": "2026-02-16T04:18:19.689Z"
+    },
+    {
+      "id": 8,
+      "key": "collection-forms",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-02-16T04:18:18.088Z",
+      "createdAt": "2026-02-16T04:18:05.787Z"
+    },
+    {
+      "id": 7,
+      "key": "collection-form-submissions",
+      "value": {},
+      "updatedAt": "2026-02-16T04:18:02.811Z",
+      "createdAt": "2026-02-16T04:18:02.811Z"
+    },
+    {
+      "id": 6,
+      "key": "collection-redirects",
+      "value": {},
+      "updatedAt": "2026-02-16T04:17:59.903Z",
+      "createdAt": "2026-02-16T04:17:59.903Z"
+    },
+    {
+      "id": 5,
+      "key": "collection-users",
+      "value": {},
+      "updatedAt": "2026-02-16T04:17:57.273Z",
+      "createdAt": "2026-02-16T04:17:57.272Z"
+    },
+    {
+      "id": 4,
+      "key": "collection-categories",
+      "value": {},
+      "updatedAt": "2026-02-16T04:17:43.437Z",
+      "createdAt": "2026-02-16T04:17:43.436Z"
+    },
+    {
+      "id": 3,
+      "key": "collection-media",
+      "value": {
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-02-16T04:17:37.389Z",
+      "createdAt": "2026-02-16T04:17:33.706Z"
+    },
+    {
+      "id": 1,
+      "key": "collection-posts",
+      "value": {
+        "limit": 10,
+        "editViewType": "default"
+      },
+      "updatedAt": "2026-02-16T10:46:41.429Z",
+      "createdAt": "2026-02-16T04:16:32.278Z"
+    }
+  ]
+}
