@@ -82,18 +82,6 @@ async function getSponsors(): Promise<Sponsor[]> {
   }
 }
 
-function formatDate(dateStr?: string | null): string {
-  if (!dateStr) return 'IAM ITB'
-  try {
-    return new Date(dateStr).toLocaleDateString('id-ID', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    })
-  } catch {
-    return 'IAM ITB'
-  }
-}
 
 const IAM_MOMENTS = [
   { label: 'Yellboys dan\nSolidarity Forever', slug: 'yellboys-solidarity-forever' },

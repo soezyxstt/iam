@@ -84,7 +84,7 @@ export default async function KontakPage() {
 
             {/* Form Section */}
             <div className="relative lg:col-span-8 lg:border-l lg:border-brand-dark/10 lg:pl-12">
-              <GlassCard id="contact-form" variant="stripes" contentClassName="p-8 md:p-10 lg:p-12">
+              <GlassCard id="contact-form" variant="stripes" contentClassName="p-6 md:p-8 lg:p-10">
                 <div className="mb-10">
                    <Eyebrow tone="gold">Formulir Pesan</Eyebrow>
                    <Heading level={3} tone="inverse" className="mt-2">

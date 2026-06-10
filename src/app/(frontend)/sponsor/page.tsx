@@ -4,11 +4,12 @@ import Image from 'next/image'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { Section } from '@/components/ui/section'
-import { Heading, Eyebrow, Text } from '@/components/ui/typography'
+import { Heading, Eyebrow } from '@/components/ui/typography'
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import type { Sponsor, Media } from '@/payload-types'
+import { EmptyState } from '@/components/ui/empty-state'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -64,11 +65,11 @@ export default async function SponsorPage() {
 
       <Section className="z-10 pt-0 pb-16 md:pt-0 md:pb-24">
         {Object.keys(groupedSponsors).length === 0 ? (
-          <div className="py-24 text-center">
-            <Text variant="editorial" tone="muted">
-              Belum ada data sponsor yang terdaftar.
-            </Text>
-          </div>
+          <EmptyState
+            tone="onLight"
+            title="Belum ada data sponsor"
+            description="Belum ada data sponsor yang terdaftar."
+          />
         ) : (
           <div className="space-y-24">
             {CATEGORY_ORDER.map((catKey) => {

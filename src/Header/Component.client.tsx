@@ -4,7 +4,8 @@ import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState, useRef } from 'react'
-import { SearchIcon, MenuIcon, XIcon, ChevronDown, User as UserIcon, LogOut, Shield } from 'lucide-react'
+import { SearchIcon, MenuIcon, XIcon, ChevronDown, LogOut, Shield } from 'lucide-react'
+import Image from 'next/image'
 import { cn } from '@/utilities/ui'
 import { getClientSideURL } from '@/utilities/getURL'
 
@@ -189,10 +190,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                   className="flex h-9 w-9 items-center justify-center rounded-full transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2"
                   aria-label="Menu profil"
                 >
-                  <img
+                  <Image
                     src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email)}&background=06162F&color=F0D637&size=100&bold=true`}
                     alt={user.name || 'User'}
+                    width={36}
+                    height={36}
                     className="h-9 w-9 rounded-full ring-2 ring-brand-gold ring-offset-2 ring-offset-background object-cover"
+                    unoptimized
                   />
                 </button>
 
@@ -362,10 +366,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             // Authenticated user profile and action buttons
             <div className="mt-6 px-4 border-t border-white/10 pt-6">
               <div className="flex items-center gap-3 mb-4">
-                <img
+                <Image
                   src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email)}&background=06162F&color=F0D637&size=100&bold=true`}
                   alt={user.name || 'User'}
+                  width={40}
+                  height={40}
                   className="h-10 w-10 rounded-full ring-2 ring-brand-gold ring-offset-2 ring-offset-brand-dark object-cover"
+                  unoptimized
                 />
                 <div className="flex flex-col min-w-0">
                   <span className="text-sm font-semibold font-display text-white truncate">

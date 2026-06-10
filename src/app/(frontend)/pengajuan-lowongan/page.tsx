@@ -8,9 +8,9 @@ import { getPayload } from 'payload'
 import { FormBlock } from '@/blocks/Form/Component'
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
-import { Button } from '@/components/ui/button'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
+import { EmptyState } from '@/components/ui/empty-state'
 
 const FORM_TITLE = 'Pengajuan Lowongan'
 
@@ -62,16 +62,13 @@ export default async function PasangLowonganPage() {
             <FormBlock enableIntro={false} form={form} />
           </ScrollReveal>
         ) : (
-          <div className="mx-auto max-w-lg rounded-2xl border border-brand-dark/15 bg-muted/40 px-6 py-10 text-center shadow-sm">
-            <p className="font-semibold text-brand-dark">Formulir belum tersedia</p>
-            <p className="mt-3 text-sm text-brand-dark/75">
-              Formulir &ldquo;{FORM_TITLE}&rdquo; belum ditemukan di database. Silakan hubungi
-              pengurus IAM ITB atau kirim pesan melalui halaman Kontak.
-            </p>
-            <Button href="/kontak" variant="secondary" className="mt-8 rounded-full">
-              Hubungi Kami
-            </Button>
-          </div>
+          <EmptyState
+            tone="onLight"
+            title="Formulir belum tersedia"
+            description={`Formulir “${FORM_TITLE}” belum ditemukan di database. Silakan hubungi pengurus IAM ITB atau kirim pesan melalui halaman Kontak.`}
+            actionHref="/kontak"
+            actionLabel="Hubungi Kami"
+          />
         )}
       </Section>
     </PageShell>

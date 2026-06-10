@@ -7,7 +7,7 @@ import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
-import { Text } from '@/components/ui/typography'
+import { EmptyState } from '@/components/ui/empty-state'
 
 import type { GalleryGroup } from './GaleriView'
 import { GaleriView } from './GaleriView'
@@ -71,11 +71,11 @@ export default async function GaleriPage() {
 
       {groups.length === 0 ? (
         <Section className="z-10 py-20">
-          <div className="py-20 text-center border-2 border-dashed border-brand-dark/5 rounded-3xl">
-            <Text variant="editorial" tone="muted">
-              Belum ada album galeri yang tersedia saat ini.
-            </Text>
-          </div>
+          <EmptyState
+            tone="onLight"
+            title="Belum Ada Galeri"
+            description="Belum ada album galeri yang tersedia saat ini."
+          />
         </Section>
       ) : (
         <GaleriView groups={groups} />

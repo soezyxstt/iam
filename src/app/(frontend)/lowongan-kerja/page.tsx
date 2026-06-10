@@ -10,6 +10,7 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 import { GlassCard } from '@/components/ui/glass-card'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
+import { Eyebrow } from '@/components/ui/typography'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/utilities/ui'
@@ -114,13 +115,7 @@ export default async function Page({
   }
 
   return (
-    <PageShell className="relative overflow-hidden pb-24">
-      {/* ── Ambient background geometry ── */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 select-none overflow-hidden">
-        <div className="absolute -top-44 -right-44 h-[640px] w-[580px] rounded-full bg-brand-gold/12 blur-[110px]" />
-        <div className="absolute top-[16%] -left-64 h-[700px] w-[520px] rounded-full bg-brand-primary/15 blur-[110px]" />
-        <div className="absolute top-[45%] left-1/2 h-[450px] w-[500px] -translate-x-1/2 rounded-full bg-brand-red/8 blur-[100px]" />
-      </div>
+    <PageShell className="pb-24">
 
       <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
         <ScrollReveal>
@@ -134,12 +129,12 @@ export default async function Page({
             id="lowongan-grid"
             className="berita-card scroll-mt-14 md:scroll-mt-19"
             variant="stripes"
-            contentClassName="p-8 md:p-10 lg:p-12"
+            contentClassName="p-6 md:p-8 lg:p-10"
           >
             <div className="relative space-y-8">
-              <h2 className="text-center font-display text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold md:text-sm">
+              <Eyebrow tone="gold" className="text-center block text-xs md:text-sm tracking-[0.28em]">
                 Direktori Lowongan Kerja
-              </h2>
+              </Eyebrow>
 
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
                 <form

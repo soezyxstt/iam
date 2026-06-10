@@ -345,16 +345,16 @@ export default async function OrganisasiPage() {
           <div className="container relative z-10 py-12 md:py-16">
             <ScrollReveal>
               {/* Header */}
-              <div className="mb-10 text-center">
-                <p className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-gold/60">
+              <div className="mb-10 text-center flex flex-col items-center">
+                <Eyebrow tone="gold" className="text-[10px] tracking-[0.35em] opacity-60">
                   Struktur Organisasi
-                </p>
+                </Eyebrow>
                 <Heading level={2} tone="inverse" className="mt-2">
                   Organogram Kepengurusan
                 </Heading>
-                <p className="mt-1 font-display text-xs text-white/40 uppercase tracking-widest">
+                <Eyebrow tone="muted" className="mt-1 text-xs text-white/40 tracking-widest normal-case">
                   Ikatan Alumni Mesin ITB
-                </p>
+                </Eyebrow>
               </div>
 
               <div className="w-full overflow-x-auto pb-6 [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-white/10">
@@ -471,10 +471,10 @@ export default async function OrganisasiPage() {
       {/* Dewan dan Bidang Kerja */}
       <Section className="z-10 !pt-16 pb-12 md:pb-16">
         <ScrollReveal>
-          <div className="mb-8 text-center">
-            <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
+          <div className="mb-8 text-center flex flex-col items-center">
+            <Eyebrow tone="red" className="text-[10px] tracking-[0.35em]">
               Struktur kerja
-            </span>
+            </Eyebrow>
             <Heading level={2} className="mt-3">
               Dewan dan Bidang Kerja
             </Heading>
@@ -489,10 +489,10 @@ export default async function OrganisasiPage() {
       {mainTeam.length > 0 && (
         <Section className="z-10 border-t border-brand-dark/10 pb-20 pt-16 md:pt-20">
           <ScrollReveal>
-            <div className="mb-12 text-center md:text-left">
-              <span className="font-display text-[10px] font-bold uppercase tracking-[0.35em] text-brand-red">
+            <div className="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
+              <Eyebrow tone="red" className="text-[10px] tracking-[0.35em]">
                 Tim
-              </span>
+              </Eyebrow>
               <Heading level={2} className="mt-3">
                 Pengurus
               </Heading>
@@ -516,10 +516,10 @@ export default async function OrganisasiPage() {
                     />
                   </div>
                   <div className="mt-4 transition-transform duration-500 ease-out group-hover:-translate-y-1 text-center md:text-left">
-                    <p className="font-serif text-lg font-bold text-brand-dark">{member.name}</p>
-                    <p className="mt-1 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-brand-red">
+                    <Heading level={4} className="text-lg">{member.name}</Heading>
+                    <Eyebrow tone="red" className="mt-1 text-[10px] tracking-[0.2em] block">
                       {member.position}
-                    </p>
+                    </Eyebrow>
                   </div>
                 </div>
               </ScrollReveal>

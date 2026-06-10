@@ -39,15 +39,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   })
 
   return (
-    <PageShell className="relative overflow-hidden pb-24">
-      {/* ── Ambient background geometry ── */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 select-none overflow-hidden">
-        <div className="absolute -top-44 -right-44 h-[640px] w-[580px] rounded-full bg-brand-gold/12 blur-[110px]" />
-        <div className="absolute top-[16%] -left-64 h-[700px] w-[520px] rounded-full bg-brand-primary/15 blur-[110px]" />
-        <div className="absolute top-[45%] left-1/2 h-[450px] w-[500px] -translate-x-1/2 rounded-full bg-brand-red/8 blur-[100px]" />
-        <div className="absolute bottom-[10%] -left-24 h-[550px] w-[500px] rounded-full bg-brand-gold/10 blur-[110px]" />
-        <div className="absolute -bottom-40 -right-40 h-[640px] w-[540px] rounded-full bg-brand-dark/15 blur-[130px]" />
-      </div>
+    <PageShell className="pb-24">
 
       <PageClient />
       <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4" containerClassName="max-w-6xl px-4 md:px-8">

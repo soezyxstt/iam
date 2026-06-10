@@ -10,6 +10,8 @@ import { Pagination } from '@/components/Pagination'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { GlassCard } from '@/components/ui/glass-card'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
+import { Eyebrow } from '@/components/ui/typography'
+import { EmptyState } from '@/components/ui/empty-state'
 import { Section } from '@/components/ui/section'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -137,16 +139,7 @@ export default async function Page({
   }
 
   return (
-    <PageShell className="relative overflow-hidden pb-24">
-      {/* ── Ambient background geometry ── */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 select-none overflow-hidden">
-        <div className="absolute -top-44 -right-44 h-[640px] w-[580px] rounded-full bg-brand-gold/12 blur-[110px]" />
-        <div className="absolute top-[16%] -left-64 h-[700px] w-[520px] rounded-full bg-brand-primary/15 blur-[110px]" />
-        <div className="absolute top-[45%] left-1/2 h-[450px] w-[500px] -translate-x-1/2 rounded-full bg-brand-red/8 blur-[100px]" />
-        <div className="absolute bottom-[10%] -left-24 h-[550px] w-[500px] rounded-full bg-brand-gold/10 blur-[110px]" />
-        <div className="absolute -bottom-40 -right-40 h-[640px] w-[540px] rounded-full bg-brand-dark/15 blur-[130px]" />
-      </div>
-
+    <PageShell className="pb-24">
       <Section className="z-10 pb-8 pt-3 md:pb-10 md:pt-4">
         <ScrollReveal>
           <PageHeroHeader title="Berita" subtitle="Ikatan Alumni Mesin ITB" />
@@ -162,9 +155,9 @@ export default async function Page({
             contentClassName="p-6 md:p-8 lg:p-10"
           >
             <div className="relative space-y-8">
-              <h2 className="text-center font-display text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold md:text-sm">
+              <Eyebrow tone="gold" className="text-center block text-xs md:text-sm tracking-[0.28em]">
                 Arsip Berita & Opini
-              </h2>
+              </Eyebrow>
 
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
                 <form
@@ -227,21 +220,17 @@ export default async function Page({
               </div>
 
               {docs.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-white/6 px-6 py-12 text-center backdrop-blur-sm">
-                  <p className="font-serif text-lg font-bold text-white md:text-xl">
-                    Belum ada berita yang ditemukan
-                  </p>
-                  <p className="mt-2 font-sans text-[13px] leading-relaxed text-white/75 md:text-sm">
-                    {qTrim || categoryParam
+                <EmptyState
+                  tone="onDark"
+                  title="Belum ada berita yang ditemukan"
+                  description={
+                    qTrim || categoryParam
                       ? 'Coba ubah kata kunci atau filter kategori, atau hapus penyaring untuk melihat semua.'
-                      : 'Arsip berita kosong.'}
-                  </p>
-                  {(qTrim || categoryParam) && (
-                    <Button href="/berita" variant="secondary" size="sm" className="mt-8">
-                      Tampilkan semua
-                    </Button>
-                  )}
-                </div>
+                      : 'Arsip berita kosong.'
+                  }
+                  actionHref={qTrim || categoryParam ? '/berita' : undefined}
+                  actionLabel="Tampilkan semua"
+                />
               ) : (
                 <>
                   <CollectionArchive posts={docs} />

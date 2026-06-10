@@ -464,7 +464,7 @@ async function fetchFileByURL(url: string): Promise<File> {
           size: data.length,
         }
       }
-    } catch (err) {
+    } catch (_err) {
       // Fallback to fetch if filesystem fails
     }
   }

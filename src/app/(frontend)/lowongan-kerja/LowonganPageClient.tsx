@@ -1,12 +1,14 @@
 'use client'
 
 import React, { useState, useEffect, useMemo } from 'react'
+import Image from 'next/image'
 import { createPortal } from 'react-dom'
 import type { JobVacancy, Media } from '@/payload-types'
 import RichText from '@/components/RichText'
 import { Heading } from '@/components/ui/typography'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
+import { EmptyState } from '@/components/ui/empty-state'
 import {
   Briefcase,
   MapPin,
@@ -15,7 +17,6 @@ import {
   X,
   Building,
   GraduationCap,
-  Gift,
   AlertCircle,
   Users,
   Bookmark
@@ -199,10 +200,13 @@ export function LowonganPageClient({ initialDocs }: LowonganPageClientProps) {
           {/* Logo container overlapping the bottom edge of the banner */}
           <div className="absolute -bottom-8 left-6 z-20 size-20 rounded-2xl bg-white p-2.5 flex items-center justify-center border border-brand-primary/10 shadow-lg shadow-black/30 overflow-hidden">
             {companyLogo && companyLogo.url ? (
-              <img
+              <Image
                 src={companyLogo.url}
                 alt={job.companyName}
+                width={80}
+                height={80}
                 className="max-h-full max-w-full object-contain"
+                unoptimized
               />
             ) : (
               <span aria-hidden="true" className="text-3xl text-brand-primary font-bold">
@@ -441,14 +445,11 @@ export function LowonganPageClient({ initialDocs }: LowonganPageClientProps) {
     <div className="relative w-full">
       {/* ── JOB CARD GRID ── */}
       {initialDocs.length === 0 ? (
-        <div className="rounded-2xl border border-white/10 bg-white/4 px-6 py-12 text-center backdrop-blur-sm">
-          <p className="font-serif text-lg font-bold text-white md:text-xl">
-            Belum ada lowongan kerja yang ditemukan
-          </p>
-          <p className="mt-2 font-sans text-sm leading-relaxed text-white/60">
-            Silakan coba bersihkan filter pencarian untuk melihat semua data.
-          </p>
-        </div>
+        <EmptyState
+          tone="onDark"
+          title="Belum ada lowongan kerja yang ditemukan"
+          description="Silakan coba bersihkan filter pencarian untuk melihat semua data."
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {initialDocs.map((job) => {
@@ -479,10 +480,13 @@ export function LowonganPageClient({ initialDocs }: LowonganPageClientProps) {
                   <div className="flex items-start gap-4">
                     <div className="size-12 shrink-0 rounded-xl bg-white p-1.5 flex items-center justify-center overflow-hidden border border-white/10 shadow-inner">
                       {companyLogo && companyLogo.url ? (
-                        <img
+                        <Image
                           src={companyLogo.url}
                           alt={job.companyName}
+                          width={48}
+                          height={48}
                           className="max-h-full max-w-full object-contain"
+                          unoptimized
                         />
                       ) : (
                         <span aria-hidden="true" className="text-xl text-brand-primary font-bold">

@@ -33,9 +33,14 @@ export function PageShell({
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 select-none overflow-hidden"
         >
-          <div className="absolute -top-32 -right-32 h-[420px] w-[380px] rounded-full bg-brand-gold/6 blur-[100px]" />
-          <div className="absolute top-[18%] -left-48 h-[520px] w-[400px] rounded-full bg-brand-primary/8 blur-[100px]" />
-          <div className="absolute bottom-[10%] right-[5%] h-[360px] w-[320px] rounded-full bg-brand-dark/6 blur-[90px]" />
+          {/* Top Right Gold */}
+          <div className="absolute -top-44 -right-44 h-[640px] w-[580px] rounded-full bg-brand-gold/10 blur-[110px]" />
+          {/* Mid Left Primary */}
+          <div className="absolute top-[16%] -left-64 h-[700px] w-[520px] rounded-full bg-brand-primary/12 blur-[115px]" />
+          {/* Mid/Lower Right Red */}
+          <div className="absolute top-[45%] left-1/2 h-[450px] w-[500px] -translate-x-1/2 rounded-full bg-brand-red/6 blur-[100px]" />
+          {/* Bottom Left Gold */}
+          <div className="absolute bottom-[10%] -left-24 h-[550px] w-[500px] rounded-full bg-brand-gold/8 blur-[110px]" />
         </div>
       )}
       {children}

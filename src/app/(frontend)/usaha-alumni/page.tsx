@@ -1,7 +1,5 @@
 import type { Metadata } from 'next/types'
-import Image from 'next/image'
 import Link from 'next/link'
-import { User } from 'lucide-react'
 import React from 'react'
 import configPromise from '@payload-config'
 import type { Where } from 'payload'
@@ -18,10 +16,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
-import { Text } from '@/components/ui/typography'
+import { Eyebrow, Text } from '@/components/ui/typography'
 import { cn } from '@/utilities/ui'
+import { EmptyState } from '@/components/ui/empty-state'
 
-import { labelForCategory } from './constants'
 
 const PAGE_SIZE = 9
 
@@ -183,9 +181,9 @@ export default async function UsahaAlumniPage({
             contentClassName="p-6 md:p-8 lg:p-10"
           >
             <div className="relative space-y-8">
-              <h2 className="text-center font-display text-xs font-semibold uppercase tracking-[0.28em] text-brand-gold md:text-sm">
+              <Eyebrow tone="gold" className="text-center block text-xs md:text-sm tracking-[0.28em]">
                 Direktori usaha alumni
-              </h2>
+              </Eyebrow>
 
               <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
                 <form
@@ -254,21 +252,17 @@ export default async function UsahaAlumniPage({
               </div>
 
               {docs.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-white/6 px-6 py-12 text-center backdrop-blur-sm">
-                  <p className="font-serif text-lg font-bold text-white md:text-xl">
-                    Belum ada usaha yang ditampilkan
-                  </p>
-                  <p className="mt-2 font-sans text-[13px] leading-relaxed text-white/75 md:text-sm">
-                    {qTrim || categoryParam
+                <EmptyState
+                  tone="onDark"
+                  title="Belum ada usaha yang ditampilkan"
+                  description={
+                    qTrim || categoryParam
                       ? 'Coba ubah kata kunci atau filter kategori, atau hapus penyaring untuk melihat semua.'
-                      : 'Entri baru akan muncul setelah pengajuan disetujui dan diterbitkan oleh pengurus.'}
-                  </p>
-                  {(qTrim || categoryParam) && (
-                    <Button href="/usaha-alumni" variant="secondary" size="sm" className="mt-8">
-                      Tampilkan semua
-                    </Button>
-                  )}
-                </div>
+                      : 'Entri baru akan muncul setelah pengajuan disetujui dan diterbitkan oleh pengurus.'
+                  }
+                  actionHref={qTrim || categoryParam ? '/usaha-alumni' : undefined}
+                  actionLabel="Tampilkan semua"
+                />
               ) : (
                 <>
                   <div className="mt-2 grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">

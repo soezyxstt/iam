@@ -4,8 +4,8 @@ import configPromise from '@payload-config'
 import { Section } from '@/components/ui/section'
 import { Heading, Text, Eyebrow } from '@/components/ui/typography'
 
-import { Media } from '@/components/Media'
-import Link from 'next/link'
+import { Card } from '@/components/Card'
+import { EmptyState } from '@/components/ui/empty-state'
 import { Metadata } from 'next'
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
@@ -49,42 +49,16 @@ export default async function KomunitasPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {communities.docs.map((community) => (
             <ScrollReveal key={community.id}>
-              <Link href={`/komunitas/${community.slug}`} className="group relative block h-full overflow-hidden rounded-2xl border border-brand-dark/10 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl">
-                <div className="relative aspect-16/9 w-full overflow-hidden bg-brand-khaki/30 p-8 flex items-center justify-center">
-                  <div className="relative w-24 h-24 transition-transform duration-500 group-hover:scale-110">
-                    {typeof community.logo === 'object' && community.logo !== null ? (
-                      <Media resource={community.logo} fill className="object-contain filter drop-shadow-md" />
-                    ) : (
-                      <div className="w-full h-full rounded-full bg-brand-primary/10 flex items-center justify-center">
-                        <span className="text-brand-primary font-bold text-2xl">{community.communityName?.charAt(0)}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="p-6 md:p-8 flex flex-col h-full">
-                  <Heading level={3} className="mb-3 text-xl transition-colors group-hover:text-brand-red">
-                    {community.communityName}
-                  </Heading>
-                  <Text variant="small" tone="muted" className="line-clamp-2">
-                    {community.shortDescription}
-                  </Text>
-                  <div className="mt-6 pt-4 border-t border-brand-dark/5 flex items-center justify-between">
-                    <span className="font-display text-[10px] font-bold uppercase tracking-widest text-brand-dark/40 group-hover:text-brand-red transition-colors">
-                      Lihat Detail
-                    </span>
-                    <span className="text-brand-dark/20 group-hover:text-brand-red transition-colors transition-transform group-hover:translate-x-1">
-                      &rarr;
-                    </span>
-                  </div>
-                </div>
-              </Link>
+              <Card type="komunitas" tone="onLight" doc={community} />
             </ScrollReveal>
           ))}
           {communities.docs.length === 0 && (
-            <div className="col-span-full py-20 text-center border-2 border-dashed border-brand-dark/5 rounded-3xl">
-              <Text variant="editorial" tone="muted">
-                Belum ada data komunitas yang tersedia saat ini.
-              </Text>
+            <div className="col-span-full">
+              <EmptyState
+                tone="onLight"
+                title="Belum Ada Komunitas"
+                description="Belum ada data komunitas yang tersedia saat ini."
+              />
             </div>
           )}
         </div>

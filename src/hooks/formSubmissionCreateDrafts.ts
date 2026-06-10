@@ -85,7 +85,7 @@ export const formSubmissionCreateDrafts: CollectionAfterChangeHook<FormSubmissio
         companyName: pick(doc.submissionData, 'companyName'),
         employmentType: employmentSafe,
         vacancyStatus: 'open',
-        jobDescription: plainTextToLexicalRoot(pick(doc.submissionData, 'jobDescription')) as any,
+        jobDescription: plainTextToLexicalRoot(pick(doc.submissionData, 'jobDescription')) as NonNullable<JobVacancy['jobDescription']>,
         officialLink: pick(doc.submissionData, 'officialLink') || undefined,
       },
     })

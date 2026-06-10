@@ -1,7 +1,7 @@
 'use client'
 
 import { useHeaderTheme } from '@/providers/HeaderTheme'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 export function PageClient() {
   const { setHeaderTheme } = useHeaderTheme()

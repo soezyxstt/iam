@@ -1,6 +1,6 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db, payload: _payload, req: _req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
     CREATE TYPE "public"."enum_job_vacancies_vacancy_status" AS ENUM('open', 'closed');
     CREATE TYPE "public"."enum__job_vacancies_v_version_vacancy_status" AS ENUM('open', 'closed');
@@ -19,7 +19,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   `)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db, payload: _payload, req: _req }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
     ALTER TABLE "job_vacancies" DROP COLUMN "vacancy_status";
     ALTER TABLE "job_vacancies" DROP COLUMN "quota";

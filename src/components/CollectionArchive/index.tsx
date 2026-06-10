@@ -4,7 +4,7 @@ import React from 'react'
 import { Card, CardProps } from '@/components/Card'
 
 export type Props = {
-  posts: any[]
+  posts: CardProps['doc'][]
   className?: string
   type?: CardProps['type']
 }
