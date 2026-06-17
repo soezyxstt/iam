@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublicRead } from '../../access/authenticatedOrPublicRead'
+import { revalidateOrganizationProfile } from './hooks/revalidateOrganizationProfile'
 
 export const ProfilOrganisasi: GlobalConfig = {
   slug: 'organizationProfile',
@@ -11,6 +12,9 @@ export const ProfilOrganisasi: GlobalConfig = {
   access: {
     read: authenticatedOrPublicRead,
     update: authenticated,
+  },
+  hooks: {
+    afterChange: [revalidateOrganizationProfile],
   },
   fields: [
     {

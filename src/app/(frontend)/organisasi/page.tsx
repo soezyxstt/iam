@@ -13,6 +13,8 @@ import { Section } from '@/components/ui/section'
 import { Eyebrow, Heading, Text } from '@/components/ui/typography'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { OrganizationProfile } from '@/payload-types'
 
 import { KepengurusanBoard, type OrgMember } from './KepengurusanBoard'
 
@@ -103,8 +105,8 @@ const HorizLine = ({ w = 'w-10' }: { w?: string }) => (
 export default async function OrganisasiPage() {
   const payload = await getPayload({ config: configPromise })
 
-  const [orgProfile, presidentsResult, membersResult] = await Promise.all([
-    payload.findGlobal({ slug: 'organizationProfile', overrideAccess: false, depth: 2 }),
+  const [orgProfileRaw, presidentsResult, membersResult] = await Promise.all([
+    getCachedGlobal('organizationProfile', 2)(),
     payload.find({ collection: 'iamPresidents', overrideAccess: false, limit: 50, depth: 1 }),
     payload.find({
       collection: 'orgMembers',
@@ -115,6 +117,7 @@ export default async function OrganisasiPage() {
     }),
   ])
 
+  const orgProfile = orgProfileRaw as OrganizationProfile
   const orgMembers = membersResult.docs as unknown as OrgMember[]
 
   const mainByLevel = (level: number) =>

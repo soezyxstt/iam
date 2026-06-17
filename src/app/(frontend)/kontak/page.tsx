@@ -11,8 +11,7 @@ import { sendEmail } from './actions'
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 
 export const metadata: Metadata = {
   title: 'Hubungi Kami',
@@ -22,12 +21,7 @@ export const metadata: Metadata = {
 export const revalidate = 600
 
 export default async function KontakPage() {
-  const payload = await getPayload({ config: configPromise })
-  const orgProfile = await payload.findGlobal({
-    slug: 'organizationProfile',
-    overrideAccess: false,
-    depth: 0,
-  })
+  const orgProfile = await getCachedGlobal('organizationProfile', 0)()
 
   const op = orgProfile as unknown as Record<string, unknown>
   const email = op.contactEmail as string | null | undefined
