@@ -73,5 +73,13 @@ export const OrgAnggota: CollectionConfig = {
         description: 'Urutan tampil dalam level/tipe yang sama. Angka lebih kecil = lebih kiri/atas.',
       },
     },
+    {
+      name: 'linkedIn',
+      label: 'LinkedIn URL',
+      type: 'text',
+      admin: {
+        description: 'Tautan profil LinkedIn untuk pengurus.',
+      },
+    },
   ],
 }

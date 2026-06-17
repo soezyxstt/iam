@@ -11,6 +11,7 @@ export type OrgMember = {
   memberType: 'main' | 'advisory' | 'expert'
   treeLevel?: number | null
   order?: number | null
+  linkedIn?: string | null
 }
 
 type Props = {
@@ -88,7 +89,20 @@ export function KepengurusanBoard({ members }: Props) {
                     <dt className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-red">
                       {member.position}
                     </dt>
-                    <dd className="text-brand-dark font-medium">{member.name}</dd>
+                    <dd className="text-brand-dark font-medium">
+                      {member.linkedIn ? (
+                        <a
+                          href={member.linkedIn}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-brand-red hover:underline transition-colors duration-200"
+                        >
+                          {member.name}
+                        </a>
+                      ) : (
+                        member.name
+                      )}
+                    </dd>
                   </div>
                 ))}
               </div>
@@ -99,7 +113,20 @@ export function KepengurusanBoard({ members }: Props) {
                 </dt>
                 <dd className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3">
                   {currentList.map((member) => (
-                    <span key={member.id} className="font-medium text-brand-dark">{member.name}</span>
+                    <span key={member.id} className="font-medium text-brand-dark">
+                      {member.linkedIn ? (
+                        <a
+                          href={member.linkedIn}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-brand-red hover:underline transition-colors duration-200"
+                        >
+                          {member.name}
+                        </a>
+                      ) : (
+                        member.name
+                      )}
+                    </span>
                   ))}
                 </dd>
               </div>

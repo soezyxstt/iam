@@ -1211,6 +1211,10 @@ export interface OrgMember {
    * Urutan tampil dalam level/tipe yang sama. Angka lebih kecil = lebih kiri/atas.
    */
   order?: number | null;
+  /**
+   * Tautan profil LinkedIn untuk pengurus.
+   */
+  linkedIn?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2046,6 +2050,7 @@ export interface OrgMembersSelect<T extends boolean = true> {
   memberType?: T;
   treeLevel?: T;
   order?: T;
+  linkedIn?: T;
   updatedAt?: T;
   createdAt?: T;
 }

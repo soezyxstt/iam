@@ -12,6 +12,7 @@ import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
 import { Eyebrow, Heading, Text } from '@/components/ui/typography'
 import RichText from '@/components/RichText'
+import { cn } from '@/utilities/ui'
 
 import { KepengurusanBoard, type OrgMember } from './KepengurusanBoard'
 
@@ -37,10 +38,12 @@ const OrgNode = ({
   role,
   name,
   customInitials,
+  linkedIn,
 }: {
   role: string
   name?: string
   customInitials?: string
+  linkedIn?: string | null
 }) => {
   const initials =
     customInitials ||
@@ -51,17 +54,39 @@ const OrgNode = ({
     <div className="flex flex-col items-center relative z-10 group shrink-0">
       <div className="relative mb-2 shrink-0">
         <div className="absolute -inset-0.5 rounded-full bg-brand-gold/40 opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 blur-[2px]" />
-        <div className="relative flex size-12 items-center justify-center rounded-full border border-brand-gold/60 bg-brand-dark font-display text-xs font-bold tracking-wider text-brand-gold shadow-md">
-          {initials}
-        </div>
+        {linkedIn ? (
+          <a
+            href={linkedIn}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative flex size-12 items-center justify-center rounded-full border border-brand-gold/60 bg-brand-dark font-display text-xs font-bold tracking-wider text-brand-gold shadow-md hover:border-brand-gold hover:text-white transition-all duration-300"
+          >
+            {initials}
+          </a>
+        ) : (
+          <div className="relative flex size-12 items-center justify-center rounded-full border border-brand-gold/60 bg-brand-dark font-display text-xs font-bold tracking-wider text-brand-gold shadow-md">
+            {initials}
+          </div>
+        )}
       </div>
       <span className="font-display text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] text-brand-gold text-center leading-tight">
         {role}
       </span>
       {name && (
-        <span className="font-sans text-[13px] font-medium text-white mt-1 text-center w-[120px] leading-snug">
-          {name}
-        </span>
+        linkedIn ? (
+          <a
+            href={linkedIn}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-sans text-[13px] font-medium text-white mt-1 text-center w-[120px] leading-snug hover:text-brand-gold hover:underline transition-colors duration-200"
+          >
+            {name}
+          </a>
+        ) : (
+          <span className="font-sans text-[13px] font-medium text-white mt-1 text-center w-[120px] leading-snug">
+            {name}
+          </span>
+        )
       )}
     </div>
   )
@@ -370,7 +395,7 @@ export default async function OrganisasiPage() {
 
                   {/* ② KU tetap di tengah; Pakar absolute agar tidak menggeser KU */}
                   <div className="relative flex justify-center">
-                    <OrgNode role="Ketua Umum" name={ketuaUmum?.name} />
+                    <OrgNode role="Ketua Umum" name={ketuaUmum?.name} linkedIn={ketuaUmum?.linkedIn} />
                     {expertMembers.length > 0 && (
                       <div className="absolute left-full top-1/2 -translate-y-1/2 flex items-center pl-2">
                         <HorizLine w="w-14" />
@@ -394,17 +419,29 @@ export default async function OrganisasiPage() {
                     {level2.length > 0 && (
                       <div className="grid grid-cols-[1fr_2px_1fr]">
                         <div className="flex items-center justify-end gap-0 py-8">
-                          {level2[0] && <OrgNode role={level2[0].position ?? ''} name={level2[0].name} />}
+                          {level2[0] && (
+                            <OrgNode
+                              role={level2[0].position ?? ''}
+                              name={level2[0].name}
+                              linkedIn={level2[0].linkedIn}
+                            />
+                          )}
                           <div className="h-px w-10 bg-white/20 shrink-0" />
                         </div>
                         <div className="bg-white/20" />
                         <div className="flex items-center justify-start gap-0 py-8">
                           <div className="h-px w-10 bg-white/20 shrink-0" />
-                          {level2[1] && <OrgNode role={level2[1].position ?? ''} name={level2[1].name} />}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                          {level2[1] && (
+                            <OrgNode
+                              role={level2[1].position ?? ''}
+                              name={level2[1].name}
+                              linkedIn={level2[1].linkedIn}
+                            />
+                          )}
+                         </div>
+                       </div>
+                     )}
+                   </div>
 
                   {/* Row B — WKU: trunk → kanan (horisontal) → bawah (vertikal) → WKU I → fan ke III (kiri) dan II (kanan)
                       Semua 3 WKU selevel. Connector: w-full dengan flex-1/flex-1 split sehingga garis horisontal
@@ -421,8 +458,8 @@ export default async function OrganisasiPage() {
                       <div className="flex flex-col items-center py-10">
                         {/* Horisontal dari trunk (left edge) ke WKU I center (50% cell) */}
                         <div className="w-full flex">
-                          <div className="flex-1 h-px bg-white/20" />
-                          <div className="flex-1" />
+                           <div className="flex-1 h-px bg-white/20" />
+                           <div className="flex-1" />
                         </div>
                         {/* Vertikal turun ke bar fan-out */}
                         <div className="w-px h-8 bg-white/20" />
@@ -432,7 +469,7 @@ export default async function OrganisasiPage() {
                           {[level3[2], level3[0], level3[1]].filter(Boolean).map((m) => (
                             <div key={m!.id} className="flex flex-col items-center w-24">
                               <VertLine h="h-4" />
-                              <OrgNode role={m!.position ?? ''} name={m!.name} />
+                              <OrgNode role={m!.position ?? ''} name={m!.name} linkedIn={m!.linkedIn} />
                             </div>
                           ))}
                         </div>
@@ -454,7 +491,7 @@ export default async function OrganisasiPage() {
                         {level4.map((m) => (
                           <div key={m.id} className="flex flex-col items-center w-32">
                             <VertLine h="h-4" />
-                            <OrgNode role={m.position ?? ''} name={m.name} />
+                            <OrgNode role={m.position ?? ''} name={m.name} linkedIn={m.linkedIn} />
                           </div>
                         ))}
                       </div>
@@ -500,30 +537,54 @@ export default async function OrganisasiPage() {
           </ScrollReveal>
 
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-12 sm:gap-x-10 sm:gap-y-14">
-            {mainTeam.map((member) => (
-              <ScrollReveal
-                key={member.id}
-                className="w-full sm:w-[calc(50%-20px)] lg:w-[calc(25%-30px)] max-w-[280px]"
-              >
-                <div className="group block cursor-default">
-                  <div className="relative aspect-3/4 overflow-hidden rounded-2xl bg-brand-khaki shadow-md">
-                    <Image
-                      src={memberAvatarUrl(member)}
-                      alt={member.name}
-                      fill
-                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                  </div>
-                  <div className="mt-4 transition-transform duration-500 ease-out group-hover:-translate-y-1 text-center md:text-left">
-                    <Heading level={4} className="text-lg">{member.name}</Heading>
-                    <Eyebrow tone="red" className="mt-1 text-[10px] tracking-[0.2em] block">
-                      {member.position}
-                    </Eyebrow>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
+            {mainTeam.map((member) => {
+              const isLink = !!member.linkedIn
+              const Tag = isLink ? 'a' : 'div'
+              return (
+                <ScrollReveal
+                  key={member.id}
+                  className="w-full sm:w-[calc(50%-20px)] lg:w-[calc(25%-30px)] max-w-[280px]"
+                >
+                  <Tag
+                    {...(isLink
+                      ? {
+                          href: member.linkedIn!,
+                          target: '_blank',
+                          rel: 'noopener noreferrer',
+                        }
+                      : {})}
+                    className={cn(
+                      'group block transition-transform duration-500 ease-out',
+                      isLink ? 'cursor-pointer hover:-translate-y-1' : 'cursor-default',
+                    )}
+                  >
+                    <div className="relative aspect-3/4 overflow-hidden rounded-2xl bg-brand-khaki shadow-md">
+                      <Image
+                        src={memberAvatarUrl(member)}
+                        alt={member.name}
+                        fill
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                    </div>
+                    <div className="mt-4 text-center md:text-left">
+                      <Heading
+                        level={4}
+                        className={cn(
+                          'text-lg font-bold',
+                          isLink && 'group-hover:text-brand-red transition-colors duration-200',
+                        )}
+                      >
+                        {member.name}
+                      </Heading>
+                      <Eyebrow tone="red" className="mt-1 text-[10px] tracking-[0.2em] block">
+                        {member.position}
+                      </Eyebrow>
+                    </div>
+                  </Tag>
+                </ScrollReveal>
+              )
+            })}
           </div>
         </Section>
       )}
