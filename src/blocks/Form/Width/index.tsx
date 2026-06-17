@@ -6,7 +6,12 @@ export const Width: React.FC<{
   width?: number | string
 }> = ({ children, className, width }) => {
   return (
-    <div className={className} style={{ maxWidth: width ? `${width}%` : undefined }}>
+    <div
+      className={`px-2 w-full flex-shrink-0 md:[width:var(--field-width)] md:[flex-basis:var(--field-width)] md:[max-width:var(--field-width)] ${className || ''}`}
+      style={{
+        '--field-width': width ? `${width}%` : '100%',
+      } as React.CSSProperties}
+    >
       {children}
     </div>
   )

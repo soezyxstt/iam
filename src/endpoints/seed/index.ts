@@ -412,34 +412,29 @@ export const seed = async ({
     payload.updateGlobal({
       slug: 'footer',
       data: {
-        navItems: [
+        logoText: 'IAM\nITB',
+        socialLinks: [
           {
-            link: {
-              type: 'custom',
-              label: 'Admin',
-              url: '/admin',
-            },
+            platform: 'instagram',
+            url: 'https://instagram.com/iamitb',
+            ariaLabel: 'Instagram IAM ITB',
           },
           {
-            link: {
-              type: 'custom',
-              label: 'Source Code',
-              newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
-            },
+            platform: 'whatsapp',
+            url: 'https://wa.me/iamitb',
+            ariaLabel: 'WhatsApp IAM ITB',
           },
           {
-            link: {
-              type: 'custom',
-              label: 'Payload',
-              newTab: true,
-              url: 'https://payloadcms.com/',
-            },
+            platform: 'facebook',
+            url: 'https://facebook.com/iamitb',
+            ariaLabel: 'Facebook IAM ITB',
           },
         ],
+        copyrightText: 'IAM ITB. Hak Cipta Dilindungi.',
       },
       context: { disableRevalidate: true },
     }),
+
   ])
 
   payload.logger.info('Seeded database successfully!')

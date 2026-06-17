@@ -38,14 +38,14 @@ export const usahaAlumniForm: RequiredDataFromCollectionSlug<'forms'> = {
     {
       name: 'ownerName',
       blockType: 'text',
-      label: 'Pemilik usaha',
+      label: 'Pemilik Usaha',
       required: true,
       width: 100,
     },
     {
       name: 'businessName',
       blockType: 'text',
-      label: 'Nama usaha',
+      label: 'Nama Usaha',
       required: true,
       width: 100,
     },
@@ -66,7 +66,7 @@ export const usahaAlumniForm: RequiredDataFromCollectionSlug<'forms'> = {
     {
       name: 'description',
       blockType: 'textarea',
-      label: 'Narasi / deskripsi',
+      label: 'Narasi/Deskripsi Usaha',
       required: true,
       width: 100,
     },
@@ -87,7 +87,7 @@ export const usahaAlumniForm: RequiredDataFromCollectionSlug<'forms'> = {
     {
       name: 'phoneNumber',
       blockType: 'text',
-      label: 'Nomor telepon',
+      label: 'No. Telepon',
       required: true,
       width: 50,
     },
@@ -101,14 +101,14 @@ export const usahaAlumniForm: RequiredDataFromCollectionSlug<'forms'> = {
     {
       name: 'website',
       blockType: 'text',
-      label: 'Website',
+      label: 'Link Resmi Usaha (Website)',
       required: false,
       width: 50,
     },
     {
       name: 'instagram',
       blockType: 'text',
-      label: 'Instagram',
+      label: 'Link Resmi Usaha (Instagram) (Opsional)',
       required: false,
       width: 50,
     },

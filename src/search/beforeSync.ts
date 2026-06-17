@@ -5,21 +5,45 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
     doc: { relationTo: collection },
   } = searchDoc
 
-  const { slug, id, categories, title, meta } = originalDoc
+  const { slug, id, categories } = originalDoc
+
+  // Dynamic mapping based on collection type
+  let docTitle = originalDoc.title
+  let docDescription = originalDoc.meta?.description
+  let docImage = originalDoc.meta?.image?.id || originalDoc.meta?.image || originalDoc.heroImage?.id || originalDoc.heroImage
+
+  if (collection === 'jobVacancies') {
+    docTitle = originalDoc.position
+    docDescription = [originalDoc.companyName, originalDoc.location].filter(Boolean).join(' - ')
+    docImage = originalDoc.coverImage?.id || originalDoc.coverImage || originalDoc.companyLogo?.id || originalDoc.companyLogo
+  } else if (collection === 'alumniBusinesses') {
+    docTitle = originalDoc.businessName
+    docDescription = originalDoc.description
+    docImage = originalDoc.coverImage?.id || originalDoc.coverImage
+  } else if (collection === 'activities') {
+    docTitle = originalDoc.activityName
+    docDescription = originalDoc.excerpt
+    docImage = originalDoc.heroImage?.id || originalDoc.heroImage
+  } else if (collection === 'communities') {
+    docTitle = originalDoc.communityName
+    docDescription = originalDoc.shortDescription
+    docImage = originalDoc.logo?.id || originalDoc.logo || originalDoc.heroImage?.id || originalDoc.heroImage
+  }
 
   const modifiedDoc: DocToSync = {
     ...searchDoc,
+    title: docTitle,
     slug,
     meta: {
-      ...meta,
-      title: meta?.title || title,
-      image: meta?.image?.id || meta?.image,
-      description: meta?.description,
+      title: docTitle,
+      image: docImage,
+      description: docDescription,
     },
     categories: [],
   }
 
-  if (categories && Array.isArray(categories) && categories.length > 0) {
+  // Categories are only synced for the 'posts' collection
+  if (collection === 'posts' && categories && Array.isArray(categories) && categories.length > 0) {
     const populatedCategories: { id: string | number; title: string }[] = []
     for (const category of categories) {
       if (!category) {

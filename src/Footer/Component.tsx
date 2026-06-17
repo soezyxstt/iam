@@ -1,9 +1,46 @@
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
+import { getCachedGlobal } from '@/utilities/getGlobals'
+import type { Footer as FooterType, Media } from '@/payload-types'
 
 export async function Footer() {
   const currentYear = new Date().getFullYear()
+  const footerData: FooterType = await getCachedGlobal('footer', 1)()
+
+  // 1. Logo image path or object
+  let logoSrc = '/logo.png'
+  let logoAlt = 'Logo IAM ITB'
+  let logoWidth = 90
+  let logoHeight = 90
+
+  if (footerData?.logo && typeof footerData.logo === 'object') {
+    const mediaLogo = footerData.logo as Media
+    if (mediaLogo.url) {
+      logoSrc = mediaLogo.url
+      logoAlt = mediaLogo.alt || 'Logo IAM ITB'
+      logoWidth = mediaLogo.width || 90
+      logoHeight = mediaLogo.height || 90
+    }
+  }
+
+  // 2. Logo text lines
+  const logoText = footerData?.logoText || 'IAM\nITB'
+  const logoTextLines = logoText.split('\n')
+
+  // 3. Copyright text
+  const copyrightText = footerData?.copyrightText || 'IAM ITB. Hak Cipta Dilindungi.'
+
+  // 4. Social links list (if not configured, use default fallback links)
+  const defaultSocialLinks = [
+    { platform: 'instagram', url: 'https://instagram.com/iamitb', ariaLabel: 'Instagram IAM ITB' },
+    { platform: 'whatsapp', url: 'https://wa.me/iamitb', ariaLabel: 'WhatsApp IAM ITB' },
+    { platform: 'facebook', url: 'https://facebook.com/iamitb', ariaLabel: 'Facebook IAM ITB' },
+  ] as const
+
+  const socialLinks = footerData?.socialLinks && footerData.socialLinks.length > 0
+    ? footerData.socialLinks
+    : defaultSocialLinks
 
   return (
     <footer className="relative isolate w-full bg-brand-dark">
@@ -12,60 +49,47 @@ export async function Footer() {
           {/* Left: Logo + name */}
           <Link href="/" className="group flex items-center gap-4" aria-label="IAM ITB – Beranda">
             <Image
-              src="/logo.png"
-              alt="Logo IAM ITB"
-              width={90}
-              height={90}
-              className="object-contain"
+              src={logoSrc}
+              alt={logoAlt}
+              width={logoWidth}
+              height={logoHeight}
+              className="object-contain max-h-[90px] w-auto"
             />
             <span className="font-serif font-bold text-4xl md:text-5xl leading-none text-white tracking-tight">
-              IAM
-              <br />
-              ITB
+              {logoTextLines.map((line, idx) => (
+                <React.Fragment key={idx}>
+                  {line}
+                  {idx < logoTextLines.length - 1 && <br />}
+                </React.Fragment>
+              ))}
             </span>
           </Link>
 
           {/* Right: Social icons & Copyright */}
           <div className="flex h-full w-full flex-col items-center justify-center md:w-auto md:items-end">
             <div className="flex items-center gap-10 md:gap-14 mb-4">
-              {/* Instagram */}
-              <a
-                href="https://instagram.com/iamitb"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/70 hover:text-brand-gold transition-colors duration-200"
-                aria-label="Instagram IAM ITB"
-              >
-                <InstagramIcon />
-              </a>
-
-              {/* WhatsApp */}
-              <a
-                href="https://wa.me/iamitb"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/70 hover:text-brand-gold transition-colors duration-200"
-                aria-label="WhatsApp IAM ITB"
-              >
-                <WhatsAppIcon />
-              </a>
-
-              {/* Facebook */}
-              <a
-                href="https://facebook.com/iamitb"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/70 hover:text-brand-gold transition-colors duration-200"
-                aria-label="Facebook IAM ITB"
-              >
-                <FacebookIcon />
-              </a>
+              {socialLinks.map((linkItem, idx) => {
+                const Icon = getSocialIcon(linkItem.platform)
+                if (!Icon) return null
+                return (
+                  <a
+                    key={idx}
+                    href={linkItem.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/70 hover:text-brand-gold transition-colors duration-200"
+                    aria-label={linkItem.ariaLabel || `${linkItem.platform} IAM ITB`}
+                  >
+                    <Icon />
+                  </a>
+                )
+              })}
             </div>
 
             {/* Divider and copyright */}
             <div className="flex flex-col md:items-end items-center w-full md:w-80 pt-4 border-t border-white/10 mt-auto">
               <p className="text-[10px] md:text-xs text-white/60 font-sans tracking-wide">
-                © {currentYear} IAM ITB. Hak Cipta Dilindungi.
+                © {currentYear} {copyrightText}
               </p>
             </div>
           </div>
@@ -75,7 +99,27 @@ export async function Footer() {
   )
 }
 
-// --------------- Icon Components ---------------
+// --------------- Icon Helper & Components ---------------
+
+function getSocialIcon(platform: string) {
+  switch (platform.toLowerCase()) {
+    case 'instagram':
+      return InstagramIcon
+    case 'whatsapp':
+      return WhatsAppIcon
+    case 'facebook':
+      return FacebookIcon
+    case 'linkedin':
+      return LinkedInIcon
+    case 'youtube':
+      return YouTubeIcon
+    case 'twitter':
+    case 'x':
+      return TwitterIcon
+    default:
+      return null
+  }
+}
 
 function InstagramIcon() {
   return (
@@ -127,3 +171,49 @@ function FacebookIcon() {
     </svg>
   )
 }
+
+function LinkedInIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M22.23 0H1.77C.8 0 0 .77 0 1.72v20.56C0 23.23.8 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.2 0 22.23 0zM7.12 20.45H3.56V9H7.12v11.45zM5.34 7.43c-1.14 0-2.06-.92-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.92 2.06 2.06 0 1.14-.92 2.06-2.06 2.06zm15.11 13.02h-3.56v-5.6c0-1.34-.03-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95v5.7h-3.56V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29z" />
+    </svg>
+  )
+}
+
+function YouTubeIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  )
+}
+
+function TwitterIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
+}
+

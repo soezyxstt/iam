@@ -78,12 +78,12 @@ const OrgNode = ({
             href={linkedIn}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-sans text-[13px] font-medium text-white mt-1 text-center w-[120px] leading-snug hover:text-brand-gold hover:underline transition-colors duration-200"
+            className="font-sans text-[13px] font-medium text-white mt-1 text-center w-[140px] leading-snug hover:text-brand-gold hover:underline transition-colors duration-200"
           >
             {name}
           </a>
         ) : (
-          <span className="font-sans text-[13px] font-medium text-white mt-1 text-center w-[120px] leading-snug">
+          <span className="font-sans text-[13px] font-medium text-white mt-1 text-center w-[140px] leading-snug">
             {name}
           </span>
         )
@@ -178,6 +178,8 @@ export default async function OrganisasiPage() {
   const level3 = mainByLevel(3)
   const level4 = mainByLevel(4)
   const ketuaUmum = level1[0]
+  const displayChairName = ketuaUmum?.name ?? currentChairman?.name ?? '—'
+  const displayChairPhotoUrl = (ketuaUmum ? memberPhotoUrl(ketuaUmum) : null) ?? chairPortrait?.url
 
   return (
     <PageShell>
@@ -199,10 +201,10 @@ export default async function OrganisasiPage() {
                   aria-hidden
                 />
                 <div className="relative aspect-4/5 w-full overflow-hidden rounded-md border border-brand-primary shadow-lg bg-brand-primary/5">
-                  {chairPortrait?.url ? (
+                  {displayChairPhotoUrl ? (
                     <Image
-                      src={chairPortrait.url}
-                      alt={currentChairman?.name ?? 'Ketua IAM ITB'}
+                      src={displayChairPhotoUrl}
+                      alt={displayChairName}
                       fill
                       className="object-cover transition-transform duration-500 hover:scale-105"
                       sizes="(max-width: 640px) 200px, 220px"
@@ -211,7 +213,7 @@ export default async function OrganisasiPage() {
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-brand-primary/10">
                       <span className="font-display text-4xl font-bold text-brand-primary/30">
-                        {currentChairman?.name?.charAt(0) ?? 'K'}
+                        {displayChairName.charAt(0)}
                       </span>
                     </div>
                   )}
@@ -221,7 +223,7 @@ export default async function OrganisasiPage() {
                     tone="strong"
                     className="font-serif text-xl font-bold tracking-tight sm:text-[1.35rem]"
                   >
-                    {currentChairman?.name ?? '—'}
+                    {displayChairName}
                   </Text>
                   <Eyebrow tone="muted" className="mt-2 tracking-[0.2em]">
                     Ketua IAM ITB
@@ -383,7 +385,7 @@ export default async function OrganisasiPage() {
               </div>
 
               <div className="w-full overflow-x-auto pb-6 [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded [&::-webkit-scrollbar-thumb]:bg-white/10">
-                <div className="min-w-[900px] flex flex-col items-center">
+                <div className="min-w-[1000px] flex flex-col items-center">
 
                   {/* ① Penasihat */}
                   <OrgNode
@@ -412,10 +414,10 @@ export default async function OrganisasiPage() {
                     ③ Staf samping — grid 3 kolom: [kiri | 2px batang | kanan]
                        Batang lebar 2px di tengah; item kiri/kanan pakai items-center
                        agar garis horizontal (h-px) sejajar dengan pusat node.
-                       Container fixed 640px → pusat batang = 320px = pusat flex column.
+                       Container fixed 960px → pusat batang = 480px = pusat flex column.
                   */}
                   {/* Row A — SekJen | trunk | Bendahara */}
-                  <div style={{ width: '640px' }}>
+                  <div style={{ width: '960px' }}>
                     {level2.length > 0 && (
                       <div className="grid grid-cols-[1fr_2px_1fr]">
                         <div className="flex items-center justify-end gap-0 py-8">
@@ -446,10 +448,10 @@ export default async function OrganisasiPage() {
                   {/* Row B — WKU: trunk → kanan (horisontal) → bawah (vertikal) → WKU I → fan ke III (kiri) dan II (kanan)
                       Semua 3 WKU selevel. Connector: w-full dengan flex-1/flex-1 split sehingga garis horisontal
                       hanya di kiri-cell dan berakhir tepat di WKU I (center right-cell via items-center).
-                      Node width w-24 (96px) gap-3 (12px): 3×96+2×12=312px < 319px right-cell ✓
-                      inset-x-12 (48px = w-24/2): bar dari WKU III center ke WKU II center ✓ */}
+                      Node width w-32 (128px) gap-8 (32px): 3×128+2×32=448px < 479px right-cell ✓
+                      inset-x-16 (64px = w-32/2): bar dari WKU III center ke WKU II center ✓ */}
                   {level3.length > 0 && (
-                    <div className="grid grid-cols-[1fr_2px_1fr]" style={{ width: '640px' }}>
+                    <div className="grid grid-cols-[1fr_2px_1fr]" style={{ width: '960px' }}>
                       {/* Kiri: kosong, trunk lewat */}
                       <div className="py-10" />
                       {/* Trunk */}
@@ -464,10 +466,10 @@ export default async function OrganisasiPage() {
                         {/* Vertikal turun ke bar fan-out */}
                         <div className="w-px h-8 bg-white/20" />
                         {/* Fan-out: WKU III kiri | WKU I tengah | WKU II kanan — selevel */}
-                        <div className="relative inline-flex items-start gap-3">
-                          <div className="absolute top-0 inset-x-12 h-px bg-white/20" />
+                        <div className="relative inline-flex items-start gap-8">
+                          <div className="absolute top-0 inset-x-16 h-px bg-white/20" />
                           {[level3[2], level3[0], level3[1]].filter(Boolean).map((m) => (
-                            <div key={m!.id} className="flex flex-col items-center w-24">
+                            <div key={m!.id} className="flex flex-col items-center w-32">
                               <VertLine h="h-4" />
                               <OrgNode role={m!.position ?? ''} name={m!.name} linkedIn={m!.linkedIn} />
                             </div>

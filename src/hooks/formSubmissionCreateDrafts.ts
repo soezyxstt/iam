@@ -75,6 +75,18 @@ export const formSubmissionCreateDrafts: CollectionAfterChangeHook<FormSubmissio
       employmentSafe = 'full_time'
     }
 
+    const workSetup = pick(doc.submissionData, 'workSetup')
+    const allowedSetup = ['on_site', 'hybrid', 'remote'] as const
+    const workSetupSafe = allowedSetup.includes(workSetup as (typeof allowedSetup)[number])
+      ? (workSetup as (typeof allowedSetup)[number])
+      : undefined
+
+    const experienceLevel = pick(doc.submissionData, 'experienceLevel')
+    const allowedExp = ['entry', 'mid', 'senior', 'executive'] as const
+    const experienceSafe = allowedExp.includes(experienceLevel as (typeof allowedExp)[number])
+      ? (experienceLevel as (typeof allowedExp)[number])
+      : undefined
+
     await req.payload.create({
       collection: 'jobVacancies',
       req,
@@ -83,6 +95,11 @@ export const formSubmissionCreateDrafts: CollectionAfterChangeHook<FormSubmissio
         _status: 'draft',
         position: pick(doc.submissionData, 'position'),
         companyName: pick(doc.submissionData, 'companyName'),
+        location: pick(doc.submissionData, 'location') || undefined,
+        workSetup: workSetupSafe,
+        experienceLevel: experienceSafe,
+        salaryRange: pick(doc.submissionData, 'salaryRange') || undefined,
+        contactWhatsApp: pick(doc.submissionData, 'contactWhatsApp') || undefined,
         employmentType: employmentSafe,
         vacancyStatus: 'open',
         jobDescription: plainTextToLexicalRoot(pick(doc.submissionData, 'jobDescription')) as NonNullable<JobVacancy['jobDescription']>,

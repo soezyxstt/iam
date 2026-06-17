@@ -45,9 +45,23 @@ export const LowonganKerja: CollectionConfig = {
       relationTo: 'media',
     },
     {
+      name: 'coverImage',
+      label: 'Gambar Sampul Detail Lowongan',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
       name: 'location',
       label: 'Lokasi',
       type: 'text',
+    },
+    {
+      name: 'category',
+      label: 'Kategori/Bidang Pekerjaan',
+      type: 'text',
+      admin: {
+        placeholder: 'Contoh: Pengajaran – Pendidikan Dasar (Pendidikan & Pelatihan)',
+      },
     },
     {
       name: 'workSetup',
@@ -68,6 +82,8 @@ export const LowonganKerja: CollectionConfig = {
         { label: 'Kerja Praktik (KP)', value: 'kp' },
         { label: 'Magang (Internship)', value: 'magang' },
         { label: 'Full Time', value: 'full_time' },
+        { label: 'Part Time', value: 'part_time' },
+        { label: 'Kontrak/Temporer', value: 'kontrak' },
       ],
       required: true,
     },
@@ -97,9 +113,41 @@ export const LowonganKerja: CollectionConfig = {
       type: 'richText',
     },
     {
+      name: 'screeningQuestions',
+      label: 'Pertanyaan Penyaringan (Opsional)',
+      type: 'array',
+      admin: {
+        description: 'Daftar pertanyaan dari perusahaan yang akan ditampilkan di detail lowongan',
+      },
+      fields: [
+        {
+          name: 'question',
+          label: 'Pertanyaan',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
       name: 'benefits',
       label: 'Manfaat & Keuntungan (Opsional)',
       type: 'richText',
+    },
+    {
+      name: 'keyBenefits',
+      label: 'Manfaat Utama (Ditampilkan di Kartu - Maksimal 3)',
+      type: 'array',
+      admin: {
+        description: 'Manfaat singkat (bullet points) untuk ditampilkan pada ringkasan kartu lowongan',
+      },
+      fields: [
+        {
+          name: 'benefit',
+          label: 'Manfaat',
+          type: 'text',
+          required: true,
+        },
+      ],
     },
     {
       name: 'contactWhatsApp',

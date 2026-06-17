@@ -1,6 +1,5 @@
 import type { GlobalConfig } from 'payload'
 
-import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
 export const Footer: GlobalConfig = {
@@ -13,14 +12,51 @@ export const Footer: GlobalConfig = {
   },
   fields: [
     {
-      name: 'navItems',
+      name: 'logo',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Logo',
+    },
+    {
+      name: 'logoText',
+      type: 'textarea',
+      label: 'Teks Logo',
+      defaultValue: 'IAM\nITB',
+      admin: {
+        description: 'Teks di samping logo, gunakan baris baru untuk memisahkan baris.',
+      },
+    },
+    {
+      name: 'socialLinks',
       type: 'array',
+      label: 'Tautan Media Sosial',
       fields: [
-        link({
-          appearances: false,
-        }),
+        {
+          name: 'platform',
+          type: 'select',
+          label: 'Platform',
+          required: true,
+          options: [
+            { label: 'Instagram', value: 'instagram' },
+            { label: 'WhatsApp', value: 'whatsapp' },
+            { label: 'Facebook', value: 'facebook' },
+            { label: 'LinkedIn', value: 'linkedin' },
+            { label: 'YouTube', value: 'youtube' },
+            { label: 'X / Twitter', value: 'twitter' },
+          ],
+        },
+        {
+          name: 'url',
+          type: 'text',
+          label: 'URL Tautan',
+          required: true,
+        },
+        {
+          name: 'ariaLabel',
+          type: 'text',
+          label: 'Aria Label (Aksesibilitas)',
+        },
       ],
-      maxRows: 6,
       admin: {
         initCollapsed: true,
         components: {
@@ -28,8 +64,18 @@ export const Footer: GlobalConfig = {
         },
       },
     },
+    {
+      name: 'copyrightText',
+      type: 'text',
+      label: 'Teks Hak Cipta',
+      defaultValue: 'IAM ITB. Hak Cipta Dilindungi.',
+      admin: {
+        description: 'Teks hak cipta (Tahun dan simbol hak cipta © ditambahkan secara otomatis).',
+      },
+    },
   ],
   hooks: {
     afterChange: [revalidateFooter],
   },
 }
+

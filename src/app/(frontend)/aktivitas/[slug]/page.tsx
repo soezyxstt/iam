@@ -4,6 +4,8 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
@@ -84,9 +86,13 @@ export default async function AktivitasDetailPage({ params }: PageProps) {
       <Section className="z-10 pb-10 pt-3 md:pb-14 md:pt-4">
         <ScrollReveal>
           <div className="mb-6 flex justify-start">
-            <Button href="/aktivitas" variant="outline" size="sm" className="border-brand-dark/25">
-              ← Kembali ke Aktivitas
-            </Button>
+            <Link
+              href="/aktivitas"
+              className="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.2em] text-brand-dark/65 hover:text-brand-red transition-colors group"
+            >
+              <ArrowLeft className="size-3.5 translate-x-0 group-hover:-translate-x-1 transition-transform" />
+              Kembali ke Aktivitas
+            </Link>
           </div>
           <PageHeroHeader
             title={activity.activityName}

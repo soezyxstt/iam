@@ -83,12 +83,29 @@ async function getSponsors(): Promise<Sponsor[]> {
 }
 
 
-const IAM_MOMENTS = [
-  { label: 'Yellboys dan\nSolidarity Forever', slug: 'yellboys-solidarity-forever' },
-  { label: 'Genggam\nMesin', slug: 'genggam-mesin' },
-  { label: 'September M', slug: 'september-m' },
-  { label: 'Lagu HMM\nJerusalem', slug: null },
-]
+interface ValuesPhilosophyDoc {
+  title: string
+  slug?: string | null
+  displayCategory: 'card' | 'banner'
+  cardLabel: string
+  isComingSoon?: boolean | null
+  order?: number | null
+}
+
+async function getValuesPhilosophy(): Promise<ValuesPhilosophyDoc[]> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'values-philosophy',
+      sort: 'order',
+      depth: 1,
+      overrideAccess: false,
+    })
+    return result.docs as any[]
+  } catch {
+    return []
+  }
+}
 
 const AKTIVITAS_FALLBACK = [
   {
@@ -118,10 +135,11 @@ const BERITA_PLACEHOLDER = [
 
 
 export default async function HomePage() {
-  const [beritaList, sponsors, aktivitasList] = await Promise.all([
+  const [beritaList, sponsors, aktivitasList, valuesPhilosophyList] = await Promise.all([
     getLatestBerita(),
     getSponsors(),
     getLatestAktivitas(),
+    getValuesPhilosophy(),
   ])
 
   const programStackImages = aktivitasList
@@ -233,34 +251,45 @@ export default async function HomePage() {
 
           <div className="mt-8 border-t border-white/8 pt-6">
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {IAM_MOMENTS.map((moment, idx) =>
-                moment.slug ? (
+              {valuesPhilosophyList.map((moment, idx) => {
+                const isBanner = moment.displayCategory === 'banner'
+                const gridClasses = isBanner
+                  ? 'col-span-2 md:col-span-4 h-24 flex-row items-center justify-between px-8 text-left'
+                  : 'col-span-1 h-20 flex-col items-center justify-center px-4 text-center'
+
+                return !moment.isComingSoon && moment.slug ? (
                   <Link
                     key={idx}
                     href={`/seputar-kami/${moment.slug}`}
-                    className="group glass-tag relative flex h-20 flex-col items-center justify-center gap-0 overflow-hidden rounded-lg border border-white/15 bg-white/6 px-4 text-center shadow-sm shadow-black/10 backdrop-blur-md transition-all duration-300 hover:border-brand-gold/40 hover:bg-brand-gold/8 cursor-pointer"
+                    className={`group glass-tag relative flex overflow-hidden rounded-lg border border-white/15 bg-white/6 gap-0 shadow-sm shadow-black/10 backdrop-blur-md transition-all duration-300 hover:border-brand-gold/40 hover:bg-brand-gold/8 cursor-pointer ${gridClasses}`}
                   >
-                    <span className="font-display text-xs font-semibold tracking-wider whitespace-pre-line text-white/90 capitalize leading-relaxed transition-all duration-300 group-hover:text-brand-gold group-hover:-translate-y-2">
-                      {moment.label}
+                    <span className={`font-display text-xs font-semibold tracking-wider whitespace-pre-line text-white/90 capitalize leading-relaxed transition-all duration-300 group-hover:text-brand-gold ${isBanner ? 'group-hover:translate-x-2' : 'group-hover:-translate-y-2'}`}>
+                      {moment.cardLabel}
                     </span>
-                    <span className="absolute bottom-2.5 left-0 right-0 text-center font-display text-[9px] tracking-widest uppercase text-brand-gold/70 opacity-0 translate-y-1.5 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                    <span className={isBanner
+                      ? "font-display text-xs tracking-widest uppercase text-brand-gold/70 opacity-80 transition-all duration-300 group-hover:translate-x-1"
+                      : "absolute bottom-2.5 left-0 right-0 text-center font-display text-[9px] tracking-widest uppercase text-brand-gold/70 opacity-0 translate-y-1.5 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0"
+                    }>
                       Baca &#8594;
                     </span>
                   </Link>
                 ) : (
                   <div
                     key={idx}
-                    className="glass-tag relative flex h-20 flex-col items-center justify-center rounded-lg border border-white/10 bg-white/4 px-4 text-center shadow-sm shadow-black/10 backdrop-blur-md opacity-50"
+                    className={`glass-tag relative flex rounded-lg border border-white/10 bg-white/4 shadow-sm shadow-black/10 backdrop-blur-md opacity-50 ${gridClasses}`}
                   >
                     <span className="font-display text-xs font-semibold tracking-wider whitespace-pre-line text-white/60 capitalize leading-relaxed">
-                      {moment.label}
+                      {moment.cardLabel}
                     </span>
-                    <span className="mt-1 font-display text-[9px] tracking-widest uppercase text-white/25">
+                    <span className={isBanner
+                      ? "font-display text-xs tracking-widest uppercase text-white/25"
+                      : "mt-1 font-display text-[9px] tracking-widest uppercase text-white/25"
+                    }>
                       Segera
                     </span>
                   </div>
                 )
-              )}
+              })}
             </div>
           </div>
         </GlassCard>

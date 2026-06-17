@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
-import { Eyebrow, Text } from '@/components/ui/typography'
+import { Eyebrow } from '@/components/ui/typography'
 import { cn } from '@/utilities/ui'
 import { EmptyState } from '@/components/ui/empty-state'
 
@@ -162,12 +162,7 @@ export default async function UsahaAlumniPage({
           <PageHeroHeader
             title="Profil Usaha Alumni"
             subtitle="Ikatan Alumni Mesin ITB"
-            description={
-              <Text className="text-[15px] leading-relaxed text-brand-light">
-                Temukan bisnis alumni Teknik Mesin ITB untuk kolaborasi, dukungan lokal, dan jaringan
-                profesional.
-              </Text>
-            }
+
           />
         </ScrollReveal>
       </Section>

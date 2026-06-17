@@ -83,6 +83,7 @@ export interface Config {
     communities: Community;
     alumniMembers: AlumniMember;
     orgMembers: OrgMember;
+    'values-philosophy': ValuesPhilosophy;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -116,6 +117,7 @@ export interface Config {
     communities: CommunitiesSelect<false> | CommunitiesSelect<true>;
     alumniMembers: AlumniMembersSelect<false> | AlumniMembersSelect<true>;
     orgMembers: OrgMembersSelect<false> | OrgMembersSelect<true>;
+    'values-philosophy': ValuesPhilosophySelect<false> | ValuesPhilosophySelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -895,9 +897,11 @@ export interface JobVacancy {
   position: string;
   companyName: string;
   companyLogo?: (number | null) | Media;
+  coverImage?: (number | null) | Media;
   location?: string | null;
+  category?: string | null;
   workSetup?: ('on_site' | 'hybrid' | 'remote') | null;
-  employmentType: 'kp' | 'magang' | 'full_time';
+  employmentType: 'kp' | 'magang' | 'full_time' | 'part_time' | 'kontrak';
   vacancyStatus: 'open' | 'closed';
   /**
    * Biarkan kosong jika tidak ada kuota spesifik
@@ -918,6 +922,15 @@ export interface JobVacancy {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Daftar pertanyaan dari perusahaan yang akan ditampilkan di detail lowongan
+   */
+  screeningQuestions?:
+    | {
+        question: string;
+        id?: string | null;
+      }[]
+    | null;
   benefits?: {
     root: {
       type: string;
@@ -933,6 +946,15 @@ export interface JobVacancy {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Manfaat singkat (bullet points) untuk ditampilkan pada ringkasan kartu lowongan
+   */
+  keyBenefits?:
+    | {
+        benefit: string;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Digunakan jika Tautan Resmi kosong. Gunakan kode negara, misal 62812...
    */
@@ -1220,6 +1242,205 @@ export interface OrgMember {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "values-philosophy".
+ */
+export interface ValuesPhilosophy {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  displayCategory: 'card' | 'banner';
+  /**
+   * Gunakan enter (\n) untuk baris baru pada teks kartu. Contoh: Genggam\nMesin
+   */
+  cardLabel: string;
+  isComingSoon?: boolean | null;
+  /**
+   * Semakin kecil nilainya, semakin awal ditampilkan.
+   */
+  order?: number | null;
+  detailsLayout: (HeroHeaderBlock | SplitContentBlock | DialogueBlock | PillarsBlock | ClosingBlock)[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroHeaderBlock".
+ */
+export interface HeroHeaderBlock {
+  eyebrow: string;
+  eyebrowStyle?: ('gold' | 'red-light' | 'white' | 'muted') | null;
+  title: string;
+  highlightText?: string | null;
+  highlightStyle?: ('gold' | 'gradient' | 'red-underline') | null;
+  author?: string | null;
+  intro: string;
+  introStyle?: ('default' | 'italic' | 'large-quote') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'heroHeader';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SplitContentBlock".
+ */
+export interface SplitContentBlock {
+  leftColumnType?: ('title' | 'info-list') | null;
+  leftTitleEyebrow?: string | null;
+  leftTitleEyebrowStyle?: ('gold' | 'red-light' | 'white') | null;
+  leftTitle?: string | null;
+  leftTitleHighlight?: string | null;
+  leftTitleHighlightStyle?: ('gold' | 'red-light') | null;
+  leftInfoItems?:
+    | {
+        eyebrow: string;
+        eyebrowStyle?: ('red-light' | 'gold' | 'white-muted') | null;
+        title: string;
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  bodyText: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'splitContent';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DialogueBlock".
+ */
+export interface DialogueBlock {
+  eyebrow: string;
+  eyebrowStyle?: ('red-light' | 'gold' | 'white') | null;
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  dialogueItems: {
+    speaker: string;
+    speakerColor?: ('red-light' | 'gold' | 'white-muted') | null;
+    speech: string;
+    speechColor?: ('white' | 'gold' | 'red-light') | null;
+    subtext?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'dialogue';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PillarsBlock".
+ */
+export interface PillarsBlock {
+  eyebrow: string;
+  eyebrowStyle?: ('gold' | 'red-light' | 'white') | null;
+  title: string;
+  displayStyle?: ('three-columns' | 'rows-with-left-meta') | null;
+  pillars: {
+    number: string;
+    numberStyle?: ('red-light' | 'gold' | 'white-muted') | null;
+    subLabel?: string | null;
+    subLabelStyle?: ('gold' | 'red-light' | 'white-muted') | null;
+    title: string;
+    body: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    subpoints?:
+      | {
+          emoji: string;
+          title: string;
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pillars';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ClosingBlock".
+ */
+export interface ClosingBlock {
+  eyebrow: string;
+  eyebrowStyle?: ('gold' | 'red-light' | 'white') | null;
+  title: string;
+  titleStyle?: ('accent' | 'inverse') | null;
+  quoteText?: string | null;
+  quoteStyle?: ('italic' | 'default') | null;
+  bodyText?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  links?:
+    | {
+        label: string;
+        url: string;
+        hoverColor?: ('gold' | 'red-light' | 'white') | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'closing';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1271,10 +1492,27 @@ export interface Search {
   id: number;
   title?: string | null;
   priority?: number | null;
-  doc: {
-    relationTo: 'posts';
-    value: number | Post;
-  };
+  doc:
+    | {
+        relationTo: 'posts';
+        value: number | Post;
+      }
+    | {
+        relationTo: 'jobVacancies';
+        value: number | JobVacancy;
+      }
+    | {
+        relationTo: 'alumniBusinesses';
+        value: number | AlumniBusiness;
+      }
+    | {
+        relationTo: 'activities';
+        value: number | Activity;
+      }
+    | {
+        relationTo: 'communities';
+        value: number | Community;
+      };
   slug?: string | null;
   meta?: {
     title?: string | null;
@@ -1471,6 +1709,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orgMembers';
         value: number | OrgMember;
+      } | null)
+    | ({
+        relationTo: 'values-philosophy';
+        value: number | ValuesPhilosophy;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1869,13 +2111,27 @@ export interface JobVacanciesSelect<T extends boolean = true> {
   position?: T;
   companyName?: T;
   companyLogo?: T;
+  coverImage?: T;
   location?: T;
+  category?: T;
   workSetup?: T;
   employmentType?: T;
   vacancyStatus?: T;
   quota?: T;
   requirements?: T;
+  screeningQuestions?:
+    | T
+    | {
+        question?: T;
+        id?: T;
+      };
   benefits?: T;
+  keyBenefits?:
+    | T
+    | {
+        benefit?: T;
+        id?: T;
+      };
   contactWhatsApp?: T;
   experienceLevel?: T;
   salaryRange?: T;
@@ -2053,6 +2309,146 @@ export interface OrgMembersSelect<T extends boolean = true> {
   linkedIn?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "values-philosophy_select".
+ */
+export interface ValuesPhilosophySelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  displayCategory?: T;
+  cardLabel?: T;
+  isComingSoon?: T;
+  order?: T;
+  detailsLayout?:
+    | T
+    | {
+        heroHeader?: T | HeroHeaderBlockSelect<T>;
+        splitContent?: T | SplitContentBlockSelect<T>;
+        dialogue?: T | DialogueBlockSelect<T>;
+        pillars?: T | PillarsBlockSelect<T>;
+        closing?: T | ClosingBlockSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroHeaderBlock_select".
+ */
+export interface HeroHeaderBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  eyebrowStyle?: T;
+  title?: T;
+  highlightText?: T;
+  highlightStyle?: T;
+  author?: T;
+  intro?: T;
+  introStyle?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SplitContentBlock_select".
+ */
+export interface SplitContentBlockSelect<T extends boolean = true> {
+  leftColumnType?: T;
+  leftTitleEyebrow?: T;
+  leftTitleEyebrowStyle?: T;
+  leftTitle?: T;
+  leftTitleHighlight?: T;
+  leftTitleHighlightStyle?: T;
+  leftInfoItems?:
+    | T
+    | {
+        eyebrow?: T;
+        eyebrowStyle?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  bodyText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DialogueBlock_select".
+ */
+export interface DialogueBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  eyebrowStyle?: T;
+  title?: T;
+  description?: T;
+  dialogueItems?:
+    | T
+    | {
+        speaker?: T;
+        speakerColor?: T;
+        speech?: T;
+        speechColor?: T;
+        subtext?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PillarsBlock_select".
+ */
+export interface PillarsBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  eyebrowStyle?: T;
+  title?: T;
+  displayStyle?: T;
+  pillars?:
+    | T
+    | {
+        number?: T;
+        numberStyle?: T;
+        subLabel?: T;
+        subLabelStyle?: T;
+        title?: T;
+        body?: T;
+        subpoints?:
+          | T
+          | {
+              emoji?: T;
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ClosingBlock_select".
+ */
+export interface ClosingBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  eyebrowStyle?: T;
+  title?: T;
+  titleStyle?: T;
+  quoteText?: T;
+  quoteStyle?: T;
+  bodyText?: T;
+  links?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        hoverColor?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2385,26 +2781,23 @@ export interface Header {
  */
 export interface Footer {
   id: number;
-  navItems?:
+  logo?: (number | null) | Media;
+  /**
+   * Teks di samping logo, gunakan baris baru untuk memisahkan baris.
+   */
+  logoText?: string | null;
+  socialLinks?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        platform: 'instagram' | 'whatsapp' | 'facebook' | 'linkedin' | 'youtube' | 'twitter';
+        url: string;
+        ariaLabel?: string | null;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Teks hak cipta (Tahun dan simbol hak cipta © ditambahkan secara otomatis).
+   */
+  copyrightText?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2634,20 +3027,17 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
-  navItems?:
+  logo?: T;
+  logoText?: T;
+  socialLinks?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
+        platform?: T;
+        url?: T;
+        ariaLabel?: T;
         id?: T;
       };
+  copyrightText?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

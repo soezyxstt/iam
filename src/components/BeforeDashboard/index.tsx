@@ -26,7 +26,11 @@ const BeforeDashboard: React.FC = () => {
         </li>
         <li>
           <strong>Moderasi:</strong> pengajuan usaha alumni dan lowongan dari formulir tersimpan sebagai{' '}
-          <em>draf</em> — tinjau lalu terbitkan di koleksi terkait.
+          <em>draf</em> — tinjau dan setujui melalui{' '}
+          <a href="/moderasi" target="_blank" rel="noreferrer">
+            Halaman Moderasi
+          </a>{' '}
+          atau di koleksi terkait.
         </li>
         <li>
           <SeedButton />

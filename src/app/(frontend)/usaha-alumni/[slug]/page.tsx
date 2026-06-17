@@ -2,28 +2,23 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Check, Globe, ImagePlus, Instagram, Mail, Phone, User } from 'lucide-react'
+import { Check, Globe, ImagePlus, Instagram, Mail, Phone, MapPin, ArrowLeft } from 'lucide-react'
 import React, { cache } from 'react'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
 import type { AlumniBusiness, Media } from '@/payload-types'
-import { UsahaDetailTabs } from '@/components/usaha-alumni/UsahaDetailTabs'
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { Button } from '@/components/ui/button'
 import { Section } from '@/components/ui/section'
 import { Heading, Text } from '@/components/ui/typography'
-import { labelForCategory, shortLocationLine } from '../constants'
-import { cn } from '@/utilities/ui'
+import { labelForCategory } from '../constants'
 
 export const revalidate = 600
 
 const FALLBACK_COVER = '/assets/tangga.jpg'
-
-/** Badge & sidebar accent green (mock: program tersedia) */
-const HIGHLIGHT_GREEN = '#2d5a27'
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -109,7 +104,6 @@ export default async function UsahaAlumniDetailPage({ params }: PageProps) {
   const statCellsAll: { label: string; value: string }[] = [
     { label: 'Tahun berdiri', value: biz.yearFounded != null ? String(biz.yearFounded) : '—' },
     { label: 'Karyawan', value: biz.employeesSummary?.trim() || '—' },
-    { label: 'Lokasi', value: shortLocationLine(biz.address) || '—' },
     { label: 'Sertifikasi', value: biz.certifications?.trim() || '—' },
   ]
   const statCells = statCellsAll.filter((c) => c.value !== '—')
@@ -120,320 +114,284 @@ export default async function UsahaAlumniDetailPage({ params }: PageProps) {
   const visibleGallery = galleryItems.slice(0, 3)
   const extraGalleryCount = Math.max(0, galleryItems.length - 3)
 
-  const bisnisTab = (
-    <div className="space-y-6">
-      <Text className="max-w-prose text-[15px] leading-[1.8] text-brand-dark/78">{biz.productsOrServices}</Text>
-      <div className="rounded-2xl border border-brand-dark/10 bg-brand-khaki/50 p-5 md:p-6">
-        <p className="font-display text-[10px] font-bold uppercase tracking-[0.26em] text-brand-gold">
-          Alamat & kontak operasional
-        </p>
-        <address className="mt-4 not-italic">
-          <Text className="whitespace-pre-wrap text-[15px] leading-relaxed text-brand-dark/80">
-            {biz.address}
-          </Text>
-        </address>
-        <div className="mt-5 flex flex-col gap-2 border-t border-brand-dark/10 pt-5 font-sans text-sm text-brand-dark/75">
-          <p className="flex items-center gap-2.5">
-            <Phone className="size-4 shrink-0 text-brand-gold" strokeWidth={1.75} aria-hidden />
-            <a
-              href={`tel:${biz.phoneNumber.replace(/\s/g, '')}`}
-              className="hover:text-brand-primary"
-            >
-              {biz.phoneNumber}
-            </a>
-          </p>
-          {biz.email ? (
-            <p className="flex items-center gap-2.5">
-              <Mail className="size-4 shrink-0 text-brand-gold" strokeWidth={1.75} aria-hidden />
-              <a href={`mailto:${biz.email}`} className="hover:text-brand-primary">
-                {biz.email}
-              </a>
-            </p>
-          ) : null}
-        </div>
-      </div>
-    </div>
-  )
-
-  const socialTileClass =
-    'flex h-11 w-full items-center justify-center rounded-xl border border-white/14 bg-white/8 text-brand-gold transition-colors hover:border-brand-gold/35 hover:bg-white/12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/50'
-
   return (
     <PageShell className="pb-20 md:pb-28">
       <Section className="z-10 pt-3 pb-8 md:pt-4 md:pb-10" containerClassName="max-w-6xl px-4 md:px-8">
         <ScrollReveal>
-          <div className="mb-6 flex justify-start">
-            <Button href="/usaha-alumni" variant="outline" size="sm" className="border-brand-dark/25">
-              ← Kembali ke direktori
-            </Button>
+          {/* Breadcrumb back link */}
+          <div className="mb-8 md:mb-12 flex justify-start">
+            <Link
+              href="/usaha-alumni"
+              className="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.2em] text-brand-dark/65 hover:text-brand-red transition-colors group"
+            >
+              <ArrowLeft className="size-3.5 translate-x-0 group-hover:-translate-x-1 transition-transform" />
+              Kembali ke direktori
+            </Link>
           </div>
 
-          <div
-            className={cn(
-              'relative isolate min-h-[min(52vh,440px)] overflow-hidden rounded-[20px] border border-brand-dark/15',
-              'shadow-2xl shadow-brand-dark/20 md:min-h-[460px] md:rounded-3xl',
-            )}
-          >
-            <Image
-              src={coverSrc}
-              alt={biz.businessName}
-              fill
-              className="object-cover filter-[brightness(0.92)_saturate(1.02)]"
-              sizes="(max-width: 768px) 100vw, 1152px"
-              priority
-            />
-            <div
-              className="pointer-events-none absolute inset-0 bg-linear-to-br from-brand-dark/88 via-brand-dark/40 to-transparent"
-              aria-hidden
-            />
-            <div
-              className="pointer-events-none absolute inset-0 bg-linear-to-t from-brand-dark/95 via-brand-dark/25 to-brand-dark/30"
-              aria-hidden
-            />
-
-            <div className="relative z-10 flex min-h-[min(52vh,440px)] flex-col p-6 sm:p-8 md:min-h-[460px] md:p-10 lg:p-12">
-              <span className="w-fit rounded-lg bg-brand-gold px-3 py-1.5 font-display text-[11px] font-bold uppercase tracking-wider text-brand-dark shadow-sm">
-                {cat}
-              </span>
-              <h1 className="mt-5 max-w-3xl font-serif text-3xl font-bold tracking-tight text-balance text-white sm:text-4xl md:text-5xl">
-                {biz.businessName}
-              </h1>
-              <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/92 md:text-base">
-                {biz.description}
-              </p>
-
-              <div className="mt-auto flex flex-col gap-3 pt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
-                {biz.featuredHighlight ? (
-                  <span
-                    className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 font-display text-[11px] font-semibold text-white shadow-md sm:text-xs"
-                    style={{ backgroundColor: HIGHLIGHT_GREEN }}
-                  >
-                    <Check className="size-4 shrink-0 stroke-[2.5]" aria-hidden />
+          {/* Split Hero Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+            {/* Left Column: Info & Action */}
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              <div className="flex flex-wrap items-center gap-3 mb-5">
+                <span className="rounded-lg bg-brand-gold/15 border border-brand-gold/30 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-wider text-brand-dark/80">
+                  {cat}
+                </span>
+                {biz.featuredHighlight && (
+                  <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-wider text-emerald-800">
+                    <Check className="size-3 shrink-0 stroke-[2.5]" />
                     {biz.featuredHighlight}
                   </span>
-                ) : null}
+                )}
+              </div>
+
+              <Heading
+                level={1}
+                tone="default"
+                className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-brand-dark leading-[1.15]"
+              >
+                {biz.businessName}
+              </Heading>
+
+              <Text
+                variant="editorial"
+                tone="strong"
+                className="mt-6 text-brand-dark/80 text-[15px] md:text-base leading-relaxed"
+              >
+                {biz.description}
+              </Text>
+
+              <div className="mt-8 flex flex-wrap gap-4">
+                {websiteHref ? (
+                  <Button
+                    asChild
+                    variant="primary"
+                    size="md"
+                    className="rounded-xl px-6 font-display text-xs font-bold"
+                  >
+                    <a href={websiteHref} target="_blank" rel="noopener noreferrer">
+                      Kunjungi Website
+                    </a>
+                  </Button>
+                ) : (
+                  <Button
+                    href={`tel:${biz.phoneNumber.replace(/\s/g, '')}`}
+                    variant="primary"
+                    size="md"
+                    className="rounded-xl px-6 font-display text-xs font-bold"
+                  >
+                    Hubungi Telepon
+                  </Button>
+                )}
                 <Button
                   href="/pengajuan-usaha-alumni"
-                  variant="secondary"
+                  variant="outline"
                   size="md"
-                  className="rounded-2xl px-8 font-display text-xs font-bold sm:text-sm"
+                  className="rounded-xl px-6 font-display text-xs font-bold border-brand-dark/20 text-brand-dark hover:border-brand-dark hover:bg-brand-dark/5"
                 >
-                  Daftar Sekarang
+                  Daftarkan Bisnis
                 </Button>
               </div>
             </div>
+
+            {/* Right Column: Hero Cover Image */}
+            <div className="lg:col-span-5">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-[0_15px_45px_-15px_rgba(6,22,47,0.18)]">
+                <Image
+                  src={coverSrc}
+                  alt={biz.businessName}
+                  fill
+                  className="object-cover transition-transform duration-700 hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Minimalist Key Metrics Bar */}
+          {statCells.length > 0 && (
+            <div className="mt-16 md:mt-24 border-y border-brand-dark/10 py-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {statCells.map((cell) => (
+                  <div key={cell.label} className="space-y-1">
+                    <span className="block font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-red">
+                      {cell.label}
+                    </span>
+                    <span className="block font-sans text-base md:text-lg font-bold text-brand-dark">
+                      {cell.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Main Layout Grid */}
+          <div className="mt-16 md:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            {/* Left side: narrative & details */}
+            <div className="lg:col-span-8 space-y-16">
+              {/* Product and Services */}
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <Heading level={2} className="font-serif text-2xl font-bold text-brand-dark">
+                    Produk & Jasa
+                  </Heading>
+                  <div className="h-0.5 w-12 bg-brand-gold rounded-full" />
+                </div>
+                <Text
+                  variant="editorial"
+                  tone="strong"
+                  className="whitespace-pre-line text-brand-dark/80 text-[15px] md:text-base leading-[1.8]"
+                >
+                  {biz.productsOrServices}
+                </Text>
+              </div>
+
+              {/* Gallery section */}
+              {visibleGallery.length > 0 && (
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <Heading level={2} className="font-serif text-2xl font-bold text-brand-dark">
+                      Galeri Foto
+                    </Heading>
+                    <div className="h-0.5 w-12 bg-brand-gold rounded-full" />
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {visibleGallery.map((row) => {
+                      const img = row.image as Media
+                      const src = mediaUrl(img)
+                      if (!src) return null
+                      return (
+                        <div
+                          key={row.id ?? src}
+                          className="relative aspect-square overflow-hidden rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 group"
+                        >
+                          <Image
+                            src={src}
+                            alt={`${biz.businessName} — galeri`}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            sizes="(max-width: 640px) 50vw, 240px"
+                          />
+                        </div>
+                      )
+                    })}
+                    {extraGalleryCount > 0 && (
+                      <div className="relative flex aspect-square flex-col items-center justify-center gap-1.5 overflow-hidden rounded-2xl border-2 border-dashed border-brand-dark/15 bg-brand-dark/[0.02] text-center">
+                        <ImagePlus className="size-6 text-brand-dark/35" strokeWidth={1.5} />
+                        <span className="px-2 font-display text-[10px] font-bold uppercase leading-tight tracking-wider text-brand-dark/55">
+                          +{extraGalleryCount} Foto Lainnya
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Right side: sticky details sidebar */}
+            <aside className="lg:col-span-4 lg:sticky lg:top-28 h-fit space-y-12">
+              {/* Owner details */}
+              <div className="space-y-6">
+                <h3 className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-red">
+                  Pemilik Usaha
+                </h3>
+                <div className="flex items-center gap-4">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-brand-primary text-white shadow-inner font-serif text-sm font-bold">
+                    {biz.ownerName.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <h4 className="font-serif text-[16px] font-bold text-brand-dark leading-tight">
+                      {biz.ownerName}
+                    </h4>
+                    {biz.ownerRole && (
+                      <p className="font-display text-[10px] font-bold uppercase tracking-wider text-brand-gold mt-0.5">
+                        {biz.ownerRole}
+                      </p>
+                    )}
+                    {biz.ownerEducationLine && (
+                      <p className="font-sans text-xs text-brand-dark/60 mt-0.5">
+                        {biz.ownerEducationLine}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                {biz.ownerBio && (
+                  <p className="text-brand-dark/70 text-[13px] leading-relaxed italic border-l-2 border-brand-gold/50 pl-4 py-1">
+                    &ldquo;{biz.ownerBio}&rdquo;
+                  </p>
+                )}
+              </div>
+
+              {/* Address details */}
+              <div className="space-y-6">
+                <h3 className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-red">
+                  Lokasi & Alamat
+                </h3>
+                <div className="flex items-start gap-3 text-brand-dark/75">
+                  <MapPin className="size-4 shrink-0 text-brand-primary mt-0.5" strokeWidth={2} />
+                  <address className="not-italic font-sans text-sm leading-relaxed text-brand-dark/80">
+                    {biz.address}
+                  </address>
+                </div>
+              </div>
+
+              {/* Contact and Social Links */}
+              <div className="space-y-6">
+                <h3 className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-brand-red">
+                  Kontak & Hubungi
+                </h3>
+                <div className="h-px bg-brand-dark/10" />
+                <div className="flex flex-col gap-4 font-sans text-sm">
+                  <a
+                    href={`tel:${biz.phoneNumber.replace(/\s/g, '')}`}
+                    className="flex items-center gap-3 text-brand-dark/75 hover:text-brand-red transition-colors group"
+                  >
+                    <Phone className="size-4 shrink-0 text-brand-primary group-hover:scale-110 transition-transform" strokeWidth={2} />
+                    <span>{biz.phoneNumber}</span>
+                  </a>
+
+                  {biz.email && (
+                    <a
+                      href={`mailto:${biz.email}`}
+                      className="flex items-center gap-3 text-brand-dark/75 hover:text-brand-red transition-colors group"
+                    >
+                      <Mail className="size-4 shrink-0 text-brand-primary group-hover:scale-110 transition-transform" strokeWidth={2} />
+                      <span className="truncate">{biz.email}</span>
+                    </a>
+                  )}
+
+                  {websiteHref && (
+                    <a
+                      href={websiteHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-brand-dark/75 hover:text-brand-red transition-colors group"
+                    >
+                      <Globe className="size-4 shrink-0 text-brand-primary group-hover:scale-110 transition-transform" strokeWidth={2} />
+                      <span className="truncate">{biz.website}</span>
+                    </a>
+                  )}
+
+                  {igHref && (
+                    <a
+                      href={igHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 text-brand-dark/75 hover:text-brand-red transition-colors group"
+                    >
+                      <Instagram className="size-4 shrink-0 text-brand-primary group-hover:scale-110 transition-transform" strokeWidth={2} />
+                      <span className="truncate">{biz.instagram}</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </aside>
           </div>
         </ScrollReveal>
       </Section>
-
-      {/* Khaki + paper card: avoid theme `muted` (navy in dark mode) so layout matches PDF */}
-      <div className="relative z-10 border-t border-brand-dark/10 bg-brand-khaki">
-        <div className="mx-auto max-w-6xl px-4 py-10 md:px-8 md:py-14">
-          <ScrollReveal>
-            <div
-              className={cn(
-                'rounded-[28px] border border-brand-dark/8 bg-white p-6 shadow-[0_8px_40px_-12px_rgba(6,22,47,0.12)]',
-                'md:p-9 lg:p-11',
-              )}
-            >
-              <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-14">
-              <div className="min-w-0 lg:col-span-7 xl:col-span-8">
-                <Heading
-                  level={2}
-                  className="font-serif text-2xl font-bold tracking-tight text-brand-dark md:text-[1.75rem]"
-                >
-                  Tentang Bisnis
-                </Heading>
-
-                <div className="mt-6">
-                  <UsahaDetailTabs
-                    aboutText={biz.description}
-                    bisnisContent={bisnisTab}
-                    surface="light"
-                  />
-                </div>
-
-                {statCells.length > 0 ? (
-                  <div className="mt-10">
-                    <div
-                      className={cn(
-                        'grid gap-4',
-                        statCells.length === 1 && 'grid-cols-1',
-                        statCells.length === 2 && 'sm:grid-cols-2',
-                        statCells.length === 3 && 'sm:grid-cols-2 xl:grid-cols-3',
-                        statCells.length >= 4 && 'sm:grid-cols-2 xl:grid-cols-4',
-                      )}
-                    >
-                      {statCells.map((cell) => (
-                        <div
-                          key={cell.label}
-                          className="flex min-h-26 flex-col justify-between rounded-2xl bg-brand-dark px-5 py-4 shadow-md md:min-h-28 md:px-6 md:py-5"
-                        >
-                          <p className="font-display text-[9px] font-bold uppercase leading-tight tracking-[0.2em] text-brand-gold md:text-[10px]">
-                            {cell.label}
-                          </p>
-                          <p className="mt-3 font-sans text-[15px] font-semibold leading-snug text-white md:text-base">
-                            {cell.value}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-
-                {visibleGallery.length > 0 ? (
-                  <div className="mt-10">
-                    <ul className="grid grid-cols-3 gap-3 sm:gap-4">
-                      {visibleGallery.map((row) => {
-                        const img = row.image as Media
-                        const src = mediaUrl(img)
-                        if (!src) return null
-                        return (
-                          <li
-                            key={row.id ?? src}
-                            className="relative aspect-square overflow-hidden rounded-2xl border border-brand-dark/10 bg-brand-dark/5 shadow-sm"
-                          >
-                            <Image
-                              src={src}
-                              alt={`${biz.businessName} — galeri`}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 640px) 33vw, 240px"
-                            />
-                          </li>
-                        )
-                      })}
-                      {extraGalleryCount > 0 ? (
-                        <li className="relative flex aspect-square flex-col items-center justify-center gap-1.5 overflow-hidden rounded-2xl border border-dashed border-brand-dark/15 bg-brand-dark/5 text-center">
-                          <ImagePlus
-                            className="size-8 text-brand-dark/35"
-                            strokeWidth={1.25}
-                            aria-hidden
-                          />
-                          <span className="px-2 font-display text-[10px] font-bold uppercase leading-tight tracking-wide text-brand-dark/55">
-                            +{extraGalleryCount} foto lainnya
-                          </span>
-                        </li>
-                      ) : null}
-                    </ul>
-                  </div>
-                ) : null}
-              </div>
-
-              <aside className="min-w-0 lg:col-span-5 xl:col-span-4">
-                <div className="flex flex-col gap-4 lg:sticky lg:top-28">
-                  <div
-                    className={cn(
-                      'w-full overflow-hidden rounded-3xl border border-brand-dark/10 shadow-lg',
-                      'bg-linear-to-b from-brand-primary via-brand-dark via-40% to-brand-dark',
-                    )}
-                  >
-                    <div className="px-6 pb-8 pt-8 text-center md:px-7 md:pb-8 md:pt-8">
-                      <div
-                        className="mx-auto flex size-17 items-center justify-center rounded-2xl border-2 border-brand-gold/90 bg-brand-dark/45 shadow-inner"
-                        aria-hidden
-                      >
-                        <User className="size-9 text-brand-gold" strokeWidth={1.5} />
-                      </div>
-                      <p className="mt-6 font-serif text-xl font-bold text-white md:text-2xl">
-                        {biz.ownerName}
-                      </p>
-                      {biz.ownerRole ? (
-                        <p className="mt-2 font-display text-xs font-semibold uppercase tracking-wider text-brand-gold">
-                          {biz.ownerRole}
-                        </p>
-                      ) : null}
-                      {biz.ownerEducationLine ? (
-                        <p className="mt-2 font-sans text-sm text-white/65">{biz.ownerEducationLine}</p>
-                      ) : null}
-                      {biz.ownerBio ? (
-                        <p className="mt-5 text-left text-[14px] leading-[1.7] text-white/85">
-                          {biz.ownerBio}
-                        </p>
-                      ) : null}
-
-                      <div className="mt-6 space-y-3">
-                        {websiteHref ? (
-                          <a
-                            href={websiteHref}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-3 rounded-2xl border border-white/10 bg-brand-dark/55 px-4 py-3 text-left text-sm text-white/95 transition-colors hover:border-brand-gold/30 hover:bg-brand-dark/70"
-                          >
-                            <Globe className="size-4 shrink-0 text-brand-gold" strokeWidth={1.75} />
-                            <span className="min-w-0 truncate font-sans">{biz.website?.trim()}</span>
-                          </a>
-                        ) : null}
-                        {biz.email ? (
-                          <a
-                            href={`mailto:${biz.email}`}
-                            className="flex items-center gap-3 rounded-2xl border border-white/10 bg-brand-dark/55 px-4 py-3 text-left text-sm text-white/95 transition-colors hover:border-brand-gold/30 hover:bg-brand-dark/70"
-                          >
-                            <Mail className="size-4 shrink-0 text-brand-gold" strokeWidth={1.75} />
-                            <span className="min-w-0 truncate font-sans">{biz.email}</span>
-                          </a>
-                        ) : null}
-                        <a
-                          href={`tel:${biz.phoneNumber.replace(/\s/g, '')}`}
-                          className="flex items-center gap-3 rounded-2xl border border-white/10 bg-brand-dark/55 px-4 py-3 text-left text-sm text-white/95 transition-colors hover:border-brand-gold/30 hover:bg-brand-dark/70"
-                        >
-                          <Phone className="size-4 shrink-0 text-brand-gold" strokeWidth={1.75} />
-                          <span className="font-sans">{biz.phoneNumber}</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="w-full rounded-3xl border border-brand-dark/10 bg-brand-dark px-6 py-6 shadow-lg md:px-7 md:py-7">
-                    <p className="text-left font-serif text-lg font-bold text-white">Social Presence</p>
-                    <div className="mt-5 grid w-full grid-cols-4 gap-2">
-                      {websiteHref ? (
-                        <Link
-                          href={websiteHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={socialTileClass}
-                          aria-label="Website"
-                        >
-                          <Globe className="size-5" strokeWidth={1.75} />
-                        </Link>
-                      ) : null}
-                      {igHref ? (
-                        <Link
-                          href={igHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={socialTileClass}
-                          aria-label="Instagram"
-                        >
-                          <Instagram className="size-5" strokeWidth={1.75} />
-                        </Link>
-                      ) : null}
-                      {biz.email ? (
-                        <Link
-                          href={`mailto:${biz.email}`}
-                          className={socialTileClass}
-                          aria-label="Email"
-                        >
-                          <Mail className="size-5" strokeWidth={1.75} />
-                        </Link>
-                      ) : null}
-                      <Link
-                        href={`tel:${biz.phoneNumber.replace(/\s/g, '')}`}
-                        className={socialTileClass}
-                        aria-label="Telepon"
-                      >
-                        <Phone className="size-5" strokeWidth={1.75} />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </aside>
-            </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </div>
     </PageShell>
   )
 }

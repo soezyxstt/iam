@@ -29,6 +29,7 @@ import { GaleriKategori } from './collections/GaleriKategori'
 import { Komunitas } from './collections/Komunitas'
 import { AlumniMembers } from './collections/AlumniMembers'
 import { OrgAnggota } from './collections/OrgAnggota'
+import { NilaiFilosofi } from './collections/NilaiFilosofi'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -112,6 +113,7 @@ export default buildConfig({
     Komunitas,
     AlumniMembers,
     OrgAnggota,
+    NilaiFilosofi,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, ProfilOrganisasi],

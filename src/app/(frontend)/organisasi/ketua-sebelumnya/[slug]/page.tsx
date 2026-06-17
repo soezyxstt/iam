@@ -1,14 +1,14 @@
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { Linkedin } from 'lucide-react'
+import { Linkedin, ArrowLeft } from 'lucide-react'
 import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import Link from 'next/link'
 
 import { PageShell } from '@/components/PageShell'
 import { ScrollReveal } from '@/components/ScrollReveal'
-import { Button } from '@/components/ui/button'
 import { GlassCard } from '@/components/ui/glass-card'
 import { Section } from '@/components/ui/section'
 import { Text } from '@/components/ui/typography'
@@ -68,9 +68,13 @@ export default async function PreviousChairPage({ params }: PageProps) {
       >
         <ScrollReveal>
           <div className="mb-5 flex justify-start md:mb-6">
-            <Button href="/organisasi" variant="outline" size="sm" className="border-brand-dark/25">
-              ← Kembali ke Organisasi
-            </Button>
+            <Link
+              href="/organisasi"
+              className="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.2em] text-brand-dark/65 hover:text-brand-red transition-colors group"
+            >
+              <ArrowLeft className="size-3.5 translate-x-0 group-hover:-translate-x-1 transition-transform" />
+              Kembali ke Organisasi
+            </Link>
           </div>
           <GlassCard
             className="shadow-brand-dark/30"
