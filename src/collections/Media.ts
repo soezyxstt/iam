@@ -19,6 +19,8 @@ export const Media: CollectionConfig = {
   folders: true,
   admin: {
     group: 'Media & berkas',
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'filename', 'mimeType', 'filesize', 'updatedAt'],
   },
   access: {
     create: authenticated,
@@ -27,6 +29,11 @@ export const Media: CollectionConfig = {
     update: authenticated,
   },
   fields: [
+    {
+      name: 'name',
+      type: 'text',
+      label: 'Nama Media',
+    },
     {
       name: 'alt',
       type: 'text',
