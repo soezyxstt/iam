@@ -47,7 +47,7 @@ async function getLatestBerita(): Promise<BeritaDoc[]> {
 }
 
 interface AktivitasDoc {
-  title?: string | null
+  activityName?: string | null
   heroImage?: { url?: string | null } | null
 }
 
@@ -144,13 +144,17 @@ export default async function HomePage() {
 
   const programStackImages = aktivitasList
     .filter((a) => a.heroImage?.url)
-    .slice(0, 3)
     .map((a) => ({
       src: a.heroImage!.url as string,
-      alt: a.title ?? 'Aktivitas IAM ITB',
-      title: a.title ?? 'Aktivitas IAM ITB',
+      alt: a.activityName ?? 'Aktivitas IAM ITB',
+      title: a.activityName ?? 'Aktivitas IAM ITB',
     }))
-  const stackImages = programStackImages.length >= 2 ? programStackImages : AKTIVITAS_FALLBACK
+  // Prioritise real activities; pad with fallbacks so the stack stays full when
+  // fewer than three activities have images.
+  const stackImages =
+    programStackImages.length > 0
+      ? [...programStackImages, ...AKTIVITAS_FALLBACK].slice(0, 3)
+      : AKTIVITAS_FALLBACK
 
   return (
     <main className="page-root relative min-h-screen overflow-hidden">

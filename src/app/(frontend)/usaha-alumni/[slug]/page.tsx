@@ -16,7 +16,7 @@ import { Section } from '@/components/ui/section'
 import { Heading, Text } from '@/components/ui/typography'
 import { labelForCategory } from '../constants'
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 const FALLBACK_COVER = '/assets/tangga.jpg'
 
@@ -55,21 +55,6 @@ const queryAlumniBySlug = cache(async (slug: string) => {
   return doc ? (doc as AlumniBusiness) : null
 })
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const res = await payload.find({
-    collection: 'alumniBusinesses',
-    draft: false,
-    limit: 500,
-    overrideAccess: false,
-    pagination: false,
-    select: { slug: true },
-  })
-  return res.docs
-    .map((d) => d.slug)
-    .filter((s): s is string => typeof s === 'string' && s.length > 0)
-    .map((slug) => ({ slug }))
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug: rawSlug } = await params

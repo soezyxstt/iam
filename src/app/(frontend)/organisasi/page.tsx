@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     'Profil, visi misi, latar belakang, dan struktur kepengurusan Ikatan Alumni Mesin ITB — IAM ITB.',
 }
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 type IamPresident = {
   id: number | string
@@ -106,7 +106,7 @@ export default async function OrganisasiPage() {
   const payload = await getPayload({ config: configPromise })
 
   const [orgProfileRaw, presidentsResult, membersResult] = await Promise.all([
-    getCachedGlobal('organizationProfile', 2)(),
+    getCachedGlobal('organizationProfile', 2),
     payload.find({ collection: 'iamPresidents', overrideAccess: false, limit: 50, depth: 1 }),
     payload.find({
       collection: 'orgMembers',

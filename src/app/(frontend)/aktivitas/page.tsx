@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: 'Kegiatan dan agenda Ikatan Alumni Mesin ITB.',
 }
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 export default async function AktivitasPage() {
   const payload = await getPayload({ config: configPromise })

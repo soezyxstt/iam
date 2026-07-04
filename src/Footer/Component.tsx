@@ -6,7 +6,7 @@ import type { Footer as FooterType, Media } from '@/payload-types'
 
 export async function Footer() {
   const currentYear = new Date().getFullYear()
-  const footerData: FooterType = await getCachedGlobal('footer', 1)()
+  const footerData: FooterType = await getCachedGlobal('footer', 1)
 
   // 1. Logo image path or object
   let logoSrc = '/logo.png'

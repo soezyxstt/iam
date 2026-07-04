@@ -54,7 +54,8 @@ export const Card: React.FC<CardProps> = (props) => {
     const act = doc as { title?: string; activityName?: string; slug: string; excerpt?: string; date?: string; image?: string; heroImage?: any }
     const href = `/aktivitas/${act?.slug}`
     const isDark = tone === 'onDark'
-    
+    const accentHover = isDark ? 'group-hover:text-brand-gold' : 'group-hover:text-brand-red'
+
     const titleToUse = act?.title ?? act?.activityName
     const excerptToUse = act?.excerpt
     const imageToUse = act?.image ?? (typeof act?.heroImage === 'object' && act?.heroImage !== null && 'url' in act.heroImage ? act.heroImage.url : null)
@@ -114,7 +115,7 @@ export const Card: React.FC<CardProps> = (props) => {
           <Heading
             level={3}
             tone={isDark ? 'inverse' : 'default'}
-            className="line-clamp-2 transition-colors duration-300 group-hover:text-brand-gold"
+            className={cn("line-clamp-2 transition-colors duration-300", accentHover)}
           >
             {titleToUse}
           </Heading>
@@ -130,13 +131,15 @@ export const Card: React.FC<CardProps> = (props) => {
             isDark ? "border-white/10" : "border-brand-dark/5"
           )}>
             <span className={cn(
-              "font-display text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 group-hover:text-brand-gold",
+              "font-display text-[10px] font-bold uppercase tracking-widest transition-colors duration-300",
+              accentHover,
               isDark ? "text-white/40" : "text-brand-dark/40"
             )}>
               Selengkapnya
             </span>
             <span className={cn(
-              "transition-all duration-300 group-hover:text-brand-gold group-hover:translate-x-1",
+              "transition-all duration-300 group-hover:translate-x-1",
+              accentHover,
               isDark ? "text-white/20" : "text-brand-dark/20"
             )}>
               &rarr;
@@ -218,6 +221,7 @@ export const Card: React.FC<CardProps> = (props) => {
     const comm = doc as { communityName: string; slug: string; shortDescription?: string; logo?: any }
     const href = `/komunitas/${comm?.slug}`
     const isDark = tone === 'onDark'
+    const accentHover = isDark ? 'group-hover:text-brand-gold' : 'group-hover:text-brand-red'
 
     return (
       <Link
@@ -253,7 +257,7 @@ export const Card: React.FC<CardProps> = (props) => {
         <div className="p-6 md:p-8 flex flex-col h-full">
           <Heading
             level={3}
-            className="mb-3 text-xl transition-colors duration-300 group-hover:text-brand-gold"
+            className={cn("mb-3 text-xl transition-colors duration-300", accentHover)}
             tone={isDark ? 'inverse' : 'default'}
           >
             {comm?.communityName}
@@ -270,13 +274,15 @@ export const Card: React.FC<CardProps> = (props) => {
             isDark ? "border-white/10" : "border-brand-dark/5"
           )}>
             <span className={cn(
-              "font-display text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 group-hover:text-brand-gold",
+              "font-display text-[10px] font-bold uppercase tracking-widest transition-colors duration-300",
+              accentHover,
               isDark ? "text-white/40" : "text-brand-dark/40"
             )}>
               Lihat Detail
             </span>
             <span className={cn(
-              "transition-all duration-300 group-hover:text-brand-gold group-hover:translate-x-1",
+              "transition-all duration-300 group-hover:translate-x-1",
+              accentHover,
               isDark ? "text-white/20" : "text-brand-dark/20"
             )}>
               &rarr;

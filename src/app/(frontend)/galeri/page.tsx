@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: 'Album dokumentasi kegiatan IAM ITB.',
 }
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 export default async function GaleriPage() {
   const payload = await getPayload({ config: configPromise })

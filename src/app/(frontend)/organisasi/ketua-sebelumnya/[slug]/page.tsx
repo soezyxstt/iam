@@ -30,15 +30,6 @@ async function getPresident(slug: string) {
   return result.docs[0] ?? null
 }
 
-export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'iamPresidents',
-    overrideAccess: false,
-    limit: 1000,
-  })
-  return result.docs.map((p) => ({ slug: p.slug }))
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params

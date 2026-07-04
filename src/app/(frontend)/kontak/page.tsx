@@ -18,10 +18,10 @@ export const metadata: Metadata = {
   description: 'Hubungi pengurus IAM ITB.',
 }
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 export default async function KontakPage() {
-  const orgProfile = await getCachedGlobal('organizationProfile', 0)()
+  const orgProfile = await getCachedGlobal('organizationProfile', 0)
 
   const op = orgProfile as unknown as Record<string, unknown>
   const email = op.contactEmail as string | null | undefined
