@@ -11,6 +11,7 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
 import { Eyebrow, Heading, Text } from '@/components/ui/typography'
+import { GlassCard } from '@/components/ui/glass-card'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import { getCachedGlobal } from '@/utilities/getGlobals'
@@ -196,56 +197,51 @@ export default async function OrganisasiPage() {
       <Section className="z-10 pt-0 pb-12 md:pt-0 md:pb-20">
         <ScrollReveal>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-x-0 lg:gap-y-0">
-            <div className="flex flex-col items-center lg:col-span-3 lg:items-end lg:pr-7">
-              <div className="relative w-full max-w-[200px] sm:max-w-[220px] lg:w-[220px] lg:max-w-none lg:shrink-0">
-                <div className="absolute -inset-2 rounded-lg border border-brand-gold/30 -rotate-2 pointer-events-none" />
-                <div
-                  className="absolute -left-3 top-0 hidden h-30 w-px bg-brand-red/35 lg:block"
-                  aria-hidden
-                />
-                <div className="relative aspect-4/5 w-full overflow-hidden rounded-md border border-brand-primary shadow-lg bg-brand-primary/5">
+            <div className="flex flex-col items-center lg:col-span-4 lg:items-end lg:pr-7">
+              <GlassCard variant="stripes" contentClassName="p-6 md:p-8 flex flex-col items-center" className="w-full max-w-[280px]">
+                <div className="relative aspect-4/5 w-full overflow-hidden rounded-xl border border-white/10 shadow-lg bg-brand-dark/50">
                   {displayChairPhotoUrl ? (
                     <Image
                       src={displayChairPhotoUrl}
                       alt={displayChairName}
                       fill
                       className="object-cover transition-transform duration-500 hover:scale-105"
-                      sizes="(max-width: 640px) 200px, 220px"
+                      sizes="(max-width: 640px) 240px, 280px"
                       priority
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-brand-primary/10">
-                      <span className="font-display text-4xl font-bold text-brand-primary/30">
+                      <span className="font-display text-4xl font-bold text-white/30">
                         {displayChairName.charAt(0)}
                       </span>
                     </div>
                   )}
                 </div>
-                <div className="mt-7 border-t border-brand-dark/15 pt-6">
+                <div className="mt-6 border-t border-white/10 pt-5 w-full text-center">
                   <Text
-                    tone="strong"
-                    className="font-serif text-xl font-bold tracking-tight sm:text-[1.35rem]"
+                    tone="inverse"
+                    className="font-serif text-xl font-bold tracking-tight sm:text-[1.25rem] text-white"
                   >
                     {displayChairName}
                   </Text>
-                  <Eyebrow tone="muted" className="mt-2 tracking-[0.2em]">
+                  <Eyebrow tone="gold" className="mt-2 tracking-[0.2em] opacity-80">
                     Ketua IAM ITB
                   </Eyebrow>
                 </div>
-              </div>
+              </GlassCard>
             </div>
 
-            <div className="relative lg:col-span-9 lg:border-l lg:border-brand-dark/12 lg:pl-8 lg:pr-2 lg:pt-1 xl:pl-10">
+            <div className="relative lg:col-span-8 lg:border-l lg:border-brand-dark/12 lg:pl-10 lg:pr-2 lg:pt-2 xl:pl-12">
               <div className="absolute -top-6 left-4 select-none font-serif text-[120px] font-bold leading-none text-brand-primary/5 pointer-events-none lg:-top-10 lg:left-6">
                 &ldquo;
               </div>
               <Eyebrow tone="red">Pembukaan</Eyebrow>
-              <Heading level={2} className="mt-3 mb-7 md:mb-8">
+              <Heading level={2} className="mt-3 mb-7 md:mb-8 text-brand-dark">
                 Kata Pengantar
               </Heading>
-              <div className="flex flex-col gap-6 max-w-prose mx-auto lg:mx-0 relative z-10">
+              <div className="flex flex-col gap-6 max-w-prose mx-auto lg:mx-0 relative z-10 text-brand-dark/85 prose-p:text-brand-dark/85 prose-strong:text-brand-dark [&_p]:text-brand-dark/85 [&_strong]:text-brand-dark">
                 {orgProfile.chairmanForeword ? (
-                  <RichText data={orgProfile.chairmanForeword} enableGutter={false} />
+                  <RichText data={orgProfile.chairmanForeword} enableGutter={false} className="text-brand-dark/85" />
                 ) : (
                   <Text variant="editorial" tone="muted" className="italic">
                     Kata pengantar belum tersedia.
