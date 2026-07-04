@@ -19,7 +19,12 @@ export const HighlightSponsor: Block = {
       type: 'relationship',
       relationTo: 'sponsors',
       hasMany: true,
+      maxRows: 12,
       required: true,
+      admin: {
+        description:
+          'Maksimal 12. Buat entri di Organisasi & Kegiatan → Sponsor dulu; logo diambil dari entri tersebut.',
+      },
     },
   ],
 }

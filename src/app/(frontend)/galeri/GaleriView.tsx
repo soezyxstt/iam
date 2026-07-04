@@ -109,14 +109,24 @@ export function GaleriView({ groups }: GaleriViewProps) {
             {/* Left: Image (3/4 width on desktop) */}
             <div className="relative flex-1 md:col-span-3 bg-black/40 flex items-center justify-center min-h-[320px] md:min-h-0 md:h-full">
               <div className="relative w-full h-full aspect-video md:aspect-auto">
-                <Image
-                  src={lightbox.src}
-                  alt={lightbox.alt}
-                  fill
-                  className="object-contain p-2 md:p-6"
-                  sizes="(max-width: 768px) 100vw, 75vw"
-                  priority
-                />
+                {lightbox.embedSrc ? (
+                  <iframe
+                    src={lightbox.embedSrc}
+                    title={lightbox.alt}
+                    className="absolute inset-0 h-full w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <Image
+                    src={lightbox.src}
+                    alt={lightbox.alt}
+                    fill
+                    className="object-contain p-2 md:p-6"
+                    sizes="(max-width: 768px) 100vw, 75vw"
+                    priority
+                  />
+                )}
               </div>
             </div>
 

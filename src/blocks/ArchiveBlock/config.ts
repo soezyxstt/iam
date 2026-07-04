@@ -24,19 +24,20 @@ export const Archive: Block = {
           ]
         },
       }),
-      label: 'Intro Content',
+      label: 'Konten Pembuka',
     },
     {
       name: 'populateBy',
+      label: 'Sumber Data',
       type: 'select',
       defaultValue: 'collection',
       options: [
         {
-          label: 'Collection',
+          label: 'Otomatis (berita terbaru)',
           value: 'collection',
         },
         {
-          label: 'Individual Selection',
+          label: 'Pilihan Manual',
           value: 'selection',
         },
       ],
@@ -48,10 +49,10 @@ export const Archive: Block = {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
       },
       defaultValue: 'posts',
-      label: 'Collections To Show',
+      label: 'Koleksi yang Ditampilkan',
       options: [
         {
-          label: 'Posts',
+          label: 'Berita',
           value: 'posts',
         },
       ],
@@ -61,9 +62,10 @@ export const Archive: Block = {
       type: 'relationship',
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === 'collection',
+        description: 'Kosongkan untuk menampilkan semua kategori.',
       },
       hasMany: true,
-      label: 'Categories To Show',
+      label: 'Filter Kategori',
       relationTo: 'categories',
     },
     {
@@ -74,7 +76,7 @@ export const Archive: Block = {
         step: 1,
       },
       defaultValue: 10,
-      label: 'Limit',
+      label: 'Jumlah Berita',
     },
     {
       name: 'selectedDocs',
@@ -83,12 +85,12 @@ export const Archive: Block = {
         condition: (_, siblingData) => siblingData.populateBy === 'selection',
       },
       hasMany: true,
-      label: 'Selection',
+      label: 'Pilihan Berita',
       relationTo: ['posts'],
     },
   ],
   labels: {
-    plural: 'Archives',
-    singular: 'Archive',
+    plural: 'Daftar Berita (Archive)',
+    singular: 'Daftar Berita (Archive)',
   },
 }

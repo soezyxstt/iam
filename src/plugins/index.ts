@@ -32,6 +32,9 @@ export const plugins: Plugin[] = [
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {
+      admin: {
+        group: 'Pengaturan situs',
+      },
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
@@ -64,6 +67,12 @@ export const plugins: Plugin[] = [
       payment: false,
     },
     formOverrides: {
+      admin: {
+        group: 'Pengaturan situs',
+        useAsTitle: 'title',
+        description:
+          'PENTING: Jangan mengubah judul form "Pengajuan Usaha Alumni" dan "Pengajuan Lowongan" — otomatisasi draf moderasi mengenali form dari judulnya.',
+      },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
           if ('name' in field && field.name === 'confirmationMessage') {
@@ -85,6 +94,9 @@ export const plugins: Plugin[] = [
       },
     },
     formSubmissionOverrides: {
+      admin: {
+        group: 'Pengaturan situs',
+      },
       hooks: {
         afterChange: [formSubmissionCreateDrafts],
       },
@@ -94,6 +106,10 @@ export const plugins: Plugin[] = [
     collections: ['posts', 'jobVacancies', 'alumniBusinesses', 'activities', 'communities'],
     beforeSync: beforeSyncWithSearch,
     searchOverrides: {
+      admin: {
+        group: 'Pengaturan situs',
+        hidden: true,
+      },
       fields: ({ defaultFields }) => {
         return [...defaultFields, ...searchFields]
       },

@@ -222,6 +222,9 @@ export interface Page {
           id?: string | null;
         }[]
       | null;
+    /**
+     * Gunakan gambar resolusi tinggi (lebar ≥ 1920px).
+     */
     media?: (number | null) | Media;
   };
   layout: (
@@ -232,6 +235,9 @@ export interface Page {
     | FormBlock
     | {
         sectionTitle: string;
+        /**
+         * Maksimal 3. Buat entri di Organisasi & Kegiatan → Aktivitas dulu; kartu memakai Gambar Utama dan Ringkasan dari entri tersebut.
+         */
         activities: (number | Activity)[];
         id?: string | null;
         blockName?: string | null;
@@ -239,6 +245,9 @@ export interface Page {
       }
     | {
         sectionTitle: string;
+        /**
+         * Maksimal 12. Buat entri di Organisasi & Kegiatan → Sponsor dulu; logo diambil dari entri tersebut.
+         */
         sponsors: (number | Sponsor)[];
         id?: string | null;
         blockName?: string | null;
@@ -246,6 +255,9 @@ export interface Page {
       }
     | {
         sectionTitle: string;
+        /**
+         * Maksimal 6. Hanya lowongan berstatus Published yang tampil di situs — lowongan draft tidak akan muncul.
+         */
         vacancies: (number | JobVacancy)[];
         id?: string | null;
         blockName?: string | null;
@@ -326,7 +338,13 @@ export interface Post {
  */
 export interface Media {
   id: number;
+  /**
+   * Judul entri di daftar Media — beri nama yang jelas agar mudah dicari (contoh: "Reuni Akbar 2025 - Foto Panggung"). Jika kosong, otomatis diisi dari nama file.
+   */
   name?: string | null;
+  /**
+   * Deskripsikan isi gambar — dipakai untuk SEO & aksesibilitas (contoh: "Peserta reuni berfoto bersama di Sabuga").
+   */
   alt?: string | null;
   caption?: {
     root: {
@@ -593,6 +611,9 @@ export interface ContentBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
+  /**
+   * Pilih gambar/video dari Media Library. Caption pada entri Media ikut tampil.
+   */
   media: number | Media;
   id?: string | null;
   blockName?: string | null;
@@ -620,6 +641,9 @@ export interface ArchiveBlock {
   } | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
+  /**
+   * Kosongkan untuk menampilkan semua kategori.
+   */
   categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
@@ -637,6 +661,9 @@ export interface ArchiveBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
+  /**
+   * Pilih form yang sudah dibuat di menu Forms.
+   */
   form: number | Form;
   enableIntro?: boolean | null;
   introContent?: {
@@ -659,6 +686,8 @@ export interface FormBlock {
   blockType: 'formBlock';
 }
 /**
+ * PENTING: Jangan mengubah judul form "Pengajuan Usaha Alumni" dan "Pengajuan Lowongan" — otomatisasi draf moderasi mengenali form dari judulnya.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
@@ -957,7 +986,7 @@ export interface JobVacancy {
       }[]
     | null;
   /**
-   * Digunakan jika Tautan Resmi kosong. Gunakan kode negara, misal 62812...
+   * Digunakan jika Tautan Resmi kosong. Gunakan kode negara, misal 62812... Tanda +, spasi, dan strip dibersihkan otomatis saat disimpan.
    */
   contactWhatsApp?: string | null;
   experienceLevel?: ('entry' | 'mid' | 'senior' | 'executive') | null;
@@ -2976,7 +3005,7 @@ export interface OrganizationProfile {
    */
   contactEmail?: string | null;
   /**
-   * Format internasional tanpa tanda +. Contoh: 6281234567890
+   * Format internasional tanpa tanda +. Contoh: 6281234567890. Tanda +, spasi, dan strip dibersihkan otomatis saat disimpan.
    */
   contactWhatsapp?: string | null;
   /**

@@ -11,7 +11,9 @@ export const Galeri: CollectionConfig = {
   },
   admin: {
     group: 'Organisasi & kegiatan',
-    defaultColumns: ['description', 'updatedAt'],
+    useAsTitle: 'description',
+    defaultColumns: ['description', 'category', 'media', 'updatedAt'],
+    listSearchableFields: ['description'],
   },
   access: {
     create: authenticated,
@@ -21,9 +23,12 @@ export const Galeri: CollectionConfig = {
   },
   hooks: {
     beforeValidate: [
-      ({ data }) => {
-        const hasMedia = Boolean(data?.media)
-        const hasEmbed = typeof data?.embedUrl === 'string' && data.embedUrl.trim().length > 0
+      ({ data, originalDoc }) => {
+        // Partial updates may omit unchanged fields — fall back to the stored doc
+        const media = data?.media !== undefined ? data.media : originalDoc?.media
+        const embedUrl = data?.embedUrl !== undefined ? data.embedUrl : originalDoc?.embedUrl
+        const hasMedia = Boolean(media)
+        const hasEmbed = typeof embedUrl === 'string' && embedUrl.trim().length > 0
         if (!hasMedia && !hasEmbed) {
           throw new Error('Unggah berkas di Media atau isi URL video sematan (YouTube/Vimeo).')
         }

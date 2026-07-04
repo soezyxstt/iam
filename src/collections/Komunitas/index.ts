@@ -19,6 +19,8 @@ export const Komunitas: CollectionConfig = {
   admin: {
     group: 'Directory & komunitas',
     useAsTitle: 'communityName',
+    defaultColumns: ['communityName', 'contactPerson', 'updatedAt'],
+    listSearchableFields: ['communityName', 'shortDescription'],
   },
   fields: [
     {

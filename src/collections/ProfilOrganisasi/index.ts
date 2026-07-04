@@ -114,7 +114,13 @@ export const ProfilOrganisasi: GlobalConfig = {
       label: 'Nomor WhatsApp',
       type: 'text',
       admin: {
-        description: 'Format internasional tanpa tanda +. Contoh: 6281234567890',
+        description:
+          'Format internasional tanpa tanda +. Contoh: 6281234567890. Tanda +, spasi, dan strip dibersihkan otomatis saat disimpan.',
+      },
+      hooks: {
+        beforeValidate: [
+          ({ value }) => (typeof value === 'string' ? value.replace(/\D/g, '') : value),
+        ],
       },
     },
     {

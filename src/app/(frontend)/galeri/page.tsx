@@ -11,6 +11,8 @@ import { EmptyState } from '@/components/ui/empty-state'
 
 import type { GalleryGroup } from './GaleriView'
 import { GaleriView } from './GaleriView'
+import type { GalleryImage } from './GalleryImageGrid'
+import { parseVideoEmbed } from '@/utilities/videoEmbed'
 
 export const metadata: Metadata = {
   title: 'Galeri',
@@ -40,16 +42,30 @@ export default async function GaleriPage() {
       depth: 1,
     })
 
-    const images = items.docs
-      .filter((item) => typeof item.media === 'object' && item.media !== null)
-      .map((item) => {
+    const images: GalleryImage[] = []
+
+    for (const item of items.docs) {
+      if (typeof item.media === 'object' && item.media !== null) {
         const media = item.media as { url?: string; alt?: string; filename?: string }
-        return {
+        images.push({
           src: media.url ?? '',
           alt: item.description ?? media.alt ?? media.filename ?? 'Foto kegiatan',
           caption: item.description ?? undefined,
-        }
-      })
+        })
+        continue
+      }
+
+      // Embed-only entries (YouTube/Vimeo URL without an uploaded file)
+      const embed = typeof item.embedUrl === 'string' ? parseVideoEmbed(item.embedUrl) : null
+      if (embed) {
+        images.push({
+          src: embed.thumbnail ?? '',
+          alt: item.description ?? 'Video kegiatan',
+          caption: item.description ?? undefined,
+          embedSrc: embed.embedSrc,
+        })
+      }
+    }
 
     if (images.length > 0) {
       groups.push({

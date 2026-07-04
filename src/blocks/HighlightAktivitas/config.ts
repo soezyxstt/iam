@@ -21,6 +21,10 @@ export const HighlightAktivitas: Block = {
       hasMany: true,
       maxRows: 3,
       required: true,
+      admin: {
+        description:
+          'Maksimal 3. Buat entri di Organisasi & Kegiatan → Aktivitas dulu; kartu memakai Gambar Utama dan Ringkasan dari entri tersebut.',
+      },
     },
   ],
 }

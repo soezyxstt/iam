@@ -18,6 +18,7 @@ export const Sponsor: CollectionConfig = {
     group: 'Organisasi & kegiatan',
     useAsTitle: 'companyName',
     defaultColumns: ['companyName', 'category', 'supportPeriod', 'updatedAt'],
+    listSearchableFields: ['companyName', 'shortDescription'],
   },
   fields: [
     {

@@ -21,6 +21,10 @@ export const HighlightLowongan: Block = {
       hasMany: true,
       maxRows: 6,
       required: true,
+      admin: {
+        description:
+          'Maksimal 6. Hanya lowongan berstatus Published yang tampil di situs — lowongan draft tidak akan muncul.',
+      },
     },
   ],
 }

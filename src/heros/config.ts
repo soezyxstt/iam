@@ -17,22 +17,22 @@ export const hero: Field = {
       name: 'type',
       type: 'select',
       defaultValue: 'lowImpact',
-      label: 'Type',
+      label: 'Tipe Hero',
       options: [
         {
-          label: 'None',
+          label: 'Tanpa Hero',
           value: 'none',
         },
         {
-          label: 'High Impact',
+          label: 'High Impact (layar penuh + gambar)',
           value: 'highImpact',
         },
         {
-          label: 'Medium Impact',
+          label: 'Medium Impact (besar + gambar)',
           value: 'mediumImpact',
         },
         {
-          label: 'Low Impact',
+          label: 'Low Impact (teks saja)',
           value: 'lowImpact',
         },
       ],
@@ -60,9 +60,11 @@ export const hero: Field = {
     }),
     {
       name: 'media',
+      label: 'Gambar Latar',
       type: 'upload',
       admin: {
         condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
+        description: 'Gunakan gambar resolusi tinggi (lebar ≥ 1920px).',
       },
       relationTo: 'media',
       required: true,

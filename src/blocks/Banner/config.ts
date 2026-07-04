@@ -11,13 +11,14 @@ export const Banner: Block = {
   fields: [
     {
       name: 'style',
+      label: 'Gaya',
       type: 'select',
       defaultValue: 'info',
       options: [
-        { label: 'Info', value: 'info' },
-        { label: 'Warning', value: 'warning' },
-        { label: 'Error', value: 'error' },
-        { label: 'Success', value: 'success' },
+        { label: 'Info (biru)', value: 'info' },
+        { label: 'Peringatan (kuning)', value: 'warning' },
+        { label: 'Penting (merah)', value: 'error' },
+        { label: 'Sukses (hijau)', value: 'success' },
       ],
       required: true,
     },

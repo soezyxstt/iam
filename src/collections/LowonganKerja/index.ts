@@ -155,7 +155,13 @@ export const LowonganKerja: CollectionConfig = {
       type: 'text',
       admin: {
         placeholder: 'Contoh: 628123456789 (tanpa spasi atau +)',
-        description: 'Digunakan jika Tautan Resmi kosong. Gunakan kode negara, misal 62812...',
+        description:
+          'Digunakan jika Tautan Resmi kosong. Gunakan kode negara, misal 62812... Tanda +, spasi, dan strip dibersihkan otomatis saat disimpan.',
+      },
+      hooks: {
+        beforeValidate: [
+          ({ value }) => (typeof value === 'string' ? value.replace(/\D/g, '') : value),
+        ],
       },
     },
     {

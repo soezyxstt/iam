@@ -20,7 +20,7 @@ export const Media: CollectionConfig = {
   admin: {
     group: 'Media & berkas',
     useAsTitle: 'name',
-    defaultColumns: ['name', 'filename', 'mimeType', 'filesize', 'updatedAt'],
+    defaultColumns: ['name', 'alt', 'filename', 'mimeType', 'filesize', 'updatedAt'],
   },
   access: {
     create: authenticated,
@@ -28,16 +28,38 @@ export const Media: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
+  hooks: {
+    beforeChange: [
+      ({ data }) => {
+        if (!data) return data
+        const name = typeof data.name === 'string' ? data.name.trim() : ''
+        const filename = typeof data.filename === 'string' ? data.filename : ''
+        if (!name && filename) {
+          // Default the title to the filename (without extension) so list views stay readable
+          return { ...data, name: filename.replace(/\.[^.]+$/, '') }
+        }
+        return data
+      },
+    ],
+  },
   fields: [
     {
       name: 'name',
       type: 'text',
       label: 'Nama Media',
+      admin: {
+        description:
+          'Judul entri di daftar Media — beri nama yang jelas agar mudah dicari (contoh: "Reuni Akbar 2025 - Foto Panggung"). Jika kosong, otomatis diisi dari nama file.',
+      },
     },
     {
       name: 'alt',
       type: 'text',
       //required: true,
+      admin: {
+        description:
+          'Deskripsikan isi gambar — dipakai untuk SEO & aksesibilitas (contoh: "Peserta reuni berfoto bersama di Sabuga").',
+      },
     },
     {
       name: 'caption',

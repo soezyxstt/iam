@@ -3,9 +3,14 @@ import type { Block } from 'payload'
 export const Code: Block = {
   slug: 'code',
   interfaceName: 'CodeBlock',
+  labels: {
+    singular: 'Kode',
+    plural: 'Kode',
+  },
   fields: [
     {
       name: 'language',
+      label: 'Bahasa',
       type: 'select',
       defaultValue: 'typescript',
       options: [

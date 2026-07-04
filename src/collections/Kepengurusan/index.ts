@@ -17,6 +17,7 @@ export const Kepengurusan: CollectionConfig = {
   admin: {
     group: 'Organisasi & kegiatan',
     useAsTitle: 'period',
+    defaultColumns: ['period', 'organizationChart', 'updatedAt'],
   },
   fields: [
     {

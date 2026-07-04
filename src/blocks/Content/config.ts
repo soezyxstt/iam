@@ -12,23 +12,24 @@ import { link } from '@/fields/link'
 const columnFields: Field[] = [
   {
     name: 'size',
+    label: 'Lebar Kolom',
     type: 'select',
     defaultValue: 'oneThird',
     options: [
       {
-        label: 'One Third',
+        label: 'Sepertiga (1/3)',
         value: 'oneThird',
       },
       {
-        label: 'Half',
+        label: 'Setengah (1/2)',
         value: 'half',
       },
       {
-        label: 'Two Thirds',
+        label: 'Dua Pertiga (2/3)',
         value: 'twoThirds',
       },
       {
-        label: 'Full',
+        label: 'Penuh',
         value: 'full',
       },
     ],
@@ -50,6 +51,7 @@ const columnFields: Field[] = [
   },
   {
     name: 'enableLink',
+    label: 'Aktifkan Tautan',
     type: 'checkbox',
   },
   link({
@@ -66,9 +68,18 @@ const columnFields: Field[] = [
 export const Content: Block = {
   slug: 'content',
   interfaceName: 'ContentBlock',
+  labels: {
+    singular: 'Konten Kolom',
+    plural: 'Konten Kolom',
+  },
   fields: [
     {
       name: 'columns',
+      label: 'Kolom',
+      labels: {
+        singular: 'Kolom',
+        plural: 'Kolom',
+      },
       type: 'array',
       admin: {
         initCollapsed: true,
