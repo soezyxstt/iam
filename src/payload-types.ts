@@ -1271,6 +1271,8 @@ export interface OrgMember {
   createdAt: string;
 }
 /**
+ * Halaman ini memakai draf: perubahan disimpan sebagai draf dan baru tampil di situs setelah klik Publish.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "values-philosophy".
  */
@@ -1295,6 +1297,7 @@ export interface ValuesPhilosophy {
   detailsLayout: (HeroHeaderBlock | SplitContentBlock | DialogueBlock | PillarsBlock | ClosingBlock)[];
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2364,6 +2367,7 @@ export interface ValuesPhilosophySelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3119,6 +3123,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'values-philosophy';
+          value: number | ValuesPhilosophy;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

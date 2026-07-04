@@ -15,6 +15,20 @@ const BeforeDashboard: React.FC = () => {
         Kelola beranda, berita, direktori alumni, sponsor, dan lowongan dari sini. Pratinjau live tersedia di
         editor halaman dan berita.
       </p>
+      <a className={`${baseClass}__moderasi`} href="/moderasi" target="_blank" rel="noreferrer">
+        <span className={`${baseClass}__moderasi-icon`} aria-hidden="true">
+          ✓
+        </span>
+        <span className={`${baseClass}__moderasi-text`}>
+          <strong>Moderasi Pengajuan</strong>
+          <span>
+            Tinjau &amp; setujui pengajuan usaha alumni dan lowongan kerja yang masuk dari formulir publik.
+          </span>
+        </span>
+        <span className={`${baseClass}__moderasi-arrow`} aria-hidden="true">
+          →
+        </span>
+      </a>
       <ul className={`${baseClass}__instructions`}>
         <li>
           <strong>Beranda:</strong> edit halaman dengan slug <code>home</code> — hero, blok highlight aktivitas /
@@ -23,14 +37,6 @@ const BeforeDashboard: React.FC = () => {
         <li>
           <strong>Konten organisasi:</strong> global <em>Profil Organisasi</em>, koleksi Kepengurusan, Ketua IAM,
           Galeri, Aktivitas.
-        </li>
-        <li>
-          <strong>Moderasi:</strong> pengajuan usaha alumni dan lowongan dari formulir tersimpan sebagai{' '}
-          <em>draf</em> — tinjau dan setujui melalui{' '}
-          <a href="/moderasi" target="_blank" rel="noreferrer">
-            Halaman Moderasi
-          </a>{' '}
-          atau di koleksi terkait.
         </li>
         <li>
           <SeedButton />

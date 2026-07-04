@@ -361,13 +361,14 @@ async function seedDB(dbName: string, config: any) {
       await payload.update({
         collection: 'values-philosophy',
         id: existing.docs[0].id,
-        data: item as any,
+        // Publish so seeded entries are visible on the public site (drafts are enabled)
+        data: { ...(item as any), _status: 'published' },
       })
       console.log(`  [${dbName}] Updated: ${item.title}`)
     } else {
       await payload.create({
         collection: 'values-philosophy',
-        data: item as any,
+        data: { ...(item as any), _status: 'published' },
       })
       console.log(`  [${dbName}] Created: ${item.title}`)
     }

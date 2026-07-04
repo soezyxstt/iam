@@ -1,6 +1,6 @@
 # Audit: Payload Admin UX — Findings & Non-Breaking Proposals
 
-> Status: **A1(a), A2, A3, and all B items IMPLEMENTED (2026-07-04).** C items remain open for decision.
+> Status: **A1(a), A2, A3, all B items, C1, and C3 IMPLEMENTED (2026-07-05).** C1 needs a one-time deploy step (see runbook below). Only C2 (user roles) remains open for decision.
 > Scope: admin usability of collections/blocks, based on a full scan of `src/collections`, `src/blocks`, `src/heros`, `src/plugins`, globals, and the frontend pages that consume them.
 > All proposals are non-breaking unless flagged ⚠ (those need a schema migration or change visible behavior).
 
@@ -94,4 +94,31 @@ Every user is a full admin (can delete users, change globals). If the client wil
 | 2 — labels/grouping | B3, B4 | ✅ Done |
 | 3 — hardening | B8 (warning-description variant), B9 (normalizer variant) | ✅ Done |
 | 4 — embed rendering | A1(a) — YouTube/Vimeo embeds now render on /galeri (frontend-only, no migration needed) | ✅ Done |
-| 5 — open decisions | C1 (drafts for NilaiFilosofi), C2 (user roles), C3 (moderation QoL) | ⏳ awaiting decision |
+| 5 — workflow | C1 (drafts for NilaiFilosofi), C3 (moderation QoL) | ✅ Code done — C1 needs a deploy step (below) |
+| 6 — open decision | C2 (user roles / editor vs admin) | ⏳ awaiting decision |
+
+---
+
+## C1 deploy runbook (REQUIRED — read before deploying)
+
+Enabling drafts on `values-philosophy` is a **schema change** (adds a `_status` column and version tables). The code is done, but two operational steps must happen **in order** or the existing Nilai & Filosofi pages will disappear from the public site:
+
+1. **Apply the schema change.** This project develops with the SQLite adapter's *push* (auto-sync) against Turso, so simply running the app with the new code adds the `_status` column and version tables. If you deploy with migrations instead, generate & run one first:
+   ```
+   pnpm payload migrate:create    # generates the migration from the live schema
+   pnpm migrate:turso:schema      # applies it
+   ```
+2. **Republish existing entries** (one-time — existing rows become non-published when drafts turn on):
+   ```
+   pnpm tsx scripts/publish-existing-philosophy.ts
+   ```
+   Safe to re-run. After this, every existing entry is `published` and visible again.
+
+From then on: editing a Nilai & Filosofi entry saves a **draft**; it only reaches the public site after clicking **Publish** (same as Halaman/Berita). The seed script (`scripts/seed-philosophy.ts`) was updated to publish what it seeds, so re-seeding stays visible.
+
+Read access was switched from `authenticatedOrPublicRead` (always-true) to `authenticatedOrPublished`, so drafts are hidden from the public. All three frontend reads already use `overrideAccess: false`, so no page code changed.
+
+## C3 — what was done
+
+- Added a prominent **Moderasi Pengajuan** call-to-action card at the top of the admin dashboard (`BeforeDashboard`), replacing the buried list-item link.
+- Both moderated collections (`jobVacancies`, `alumniBusinesses`) already expose `_status` as a list column, so admins can sort/filter Draft vs Published directly in the list view.

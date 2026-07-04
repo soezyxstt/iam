@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublicRead } from '../../access/authenticatedOrPublicRead'
+import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { slugField } from 'payload'
 import {
   HeroHeaderBlock,
@@ -19,13 +19,24 @@ export const NilaiFilosofi: CollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublicRead,
+    read: authenticatedOrPublished,
     update: authenticated,
   },
   admin: {
     group: 'Organisasi & kegiatan',
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'displayCategory', 'isComingSoon', 'order', 'updatedAt'],
+    defaultColumns: ['title', 'slug', 'displayCategory', '_status', 'isComingSoon', 'order', 'updatedAt'],
+    description:
+      'Halaman ini memakai draf: perubahan disimpan sebagai draf dan baru tampil di situs setelah klik Publish.',
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100,
+      },
+      schedulePublish: true,
+    },
+    maxPerDoc: 50,
   },
   fields: [
     {

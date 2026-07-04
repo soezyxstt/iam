@@ -136,9 +136,9 @@ Penting dipahami karena perilakunya berbeda:
 
 | Koleksi | Sistem | Artinya |
 |---|---|---|
-| Halaman, Berita | **Draft + Autosave + Jadwal terbit** | Perubahan tersimpan otomatis sebagai draft; tampil di web hanya setelah klik **Publish**. Bisa dijadwalkan. |
+| Halaman, Berita, **Nilai & Filosofi** | **Draft + Autosave + Jadwal terbit** | Perubahan tersimpan otomatis sebagai draft; tampil di web hanya setelah klik **Publish**. Bisa dijadwalkan. |
 | Lowongan Kerja, Usaha Alumni | **Draft (tanpa autosave)** | Harus klik **Publish** agar tampil. Kiriman dari formulir publik otomatis masuk sebagai **draft** untuk dimoderasi. |
-| Aktivitas, Sponsor, Galeri, Kategori Galeri, Ketua IAM, Kepengurusan, Komunitas, Anggota Organisasi, Nilai & Filosofi, Kategori, Media | **Langsung tampil** | Begitu klik **Save**, data langsung publik. Tidak ada draft. Hati-hati saat mengedit. |
+| Aktivitas, Sponsor, Galeri, Kategori Galeri, Ketua IAM, Kepengurusan, Komunitas, Anggota Organisasi, Kategori, Media | **Langsung tampil** | Begitu klik **Save**, data langsung publik. Tidak ada draft. Hati-hati saat mengedit. |
 | Basis Data Alumni | Langsung tampil, **tapi** hanya jika "Tampil di direktori publik" dicentang | Email & telepon tidak pernah tampil ke publik. |
 | Header, Footer, Profil Organisasi | Global, langsung tampil setelah Save | — |
 
@@ -445,7 +445,7 @@ Galeri berbentuk **album**: satu entri Galeri = satu foto/video, dan wajib menun
 
 ## 9. Hal yang Perlu Diwaspadai
 
-1. **Koleksi tanpa draft langsung publik saat Save** — lihat tabel di [Bab 3](#3-status-terbit-per-koleksi). Jangan simpan setengah jadi di Aktivitas, Sponsor, Galeri, Nilai & Filosofi, dll.
+1. **Koleksi tanpa draft langsung publik saat Save** — lihat tabel di [Bab 3](#3-status-terbit-per-koleksi). Jangan simpan setengah jadi di Aktivitas, Sponsor, Galeri, dll. (**Nilai & Filosofi kini memakai draf** — aman disimpan bertahap, tampil setelah **Publish**.)
 2. **Jangan hapus media yang masih dipakai** — gambar di website akan rusak. Cek dulu apakah masih direferensikan.
 3. **Judul form "Pengajuan Lowongan" & "Pengajuan Usaha Alumni" tidak boleh diganti** — otomatisasi draft mengenali form dari judulnya.
 4. **URL sematan Galeri harus link YouTube/Vimeo yang valid** — link lain tidak dapat dirender dan entrinya tidak akan muncul.

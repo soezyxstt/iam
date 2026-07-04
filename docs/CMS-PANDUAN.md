@@ -2,6 +2,12 @@
 
 > **Untuk siapa panduan ini?** Untuk pengurus/alumni IAM ITB yang akan mengelola website. Tidak perlu pengalaman teknis — semua dijelaskan langkah demi langkah.
 
+> 💡 **Tenang, kamu tidak bisa "merusak" website.** Mengelola isi website ini seperti mengisi formulir atau menulis di Microsoft Word. Kamu tidak akan menyentuh kode atau bagian teknis apa pun. Kalau ragu, simpan sebagai **draf** dulu (belum tampil ke publik) — nanti bisa diperiksa sebelum benar-benar diterbitkan. Kalau ada yang salah, hampir semuanya bisa diperbaiki atau dikembalikan.
+
+> 🧭 **Cara membaca panduan ini:** Tidak perlu dibaca dari awal sampai akhir. Cari bagian yang kamu butuhkan lewat **Daftar Isi** di bawah. Bab 1–4 sebaiknya dibaca sekali di awal; sisanya bisa dibuka saat diperlukan.
+
+> 📗 **Butuh detail lebih dalam?** Ada dokumen pendamping **`CMS-REFERENSI-BLOK.md`** yang membahas setiap blok dan setiap kotak isian satu per satu, lengkap dengan contoh alur kerja. Panduan ini (yang sedang kamu baca) untuk penggunaan sehari-hari; dokumen referensi itu untuk saat kamu ingin tahu fungsi detail sebuah pilihan.
+
 ---
 
 ## 📋 Daftar Isi
@@ -40,21 +46,27 @@
 
 ## 1. Apa itu CMS?
 
-**CMS** (Content Management System / Sistem Manajemen Konten) adalah tools yang memungkinkan kamu mengelola isi website **tanpa perlu coding**. Semua dilakukan lewat tampilan yang mirip seperti mengisi formulir.
+**CMS** adalah singkatan dari *Content Management System* — bahasa gampangnya: **"tempat mengatur isi website"**. Ini adalah panel khusus (semacam ruang belakang) tempat kamu bisa mengganti tulisan, foto, dan daftar-daftar di website **tanpa perlu tahu soal coding**. Semuanya lewat tampilan yang mirip mengisi formulir.
 
-Di website IAM ITB, kita menggunakan **Payload CMS**.
+Di website IAM ITB, panel ini dibuat dengan alat bernama **Payload** — tapi kamu tidak perlu menghafal namanya.
 
-### Istilah Penting yang Perlu Diketahui:
+### Istilah yang Akan Sering Kamu Temui
 
-| Istilah | Arti |
+Jangan khawatir dengan istilah Inggris di bawah — ini cuma nama tombol/menu. Berikut arti gampangnya:
+
+| Istilah | Arti gampangnya |
 |---|---|
-| **Collection** | Kumpulan data dengan jenis yang sama. Contoh: Berita, Aktivitas, Sponsor. Ibaratnya seperti "folder" di database. |
-| **Global** | Data yang hanya ada SATU dan muncul di seluruh website. Contoh: Header (navigasi), Footer. |
-| **Field** | Kolom isian dalam sebuah formulir. Contoh: Judul, Deskripsi, Gambar. |
-| **Block** | "Blok penyusun" halaman. Kamu bisa menyusun halaman seperti menyusun Lego — pilih blok yang kamu butuhkan, atur urutannya. |
-| **Draft** | Status tulisan yang belum terbit / masih dalam pengerjaan. |
-| **Published** | Status tulisan yang sudah tampil di website. |
-| **Dashboard** | Halaman utama admin setelah login. |
+| **Collection** (Koleksi) | Sekumpulan data sejenis, seperti satu buku daftar. Contoh: buku daftar "Berita", buku daftar "Sponsor". Setiap entri = satu halaman isian. |
+| **Global** | Data yang cuma ada **satu** dan dipakai di seluruh website. Contoh: menu atas (Header) dan bagian bawah (Footer). |
+| **Field** | Satu kotak isian dalam formulir. Contoh: kotak "Judul", kotak "Deskripsi". |
+| **Block** (Blok) | Potongan bagian halaman yang bisa kamu susun seperti **Lego** atau slide PowerPoint — pilih yang dibutuhkan, atur urutannya. |
+| **Draft** (Draf) | Belum tampil ke publik. Masih "disimpan diam-diam" untuk kamu kerjakan/periksa. |
+| **Published** (Terbit) | Sudah tampil di website dan bisa dilihat semua pengunjung. |
+| **Publish** | Tombol untuk **menerbitkan** — mengubah draf jadi tampil di website. |
+| **Save** | Tombol **simpan**. Menyimpan pekerjaanmu (kalau ada fitur draf, tersimpan sebagai draf dulu). |
+| **Media** | "Gudang" tempat semua foto & video website disimpan. |
+| **Dashboard** | Halaman depan yang muncul setelah kamu login. |
+| **Upload** | Mengunggah / memasukkan file (foto/video) dari komputermu ke website. |
 
 ---
 
@@ -109,8 +121,15 @@ Di sebelah kiri layar, ada menu navigasi yang dikelompokkan:
 └─ ⚙ Pengaturan Situs
     ├─ Header
     ├─ Footer
-    └─ Users
+    ├─ Users
+    ├─ Forms          (lanjutan — formulir)
+    ├─ Form Submissions (lanjutan — kiriman formulir)
+    └─ Redirects      (lanjutan — pengalihan tautan)
 ```
+
+> Menu bertanda *(lanjutan)* jarang perlu disentuh untuk penggunaan sehari-hari. **Forms** adalah tempat formulir website dibuat/diatur, **Form Submissions** menyimpan setiap kiriman formulir, dan **Redirects** mengalihkan tautan lama ke halaman baru. Boleh diabaikan dulu.
+
+> 📌 **Kartu "Moderasi Pengajuan" di halaman depan.** Begitu login, di bagian atas Dashboard ada kotak kuning bertuliskan **Moderasi Pengajuan**. Klik kotak itu kapan pun ada alumni yang mengirim usaha atau lowongan lewat website — di sana kamu bisa memeriksa lalu menyetujui atau menolaknya. (Penjelasan lengkap ada di [Bab 6](#61-lowongan-kerja) dan lihat juga kata "moderasi".)
 
 ### 3.2. Cara Membaca Formulir
 
@@ -132,33 +151,40 @@ Perhatikan badge warna di samping judul dokumen:
 
 ## 4. Manajemen Media (Gambar & Video)
 
-**Media** adalah tempat menyimpan semua file gambar dan video yang akan digunakan di website.
+**Media** adalah **gudang foto & video** website. Ini konsep paling penting untuk dipahami, jadi baca pelan-pelan:
+
+> 🔑 **Aturan emasnya:** Kamu **tidak pernah** menempelkan foto langsung ke Berita atau Sponsor. Kamu selalu **memasukkan foto ke gudang Media dulu**, baru kemudian di halaman Berita/Sponsor kamu tinggal **memilih** foto itu dari gudang. Ibaratnya: simpan barang di gudang dulu, baru dipajang di etalase. Satu foto yang sudah di gudang bisa dipakai ulang di banyak tempat.
 
 > **Letak menu:** Media & Berkas → Media
 
-### Cara Upload:
+### Cara Memasukkan Foto ke Gudang (Upload):
 
-1. Klik **Create New** (buat baru).
-2. Drag & drop file ke area yang disediakan, atau klik untuk memilih file dari komputer.
-3. Isi **Nama Media** (untuk memudahkan pencarian).
-4. Klik **Save**.
+1. Klik tombol **Create New** (artinya: "buat baru").
+2. Tarik file foto/video dari komputer ke kotak yang tersedia (*drag & drop*), atau klik kotak itu untuk memilih file.
+3. Isi **Nama Media** — beri nama yang jelas biar gampang dicari nanti. Contoh: `Reuni Akbar 2025 - Foto Panggung` (jauh lebih baik daripada nama file `IMG_2931.jpg`).
+4. (Sangat disarankan) Isi **Alt** — yaitu deskripsi singkat isi foto, misalnya "Peserta reuni berfoto di Sabuga". Ini membantu foto ditemukan di Google dan dibaca oleh pembaca layar untuk tunanetra.
+5. Klik **Save**. Selesai — foto sudah ada di gudang dan siap dipakai.
+
+> 💡 **Tips merapikan:** Gudang Media punya fitur **folder**. Sebelum upload, kamu bisa buat/masuk folder seperti `berita`, `sponsor`, `galeri`, `organisasi`. Ini opsional, tapi sangat membantu saat foto sudah banyak.
 
 ### Format yang Didukung:
 
 | Jenis | Format | Keterangan |
 |---|---|---|
-| Gambar | JPG, PNG, WebP, GIF | Otomatis dibuatkan beberapa ukuran (thumbnail, medium, large, dll.) |
-| Video | MP4, WebM | Maksimal ukuran menyesuaikan server |
+| Gambar | JPG, PNG, WebP, GIF, dll. | Website otomatis membuat beberapa ukuran — kamu tidak perlu mengecilkan foto sendiri |
+| Video | Hanya MP4 & WebM | Untuk video panjang, **jangan upload file** — pakai tautan YouTube/Vimeo (lihat [Galeri](#75-galeri--kategori-galeri)) |
 
-### Cara Menggunakan Media:
+### Cara Memakai Foto yang Sudah di Gudang:
 
-Setelah diupload, kamu bisa memilih media tersebut dari berbagai tempat di CMS — misalnya untuk gambar utama berita, logo sponsor, foto profil, dll. Cukup klik tombol **"Choose Media"** atau **"Upload"** dan pilih dari library.
+Nanti di halaman Berita, Sponsor, dsb., saat ketemu kotak gambar, akan ada dua tombol:
+- **Choose from existing** ("pilih yang sudah ada") → cari foto dari gudang lalu klik. **Ini cara yang biasa dipakai.**
+- **Upload** / **Create New** → memasukkan foto baru langsung di situ (tetap otomatis tersimpan ke gudang).
 
-### Tips:
+### Tips Penting:
 
-- Upload gambar dengan resolusi tinggi. CMS akan otomatis membuat versi yang lebih kecil.
-- Gunakan format WebP untuk performa terbaik.
-- Beri nama yang jelas agar mudah dicari nanti.
+- ✅ **Upload foto sebesar/setajam mungkin.** Website yang akan otomatis mengecilkan untuk tiap layar. Foto besar = tajam di mana-mana. Foto kecil = pecah di layar besar.
+- ✅ **Beri nama & Alt yang jelas.** Kamu akan berterima kasih pada diri sendiri saat gudang sudah berisi ratusan foto.
+- ⚠️ **Jangan hapus foto yang masih dipakai** di suatu halaman — nanti muncul gambar rusak di website.
 
 ---
 
@@ -260,6 +286,13 @@ Setelah diupload, kamu bisa memilih media tersebut dari berbagai tempat di CMS �
 ---
 
 ## 6. Directory & Komunitas
+
+> 📥 **Tentang "Moderasi" (penting untuk Lowongan & Usaha Alumni).** Alumni bisa mengirim lowongan atau usaha mereka sendiri lewat formulir di website. Kiriman itu **tidak langsung tampil** — ia masuk sebagai **draf** dan menunggu persetujuanmu. Cara memeriksanya:
+> 1. Login ke admin, lalu klik kartu kuning **Moderasi Pengajuan** di Dashboard (atau buka alamat website diakhiri `/moderasi`).
+> 2. Kamu akan melihat daftar kiriman yang menunggu. Periksa isinya.
+> 3. Klik **Setujui** untuk menerbitkannya ke website, atau **Tolak** untuk membuangnya.
+>
+> Kamu juga bisa membuat lowongan/usaha sendiri secara manual lewat menu di bawah (langkahnya sama, tinggal isi lalu **Publish**).
 
 ### 6.1. Lowongan Kerja
 
@@ -488,7 +521,9 @@ Mendata anggota struktural organisasi IAM ITB.
 
 > **Letak menu:** Organisasi & Kegiatan → Nilai & Filosofi
 
-Halaman yang menjelaskan nilai-nilai dan filosofi IAM ITB.
+Halaman yang menjelaskan nilai-nilai dan filosofi IAM ITB (misalnya Genggam Mesin, Solidarity Forever).
+
+> ✅ **Halaman ini sekarang punya fitur draf.** Karena isinya panjang dan disusun dari banyak blok, kamu bisa mengerjakannya bertahap dengan aman: klik **Save** untuk menyimpan sebagai draf (belum tampil ke publik), dan baru klik **Publish** kalau sudah rapi. Sama seperti Berita dan Halaman.
 
 #### Field yang Perlu Diisi:
 
@@ -499,7 +534,7 @@ Halaman yang menjelaskan nilai-nilai dan filosofi IAM ITB.
 | **Label Kartu** | ✅ Ya | Teks yang muncul di kartu tampilan beranda |
 | **Segera Hadir** | ❌ Tidak | Centang jika konten belum siap |
 | **Urutan Tampilan** | ❌ Tidak | Nomor urut |
-| **Tata Letak Konten** | ✅ Ya | Halaman detail menggunakan blok khusus (lihat di [Bab 9](#9-memahami-blok-blocks)) |
+| **Tata Letak Konten** | ✅ Ya | Halaman detail disusun dari blok khusus (lihat di [Bab 9](#9-memahami-blok-blocks)) |
 
 ---
 
@@ -755,30 +790,38 @@ Penutup halaman dengan quote dan tombol.
 
 ## 10. Draft vs Publikasi
 
-### Apa Bedanya?
+Ini penting karena tidak semua menu berperilaku sama. Ada dua "tipe":
 
-- **Draft** = Belum tampil di website. Halaman admin bisa melihatnya.
-- **Published** = Sudah tampil di website. Semua pengunjung bisa melihatnya.
+### Apa Bedanya Draf dan Terbit?
 
-### Cara Publikasi:
+- **Draf** = Pekerjaanmu tersimpan, **tapi belum tampil ke publik.** Cocok untuk mengerjakan sesuatu bertahap atau menunggu diperiksa.
+- **Terbit (Published)** = Sudah **tampil di website** dan bisa dilihat semua pengunjung.
 
-Beberapa koleksi (Halaman, Berita, Lowongan) memiliki fitur draft. Caranya:
+### Tipe 1 — Menu yang PUNYA fitur draf
 
-1. Setelah mengisi data, klik tombol **Save** (simpan sebagai draft).
-2. Untuk menerbitkan, ubah status dari **Draft** menjadi **Published** di tombol **Publish** (biasanya di pojok kanan atas).
-3. Atur **Published At** untuk menentukan tanggal publikasi.
-4. Klik **Save** atau **Publish**.
+**Halaman, Berita, Lowongan Kerja, Usaha Alumni, dan Nilai & Filosofi.**
 
-### Schedule Publish:
+Di menu-menu ini, menyimpan tidak langsung menampilkan ke publik — kamu harus menerbitkannya sendiri:
 
-Kamu bisa menjadwalkan publikasi di masa depan:
-1. Atur status ke **Published**.
-2. Atur **Published At** ke tanggal yang diinginkan.
-3. Sistem akan otomatis menerbitkan pada tanggal tersebut.
+1. Setelah mengisi, klik **Save** → tersimpan sebagai **draf** (aman, belum publik).
+2. Kalau sudah yakin, klik tombol **Publish** (biasanya di pojok kanan atas) → barulah tampil di website.
+3. (Opsional) Isi **Tanggal Diterbitkan** untuk mencatat/menjadwalkan kapan terbit.
 
-### Untuk Koleksi Tanpa Fitur Draft:
+> 💡 Kebiasaan yang baik: **selalu simpan sebagai draf dulu, periksa, baru Publish.**
 
-Beberapa koleksi (seperti Aktivitas, Sponsor, Galeri) langsung tampil saat disimpan. Tidak ada konsep draft untuk koleksi ini. Data akan langsung muncul di website setelah disimpan.
+#### Menjadwalkan Terbit (Schedule Publish)
+
+Mau sesuatu terbit otomatis nanti (misalnya pengumuman untuk besok pagi)? Atur status ke terbit lalu set **Tanggal Diterbitkan** ke waktu yang diinginkan — sistem akan menerbitkannya sendiri pada waktu itu.
+
+### Tipe 2 — Menu yang LANGSUNG tampil saat disimpan
+
+**Aktivitas, Sponsor, Galeri, Kategori Galeri, Ketua IAM, Kepengurusan, Komunitas, Anggota Organisasi, dan data Media.**
+
+Menu-menu ini **tidak punya draf** — begitu kamu klik **Save**, datanya **langsung tampil di website**. Jadi hati-hati: jangan menyimpan yang masih setengah jadi. Selesaikan dulu, baru Save.
+
+> Menu **Header, Footer, dan Profil Organisasi** juga langsung tampil setelah disimpan.
+
+> ⏱ **Sabar sebentar:** beberapa halaman butuh hingga ±10 menit untuk memperbarui tampilan. Kalau perubahanmu belum kelihatan, tunggu beberapa menit lalu muat ulang (refresh) halaman.
 
 ---
 
@@ -787,24 +830,24 @@ Beberapa koleksi (seperti Aktivitas, Sponsor, Galeri) langsung tampil saat disim
 ### ✅ Yang Harus Dilakukan:
 
 - **Beri judul yang jelas** pada setiap konten agar mudah dicari di daftar.
-- **Upload gambar resolusi tinggi** — sistem akan otomatis mengecilkan untuk tampilan website.
+- **Upload gambar sebesar/setajam mungkin** — sistem akan otomatis mengecilkan untuk tampilan website.
 - **Gunakan kategori** untuk mengelompokkan berita.
-- **Isi SEO** setiap halaman dan berita agar mudah ditemukan di Google.
-- **Simpan draft** dulu sebelum publish, untuk review.
-- **Cek tampilan website** setelah publish untuk memastikan hasilnya sesuai.
+- **Isi bagian SEO** (tab paling kanan saat mengedit Halaman/Berita) — ini yang menentukan judul & gambar yang muncul saat halaman dibagikan ke WhatsApp/Google. Ada tombol untuk mengisinya otomatis.
+- **Simpan sebagai draf** dulu sebelum menerbitkan, untuk diperiksa.
+- **Buka website-nya** setelah menerbitkan untuk memastikan hasilnya sesuai.
 
 ### ❌ Yang Harus Dihindari:
 
-- **Jangan upload gambar terlalu kecil** — akan pecah di layar besar.
-- **Jangan hapus media** yang sedang digunakan di halaman/berita — akan muncul iklan broken image.
-- **Jangan buka banyak tab** edit pada dokumen yang sama — bisa menyebabkan konflik data.
-- **Jangan ganti password** pengguna lain tanpa izin.
+- **Jangan upload gambar terlalu kecil** — akan pecah/buram di layar besar.
+- **Jangan hapus foto** yang sedang dipakai di suatu halaman — nanti muncul gambar rusak di website.
+- **Jangan membuka satu konten yang sama di banyak tab** lalu mengeditnya bersamaan — bisa saling menimpa.
+- **Jangan mengganti password** akun orang lain tanpa izin.
+- **Jangan mengubah judul formulir "Pengajuan Lowongan" dan "Pengajuan Usaha Alumni"** — kedua nama itu dipakai sistem untuk mengenali kiriman alumni. Kalau namanya diganti, kiriman baru bisa berhenti masuk ke moderasi.
 
 ### 🔍 Cara Mencari Konten:
 
-- Gunakan **Search Bar** di bagian atas daftar untuk mencari berdasarkan judul.
-- Filter berdasarkan **Status** (Draft / Published).
-- Filter berdasarkan **Kategori** (untuk berita).
+- Ketik di **kotak pencarian** di bagian atas daftar untuk mencari berdasarkan judul/nama.
+- Gunakan tombol **Filter** untuk menyaring berdasarkan **status** (Draf / Terbit) atau **kategori**.
 
 ### ❓ Butuh Bantuan?
 
