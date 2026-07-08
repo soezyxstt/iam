@@ -18,6 +18,7 @@ export const HeroHeaderBlock: Block = {
       name: 'eyebrowStyle',
       label: 'Style Eyebrow',
       type: 'select',
+      enumName: 'hero_eyebrow_style',
       options: [
         { label: 'Gold', value: 'gold' },
         { label: 'Red Light', value: 'red-light' },
@@ -41,6 +42,7 @@ export const HeroHeaderBlock: Block = {
       name: 'highlightStyle',
       label: 'Style Sorotan',
       type: 'select',
+      enumName: 'hero_highlight_style',
       options: [
         { label: 'Gold', value: 'gold' },
         { label: 'Gradient (Gold-Red-Gold)', value: 'gradient' },
@@ -63,6 +65,7 @@ export const HeroHeaderBlock: Block = {
       name: 'introStyle',
       label: 'Style Pengantar',
       type: 'select',
+      enumName: 'hero_intro_style',
       options: [
         { label: 'Default', value: 'default' },
         { label: 'Italic & Serif (September-M Style)', value: 'italic' },
@@ -214,6 +217,7 @@ export const DialogueBlock: Block = {
       name: 'eyebrowStyle',
       label: 'Style Eyebrow Kiri',
       type: 'select',
+      enumName: 'dial_eyebrow_style',
       options: [
         { label: 'Red Light', value: 'red-light' },
         { label: 'Gold', value: 'gold' },
@@ -303,6 +307,7 @@ export const PillarsBlock: Block = {
       name: 'eyebrowStyle',
       label: 'Style Eyebrow',
       type: 'select',
+      enumName: 'pill_eyebrow_style',
       options: [
         { label: 'Gold', value: 'gold' },
         { label: 'Red Light', value: 'red-light' },
@@ -320,6 +325,7 @@ export const PillarsBlock: Block = {
       name: 'displayStyle',
       label: 'Style Tampilan',
       type: 'select',
+      enumName: 'pill_display_style',
       options: [
         { label: '3 Kolom Horizontal (Genggam Mesin Style)', value: 'three-columns' },
         { label: 'Baris List dengan Metadata Kiri (Solidarity Forever Style)', value: 'rows-with-left-meta' },
@@ -342,6 +348,7 @@ export const PillarsBlock: Block = {
           name: 'numberStyle',
           label: 'Style Nomor',
           type: 'select',
+          enumName: 'pill_number_style',
           options: [
             { label: 'Red Light', value: 'red-light' },
             { label: 'Gold', value: 'gold' },
@@ -358,6 +365,7 @@ export const PillarsBlock: Block = {
           name: 'subLabelStyle',
           label: 'Style Label Pendukung',
           type: 'select',
+          enumName: 'pill_sub_label_style',
           options: [
             { label: 'Gold', value: 'gold' },
             { label: 'Red Light', value: 'red-light' },
@@ -425,6 +433,7 @@ export const ClosingBlock: Block = {
       name: 'eyebrowStyle',
       label: 'Style Eyebrow',
       type: 'select',
+      enumName: 'close_eyebrow_style',
       options: [
         { label: 'Gold', value: 'gold' },
         { label: 'Red Light', value: 'red-light' },
@@ -442,6 +451,7 @@ export const ClosingBlock: Block = {
       name: 'titleStyle',
       label: 'Style Judul',
       type: 'select',
+      enumName: 'close_title_style',
       options: [
         { label: 'Accent (Gold)', value: 'accent' },
         { label: 'Inverse (White)', value: 'inverse' },
@@ -457,6 +467,7 @@ export const ClosingBlock: Block = {
       name: 'quoteStyle',
       label: 'Style Kutipan',
       type: 'select',
+      enumName: 'close_quote_style',
       options: [
         { label: 'Italic & Serif (September-M Style)', value: 'italic' },
         { label: 'Default', value: 'default' },
@@ -489,6 +500,7 @@ export const ClosingBlock: Block = {
           name: 'hoverColor',
           label: 'Warna Hover',
           type: 'select',
+          enumName: 'close_links_hover_color',
           options: [
             { label: 'Gold', value: 'gold' },
             { label: 'Red Light', value: 'red-light' },

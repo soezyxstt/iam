@@ -11,7 +11,6 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 import { PageHeroHeader } from '@/components/ui/page-hero-header'
 import { Section } from '@/components/ui/section'
 import { Eyebrow, Heading, Text } from '@/components/ui/typography'
-import { GlassCard } from '@/components/ui/glass-card'
 import RichText from '@/components/RichText'
 import { cn } from '@/utilities/ui'
 import { getCachedGlobal } from '@/utilities/getGlobals'
@@ -198,37 +197,37 @@ export default async function OrganisasiPage() {
         <ScrollReveal>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-x-0 lg:gap-y-0">
             <div className="flex flex-col items-center lg:col-span-4 lg:items-end lg:pr-7">
-              <GlassCard variant="stripes" contentClassName="p-6 md:p-8 flex flex-col items-center" className="w-full max-w-[280px]">
-                <div className="relative aspect-4/5 w-full overflow-hidden rounded-xl border border-white/10 shadow-lg bg-brand-dark/50">
+              <div className="w-full max-w-[280px] group lg:sticky lg:top-28 lg:h-fit">
+                <div className="relative aspect-4/5 w-full overflow-hidden rounded-2xl border border-brand-dark/10 shadow-xl bg-brand-khaki/10 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-brand-dark/10 group-hover:-translate-y-1">
                   {displayChairPhotoUrl ? (
                     <Image
                       src={displayChairPhotoUrl}
                       alt={displayChairName}
                       fill
-                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       sizes="(max-width: 640px) 240px, 280px"
                       priority
                     />
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-brand-primary/10">
-                      <span className="font-display text-4xl font-bold text-white/30">
+                    <div className="absolute inset-0 flex items-center justify-center bg-brand-primary/5">
+                      <span className="font-display text-4xl font-bold text-brand-dark/20">
                         {displayChairName.charAt(0)}
                       </span>
                     </div>
                   )}
                 </div>
-                <div className="mt-6 border-t border-white/10 pt-5 w-full text-center">
-                  <Text
-                    tone="inverse"
-                    className="font-serif text-xl font-bold tracking-tight sm:text-[1.25rem] text-white"
+                <div className="mt-5 text-center">
+                  <Heading
+                    level={4}
+                    className="text-lg md:text-xl font-bold tracking-tight text-brand-dark"
                   >
                     {displayChairName}
-                  </Text>
-                  <Eyebrow tone="gold" className="mt-2 tracking-[0.2em] opacity-80">
+                  </Heading>
+                  <Eyebrow tone="red" className="mt-2 tracking-[0.25em] block text-[11px]">
                     Ketua IAM ITB
                   </Eyebrow>
                 </div>
-              </GlassCard>
+              </div>
             </div>
 
             <div className="relative lg:col-span-8 lg:border-l lg:border-brand-dark/12 lg:pl-10 lg:pr-2 lg:pt-2 xl:pl-12">
