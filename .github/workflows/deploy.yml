@@ -1,4 +1,4 @@
-name: Deploy to Jagoan Hosting Cloud Mixmatch
+name: Deploy to Jagoan Hosting Cloud Mixmatch via FTP
 
 on:
   push:
@@ -46,37 +46,20 @@ jobs:
           EMAIL_FROM_NAME: ${{ secrets.EMAIL_FROM_NAME }}
         run: pnpm build
 
-      - name: Prepare Standalone Deployment Bundle
+      - name: Prepare Standalone Deployment Bundle & Trigger Restart File
         run: |
           mkdir -p .next/standalone/.next
           cp -r public .next/standalone/public
           cp -r .next/static .next/standalone/.next/static
+          mkdir -p .next/standalone/tmp
+          touch .next/standalone/tmp/restart.txt
 
-      - name: Setup SSH Key & Decrypt Passphrase
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          if [ -n "$SSH_PASSPHRASE" ]; then
-            ssh-keygen -p -P "$SSH_PASSPHRASE" -N "" -f ~/.ssh/id_rsa
-          fi
-          ssh-keyscan -p ${{ secrets.SSH_PORT || '22' }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
-
-      - name: Sync Files to Jagoan Hosting Server via rsync
-        run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no" \
-            .next/standalone/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}/
-
-      - name: Trigger Node.js Application Restart
-        run: |
-          ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
-            cd ${{ secrets.TARGET_DIR }} && \
-            mkdir -p tmp && \
-            touch tmp/restart.txt && \
-            (pm2 reload server 2>/dev/null || pm2 restart server.js 2>/dev/null || true)
-          "
+      - name: Deploy Files to Jagoan Hosting via FTP
+        uses: SamKirsh/ftp-deploy-action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT || 21 }}
+          local-dir: .next/standalone/
+          server-dir: ${{ secrets.TARGET_DIR || '/' }}
