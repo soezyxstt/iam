@@ -55,7 +55,7 @@ jobs:
           touch .next/standalone/tmp/restart.txt
 
       - name: Deploy Files to Jagoan Hosting via FTP
-        uses: SamKirsh/ftp-deploy-action@v4.3.5
+        uses: SamKirland/ftp-deploy-action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
