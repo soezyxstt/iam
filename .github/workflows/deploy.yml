@@ -65,11 +65,12 @@ jobs:
           FTP_PORT: ${{ secrets.FTP_PORT || '21' }}
           TARGET_DIR: ${{ secrets.TARGET_DIR || '/' }}
         run: |
-          lftp -c "
-            set ftp:ssl-allow no;
+          lftp -e "
+            set ftp:ssl-allow yes;
+            set ssl:verify-certificate no;
             set net:timeout 15;
             set net:max-retries 3;
-            open -u $FTP_USERNAME,$FTP_PASSWORD -p $FTP_PORT $FTP_SERVER;
+            open -u \"$FTP_USERNAME\",\"$FTP_PASSWORD\" -p $FTP_PORT $FTP_SERVER;
             mirror -R --delete --verbose .next/standalone/ $TARGET_DIR;
             quit
           "
