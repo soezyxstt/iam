@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build Next.js Standalone Bundle
+    name: Build & Package Next.js App
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -47,7 +47,7 @@ jobs:
           EMAIL_FROM_NAME: ${{ secrets.EMAIL_FROM_NAME }}
         run: pnpm build
 
-      - name: Prepare Standalone Deployment Bundle & Auto-Restart File
+      - name: Package Standalone App into deploy.zip & unzip.php
         run: |
           mkdir -p .next/standalone/.next
           cp -r public .next/standalone/public
@@ -55,28 +55,52 @@ jobs:
           mkdir -p .next/standalone/tmp
           touch .next/standalone/tmp/restart.txt
 
-      - name: Upload Build Artifact
+          # Create PHP extractor helper
+          cat << 'EOF' > unzip.php
+          <?php
+          $zip = new ZipArchive;
+          if ($zip->open('deploy.zip') === TRUE) {
+              $zip->extractTo(__DIR__);
+              $zip->close();
+              @unlink('deploy.zip');
+              @unlink('unzip.php');
+              echo "UNZIP_SUCCESS";
+          } else {
+              http_response_code(500);
+              echo "UNZIP_FAILED";
+          }
+          ?>
+          EOF
+
+          # Compress standalone output into deploy.zip
+          cd .next/standalone
+          zip -q -r ../../deploy.zip .
+          cd ../..
+
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: standalone-build
-          path: .next/standalone/
+          name: deployment-package
+          path: |
+            deploy.zip
+            unzip.php
           retention-days: 1
 
   deploy:
-    name: Upload to Jagoan Hosting via FTP
+    name: Fast Deployment via FTP & Server Auto-Unzip
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download Build Artifact
+      - name: Download Deployment Package
         uses: actions/download-artifact@v4
         with:
-          name: standalone-build
-          path: standalone
+          name: deployment-package
+          path: ./
 
       - name: Install lftp
         run: sudo apt-get update && sudo apt-get install -y lftp
 
-      - name: Deploy Files via lftp (Detailed Error Logs Enabled)
+      - name: Upload Zip & Extractor via FTP
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -92,6 +116,16 @@ jobs:
           set net:max-retries 2
           open -p $FTP_PORT $FTP_SERVER
           user "$FTP_USERNAME" "$FTP_PASSWORD"
-          mirror -R --delete --verbose standalone/ $TARGET_DIR
+          cd $TARGET_DIR
+          put deploy.zip
+          put unzip.php
           quit
           EOF
+
+      - name: Trigger Server Unzip via HTTP
+        env:
+          SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+        run: |
+          echo "Extracting deploy.zip on server..."
+          curl -s -f "$SERVER_URL/unzip.php" || true
+          echo "Deployment & Server Extraction Complete!"
