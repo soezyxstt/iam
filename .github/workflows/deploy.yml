@@ -1,4 +1,4 @@
-name: Deploy to Jagoan Hosting Cloud Mixmatch via FTP
+name: Deploy to Jagoan Hosting Cloud Mixmatch
 
 on:
   push:
@@ -7,7 +7,8 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  build:
+    name: Build Next.js Standalone Bundle
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -46,7 +47,7 @@ jobs:
           EMAIL_FROM_NAME: ${{ secrets.EMAIL_FROM_NAME }}
         run: pnpm build
 
-      - name: Prepare Standalone Deployment Bundle & Trigger Restart File
+      - name: Prepare Standalone Deployment Bundle & Auto-Restart File
         run: |
           mkdir -p .next/standalone/.next
           cp -r public .next/standalone/public
@@ -54,10 +55,28 @@ jobs:
           mkdir -p .next/standalone/tmp
           touch .next/standalone/tmp/restart.txt
 
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: standalone-build
+          path: .next/standalone/
+          retention-days: 1
+
+  deploy:
+    name: Upload to Jagoan Hosting via FTP
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: standalone-build
+          path: standalone
+
       - name: Install lftp
         run: sudo apt-get update && sudo apt-get install -y lftp
 
-      - name: Deploy Files to Jagoan Hosting via lftp
+      - name: Deploy Files via lftp (Detailed Error Logs Enabled)
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -66,11 +85,12 @@ jobs:
           TARGET_DIR: ${{ secrets.TARGET_DIR || '/' }}
         run: |
           lftp -e "
+            debug 5;
             set ftp:ssl-allow yes;
             set ssl:verify-certificate no;
             set net:timeout 15;
-            set net:max-retries 3;
+            set net:max-retries 2;
             open -u \"$FTP_USERNAME\",\"$FTP_PASSWORD\" -p $FTP_PORT $FTP_SERVER;
-            mirror -R --delete --verbose .next/standalone/ $TARGET_DIR;
+            mirror -R --delete --verbose standalone/ $TARGET_DIR;
             quit
           "
