@@ -52,27 +52,29 @@ jobs:
           cp -r public .next/standalone/public
           cp -r .next/static .next/standalone/.next/static
 
-      - name: Setup SSH Key with Passphrase
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-          ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
-
-      - name: Add Known Hosts
+      - name: Setup SSH Key & Decrypt Passphrase
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
         run: |
           mkdir -p ~/.ssh
+          echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          if [ -n "$SSH_PASSPHRASE" ]; then
+            ssh-keygen -p -P "$SSH_PASSPHRASE" -N "" -f ~/.ssh/id_rsa
+          fi
           ssh-keyscan -p ${{ secrets.SSH_PORT || '22' }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
 
       - name: Sync Files to Jagoan Hosting Server via rsync
         run: |
           rsync -avz --delete \
-            -e "ssh -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no" \
+            -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no" \
             .next/standalone/ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}/
 
       - name: Trigger Node.js Application Restart
         run: |
-          ssh -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
             cd ${{ secrets.TARGET_DIR }} && \
             mkdir -p tmp && \
             touch tmp/restart.txt && \
