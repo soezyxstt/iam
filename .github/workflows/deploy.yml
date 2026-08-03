@@ -54,12 +54,22 @@ jobs:
           mkdir -p .next/standalone/tmp
           touch .next/standalone/tmp/restart.txt
 
-      - name: Deploy Files to Jagoan Hosting via FTP
-        uses: SamKirland/ftp-deploy-action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT || 21 }}
-          local-dir: .next/standalone/
-          server-dir: ${{ secrets.TARGET_DIR || '/' }}
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy Files to Jagoan Hosting via lftp
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.FTP_PORT || '21' }}
+          TARGET_DIR: ${{ secrets.TARGET_DIR || '/' }}
+        run: |
+          lftp -c "
+            set ftp:ssl-allow no;
+            set net:timeout 15;
+            set net:max-retries 3;
+            open -u $FTP_USERNAME,$FTP_PASSWORD -p $FTP_PORT $FTP_SERVER;
+            mirror -R --delete --verbose .next/standalone/ $TARGET_DIR;
+            quit
+          "
