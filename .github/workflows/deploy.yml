@@ -1,0 +1,76 @@
+name: Deploy to Jagoan Hosting Cloud Mixmatch
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Next.js Application
+        env:
+          NODE_OPTIONS: '--no-deprecation'
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          PREVIEW_SECRET: ${{ secrets.PREVIEW_SECRET }}
+          S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
+          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+          S3_REGION: ${{ secrets.S3_REGION }}
+          S3_PUBLIC_URL: ${{ secrets.S3_PUBLIC_URL }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          EMAIL_FROM_ADDRESS: ${{ secrets.EMAIL_FROM_ADDRESS }}
+          EMAIL_FROM_NAME: ${{ secrets.EMAIL_FROM_NAME }}
+        run: pnpm build
+
+      - name: Prepare Standalone Deployment Bundle
+        run: |
+          mkdir -p .next/standalone/.next
+          cp -r public .next/standalone/public
+          cp -r .next/static .next/standalone/.next/static
+
+      - name: Setup SSH Key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Sync Files to Jagoan Hosting Server via rsync
+        run: |
+          ssh-keyscan -p ${{ secrets.SSH_PORT || '22' }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+          rsync -avz --delete \
+            -e "ssh -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no" \
+            .next/standalone/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}/
+
+      - name: Trigger Node.js Application Restart
+        run: |
+          ssh -p ${{ secrets.SSH_PORT || '22' }} -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            cd ${{ secrets.TARGET_DIR }} && \
+            mkdir -p tmp && \
+            touch tmp/restart.txt && \
+            (pm2 reload server 2>/dev/null || pm2 restart server.js 2>/dev/null || true)
+          "
