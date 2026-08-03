@@ -84,13 +84,14 @@ jobs:
           FTP_PORT: ${{ secrets.FTP_PORT || '21' }}
           TARGET_DIR: ${{ secrets.TARGET_DIR || '/' }}
         run: |
-          lftp -e "
-            debug 5;
-            set ftp:ssl-allow yes;
-            set ssl:verify-certificate no;
-            set net:timeout 15;
-            set net:max-retries 2;
-            open -u \"$FTP_USERNAME\",\"$FTP_PASSWORD\" -p $FTP_PORT $FTP_SERVER;
-            mirror -R --delete --verbose standalone/ $TARGET_DIR;
-            quit
-          "
+          lftp <<EOF
+          debug 5
+          set ftp:ssl-allow yes
+          set ssl:verify-certificate no
+          set net:timeout 15
+          set net:max-retries 2
+          open -p $FTP_PORT $FTP_SERVER
+          user "$FTP_USERNAME" "$FTP_PASSWORD"
+          mirror -R --delete --verbose standalone/ $TARGET_DIR
+          quit
+          EOF
