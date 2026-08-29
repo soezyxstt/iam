@@ -1,7 +1,8 @@
 {
-  "name": "",
+  "name": "iam-itb-platform",
   "version": "1.0.0",
-  "description": "Website template for Payload",
+  "description": "Content-managed digital platform for Ikatan Alumni Mesin ITB",
+  "private": true,
   "license": "MIT",
   "type": "module",
   "scripts": {
